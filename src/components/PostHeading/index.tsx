@@ -21,12 +21,11 @@ export function PostHeading({
     h2: 'text-xl/tight sm:text-2xl font-bold',
   };
 
-  const commonClasses = '';
   const defaultLinkClasses =
     'hover:text-blue-500 transition-colors duration-200';
 
   return (
-    <Tag className={clsx(headingClassesMap[Tag], commonClasses, className)}>
+    <Tag className={clsx(headingClassesMap[Tag], className)}>
       <Link href={url} className={clsx(defaultLinkClasses, linkClassName)}>
         {children}
       </Link>
