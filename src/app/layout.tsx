@@ -1,33 +1,33 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import type { Metadata } from 'next';
+import './globals.css';
+import { Container } from '@/components/Container';
+import { Header } from '@/components/Header';
 
 export const metadata: Metadata = {
-  title: "Markdown Blog",
-  description: "Blog built with Next.js and TypeScript for Markdown content",
+  title: {
+    default: 'Blog Markdown Next.js + TypeScript',
+    template: '%s | Blog Markdown',
+  },
+  description: 'Blog built with Next.js and TypeScript for Markdown content',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+type RootLayoutProps = {
   children: React.ReactNode;
-}>) {
+};
+
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang='pt-BR'>
+      <body>
+        <Container>
+          <Header />
+
+          {children}
+
+          <footer className='text-4xl font-bold text-center py-8'>
+            <p>Footer</p>
+          </footer>
+        </Container>
       </body>
     </html>
   );

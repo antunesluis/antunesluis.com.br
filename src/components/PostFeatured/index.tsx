@@ -28,7 +28,7 @@ export default async function PostFeatured() {
         createdAt={post.createdAt}
         title={post.title}
         excerpt={post.excerpt}
-        postHeading='h2'
+        postHeading='h1'
       />
     </section>
   );
