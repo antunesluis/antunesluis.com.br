@@ -22,7 +22,7 @@ export function PostHeading({
   };
 
   const defaultLinkClasses =
-    'hover:text-blue-500 transition-colors duration-200';
+    'group-hover:text-blue-500 transition-colors duration-200';
 
   return (
     <Tag className={clsx(headingClassesMap[Tag], className)}>
