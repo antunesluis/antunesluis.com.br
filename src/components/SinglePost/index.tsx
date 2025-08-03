@@ -30,7 +30,12 @@ export async function SinglePost({ slug }: SinglePostProps) {
         </p>
       </header>
 
-      <p className='text-xl mb-4 text-slate-600'>{post.excerpt}</p>
+      <p className='text-xl mb-6 leading-relaxed text-slate-600 font-light italic'>
+        {post.excerpt}
+      </p>
+
+      {/* Separador */}
+      <hr className='border-slate-300 mb-6 ' />
 
       <SafeMarkdown markdown={post.content} />
     </article>
