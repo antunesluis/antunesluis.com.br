@@ -1,7 +1,7 @@
 # Blog Markdown
 
-A modern blog built with Next.js 15, TypeScript, and Tailwind CSS that renders
-Markdown content.
+A blog built with Next.js 15, TypeScript, and Tailwind CSS that renders Markdown
+content.
 
 ## Tech Stack
 
