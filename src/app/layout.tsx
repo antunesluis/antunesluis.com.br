@@ -19,7 +19,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang='pt-BR'>
-      <body>
+      <body suppressHydrationWarning={true}>
         <Container>
           <Header />
 
