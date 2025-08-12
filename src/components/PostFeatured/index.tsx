@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { PostCoverImage } from '../PostCoverImage';
 import { PostSummary } from '../PostSummary';
-import { findAllPublicPostsCached } from '@/lib/post/queries';
+import { findAllPublicPostsCached } from '@/lib/post/queries/public';
 
 export default async function PostFeatured() {
   const posts = await findAllPublicPostsCached();
