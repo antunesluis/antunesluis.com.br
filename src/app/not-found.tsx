@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function NotFoundPage() {
   return (
     <ErrorMessage
-      statusCode={404}
+      statusCode='404'
       title='Página não encontrada'
       content='A página que você está tentando acessar não existe ou foi movida.'
     />

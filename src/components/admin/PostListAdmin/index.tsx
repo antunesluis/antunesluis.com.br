@@ -2,10 +2,16 @@ import { findAllPostsAdmin } from '@/lib/post/queries/admin';
 import { DeletePostButton } from '../DeletePostButton';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { Dialog } from '@/components/Dialog';
+import ErrorMessage from '@/components/ErrorMessage';
 
 export default async function PostListAdmin() {
   const posts = await findAllPostsAdmin();
+
+  if (!posts || posts.length <= 0) {
+    return (
+      <ErrorMessage statusCode='😅 Hey!' content="Let's create some posts!" />
+    );
+  }
 
   return (
     <div className='mb-16'>
