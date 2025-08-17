@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-type ButtonVariants = 'default' | 'ghost' | 'danger';
+type ButtonVariants = 'default' | 'ghost' | 'danger' | 'upload';
 type ButtonSizes = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
@@ -17,6 +17,11 @@ export function Button({
     default: clsx('bg-blue-600 hover:bg-blue-700 text-blue-100'),
     ghost: clsx('bg-slate-200 hover:bg-slate-300 text-slate-900'),
     danger: clsx('bg-red-600 hover:bg-red-700 text-red-100'),
+    upload: clsx(
+      'bg-blue-50 hover:bg-blue-100',
+      'border-2 border-blue-200 hover:border-blue-300 disabled:border-slate-200',
+      'text-blue-700 hover:text-blue-800',
+    ),
   };
 
   const sizeClasses: Record<ButtonSizes, string> = {
