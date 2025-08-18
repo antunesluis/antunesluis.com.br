@@ -1,6 +1,15 @@
 'use server';
 
-import { PublicPost } from '@/dto/post/dto';
+import { drizzleDb } from '@/db/drizzle';
+import { postsTable } from '@/db/drizzle/schemas';
+import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
+import { PostCreateSchema } from '@/lib/post/validation';
+import { PostModel } from '@/models/post/post-model';
+import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
+import { makeSlugFromText } from '@/utils/make-slug-from-text';
+import { revalidateTag } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { v4 as uuidV4 } from 'uuid';
 
 type CreatePostActionState = {
   formState: PublicPost;
@@ -21,12 +30,31 @@ export async function createPostAction(
   }
 
   const formDataToObject = Object.fromEntries(formData.entries());
-  console.log(formDataToObject);
+  const zodParsedObj = PostCreateSchema.safeParse(formDataToObject);
 
-  return {
-    formState: {
-      ...prevState.formState,
-    },
-    errors: [],
+  if (!zodParsedObj.success) {
+    const errors = getZodErrorMessages(zodParsedObj.error);
+
+    return {
+      formState: makePartialPublicPost(formDataToObject),
+      errors,
+    };
+  }
+  const validPostData = zodParsedObj.data;
+
+  const dateNow = new Date().toISOString();
+  const newPost: PostModel = {
+    ...validPostData,
+    createdAt: dateNow,
+    updatedAt: dateNow,
+    id: uuidV4(),
+    slug: makeSlugFromText(validPostData.title),
   };
+
+  // TODO - Move to repository
+  await drizzleDb.insert(postsTable).values(newPost);
+
+  revalidateTag('posts');
+  // Move to edit post page
+  redirect(`/admin/post/${newPost.id}`);
 }

@@ -6,7 +6,7 @@ const PostBaseSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(3, 'Title must have at least 3 characters')
+    .min(10, 'Title must have at least 10 characters')
     .max(120, 'Title must have a maximum of 120 characters'),
   content: z
     .string()
