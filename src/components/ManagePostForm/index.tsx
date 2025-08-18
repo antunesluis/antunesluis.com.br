@@ -1,29 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
 import { Button } from '../Button';
 import { InputCheckbox } from '../InputCheckbox';
 import { InputText } from '../InputText';
 import { MarkdownEditor } from '../MarkdownEditor';
 import { ImageUploader } from '../admin/ImageUploader';
-import { PublicPost } from '@/dto/post/dto';
+import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
+import { createPostAction } from '@/actions/post/create-post-action';
 
 type ManagePostFormProps = {
-  publicPost: PublicPost;
+  publicPost?: PublicPost;
 };
 
 export function ManagePostForm({ publicPost }: ManagePostFormProps) {
-  const [content, setContent] = useState(publicPost?.content || '');
+  const initialState = {
+    formState: makePartialPublicPost(publicPost),
+    errors: [],
+  };
+  const [state, action, isPending] = useActionState(
+    createPostAction,
+    initialState,
+  );
+
+  const { formState } = state;
+  const [content, setContent] = useState(formState.content);
 
   return (
-    <form action='' className='mb-16'>
+    <form action={action} className='mb-16'>
       <div className='flex flex-col gap-6'>
         <InputText
           labelText='ID'
           name='id'
           placeholder='Automatically generated ID'
           type='text'
-          defaultValue={publicPost?.id || 'auto-generated'}
+          defaultValue={formState.id}
           readOnly
         />
 
@@ -32,7 +43,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           name='slug'
           placeholder='Automatically generated slug'
           type='text'
-          defaultValue={publicPost?.slug || 'auto-generated'}
+          defaultValue={formState.slug}
           readOnly
         />
 
@@ -41,7 +52,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           name='title'
           placeholder='Enter the post title'
           type='text'
-          defaultValue={publicPost?.title || ''}
+          defaultValue={formState.title}
         />
 
         <InputText
@@ -49,7 +60,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           name='author'
           placeholder='Enter the author name'
           type='text'
-          defaultValue={publicPost?.author || ''}
+          defaultValue={formState.author}
         />
 
         <InputText
@@ -57,7 +68,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           name='excerpt'
           placeholder='Enter a brief excerpt of the post'
           type='text'
-          defaultValue={publicPost?.excerpt || ''}
+          defaultValue={formState.excerpt}
         />
 
         <MarkdownEditor
@@ -75,14 +86,14 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           name='coverImageUrl'
           placeholder='Enter the URL of the cover image'
           type='text'
-          defaultValue={publicPost?.coverImageUrl || ''}
+          defaultValue={formState.coverImageUrl}
         />
 
         <InputCheckbox
           labelText='Published'
           name='published'
           type='checkbox'
-          defaultChecked={publicPost?.published || false}
+          defaultChecked={formState.published}
         />
 
         <div className='mt-4'>
