@@ -1,16 +1,19 @@
 import { ManagePostForm } from '@/components/ManagePostForm';
+import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'New Post',
 };
 
 export default async function AdminPostNewPage() {
   return (
     <>
-      <h1 className='mb-8 text-2xl font-bold'>New Post</h1>
-      <ManagePostForm />
+      <div className='flex flex-col gap-6'>
+        <h1 className='text-2xl font-extrabold'>New Post</h1>
+        <ManagePostForm />
+      </div>
     </>
   );
 }

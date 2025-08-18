@@ -26,6 +26,7 @@ export function InputText({ labelText = '', ...props }: InputTextProps) {
           'disabled:bg-slate-200',
           'disabled:text-slate-400',
           'read-only:bg-slate-100',
+          'read-only:text-slate-400',
 
           props.className,
         )}
