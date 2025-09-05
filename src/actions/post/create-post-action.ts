@@ -7,7 +7,6 @@ import { makePartialPublicPost, type PublicPost } from "@/dto/post/dto";
 import { PostCreateSchema } from "@/lib/post/validation";
 import type { PostModel } from "@/models/post/post-model";
 import { postRepository } from "@/repositories/post";
-import { asyncDelay } from "@/utils/async-delay";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 import { makeSlugFromText } from "@/utils/make-slug-from-text";
 
@@ -21,8 +20,6 @@ export async function createPostAction(
 	prevState: CreatePostActionState,
 	formData: FormData,
 ): Promise<CreatePostActionState> {
-	await asyncDelay(3000);
-
 	// TODO: Verify if the user is authenticated
 
 	if (!(formData instanceof FormData)) {
