@@ -1,70 +1,78 @@
-"use server";
+'use server';
 
-import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
-import { v4 as uuidV4 } from "uuid";
-import { makePartialPublicPost, type PublicPost } from "@/dto/post/dto";
-import { PostCreateSchema } from "@/lib/post/validation";
-import type { PostModel } from "@/models/post/post-model";
-import { postRepository } from "@/repositories/post";
-import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
-import { makeSlugFromText } from "@/utils/make-slug-from-text";
+import { revalidateTag } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { v4 as uuidV4 } from 'uuid';
+import { makePartialPublicPost, type PublicPost } from '@/dto/post/dto';
+import { PostCreateSchema } from '@/lib/post/validation';
+import type { PostModel } from '@/models/post/post-model';
+import { postRepository } from '@/repositories/post';
+import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
+import { makeSlugFromText } from '@/utils/make-slug-from-text';
+import { verifyLoginSession } from '@/lib/login/manage-login';
 
 type CreatePostActionState = {
-	formState: PublicPost;
-	errors: string[];
-	success?: true;
+  formState: PublicPost;
+  errors: string[];
+  success?: true;
 };
 
 export async function createPostAction(
-	prevState: CreatePostActionState,
-	formData: FormData,
+  prevState: CreatePostActionState,
+  formData: FormData,
 ): Promise<CreatePostActionState> {
-	// TODO: Verify if the user is authenticated
+  const isAuthenticated = await verifyLoginSession();
 
-	if (!(formData instanceof FormData)) {
-		return {
-			formState: prevState.formState,
-			errors: ["Dados inválidos"],
-		};
-	}
+  if (!(formData instanceof FormData)) {
+    return {
+      formState: prevState.formState,
+      errors: ['Dados inválidos'],
+    };
+  }
 
-	const formDataToObj = Object.fromEntries(formData.entries());
-	const zodParsedObj = PostCreateSchema.safeParse(formDataToObj);
+  const formDataToObj = Object.fromEntries(formData.entries());
+  const zodParsedObj = PostCreateSchema.safeParse(formDataToObj);
 
-	if (!zodParsedObj.success) {
-		const errors = getZodErrorMessages(zodParsedObj.error);
-		return {
-			errors,
-			formState: makePartialPublicPost(formDataToObj),
-		};
-	}
+  if (!isAuthenticated) {
+    return {
+      formState: makePartialPublicPost(formDataToObj),
+      errors: ['Log in to another tab before continuing'],
+    };
+  }
 
-	const validPostData = zodParsedObj.data;
-	const newPost: PostModel = {
-		...validPostData,
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString(),
-		id: uuidV4(),
-		slug: makeSlugFromText(validPostData.title),
-	};
+  if (!zodParsedObj.success) {
+    const errors = getZodErrorMessages(zodParsedObj.error);
+    return {
+      errors,
+      formState: makePartialPublicPost(formDataToObj),
+    };
+  }
 
-	try {
-		await postRepository.create(newPost);
-	} catch (e: unknown) {
-		if (e instanceof Error) {
-			return {
-				formState: newPost,
-				errors: [e.message],
-			};
-		}
+  const validPostData = zodParsedObj.data;
+  const newPost: PostModel = {
+    ...validPostData,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    id: uuidV4(),
+    slug: makeSlugFromText(validPostData.title),
+  };
 
-		return {
-			formState: newPost,
-			errors: ["Erro desconhecido"],
-		};
-	}
+  try {
+    await postRepository.create(newPost);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return {
+        formState: newPost,
+        errors: [e.message],
+      };
+    }
 
-	revalidateTag("posts");
-	redirect(`/admin/post/${newPost.id}?created=1`);
+    return {
+      formState: newPost,
+      errors: ['Erro desconhecido'],
+    };
+  }
+
+  revalidateTag('posts');
+  redirect(`/admin/post/${newPost.id}?created=1`);
 }

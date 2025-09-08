@@ -10,7 +10,15 @@ type LoginActionState = {
 };
 
 export async function loginAction(state: LoginActionState, formData: FormData) {
-  await asyncDelay(5000); // Vou Manter por segurança
+  const allowLogin = Boolean(Number(process.env.ALLOW_LOGIN));
+  if (!allowLogin) {
+    return {
+      username: '',
+      error: 'Login not allowed',
+    };
+  }
+
+  await asyncDelay(3000); // Vou Manter por segurança
 
   if (!(formData instanceof FormData)) {
     return {

@@ -6,7 +6,7 @@ import { Suspense } from 'react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Post Admin - New Post',
+  title: 'Post Admin',
 };
 
 export default async function AdminPostPage() {

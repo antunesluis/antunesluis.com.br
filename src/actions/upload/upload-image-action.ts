@@ -1,59 +1,65 @@
-"use server";
+'use server';
 
-import { mkdir, writeFile } from "fs/promises";
-import { extname, resolve } from "path";
+import { verifyLoginSession } from '@/lib/login/manage-login';
+import { mkdir, writeFile } from 'fs/promises';
+import { extname, resolve } from 'path';
 
 type UploadImageActionResult = {
-	url: string;
-	error: string;
+  url: string;
+  error: string;
 };
 
 export async function uploadImageAction(
-	formData: FormData,
+  formData: FormData,
 ): Promise<UploadImageActionResult> {
-	const makeResult = ({ url = "", error = "" }) => ({
-		url,
-		error,
-	});
+  const makeResult = ({ url = '', error = '' }) => ({
+    url,
+    error,
+  });
 
-	if (!(formData instanceof FormData)) {
-		return makeResult({ error: "Invalid data." });
-	}
+  const isAuthenticated = await verifyLoginSession();
+  if (!isAuthenticated) {
+    return makeResult({ error: 'Log in to another tab before continuing' });
+  }
 
-	const file = formData.get("file");
+  if (!(formData instanceof FormData)) {
+    return makeResult({ error: 'Invalid data.' });
+  }
 
-	if (!(file instanceof File)) {
-		return makeResult({ error: "Invalid file" });
-	}
+  const file = formData.get('file');
 
-	const uploadMaxSize =
-		Number(process.env.NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE) || 921600;
-	if (file.size > uploadMaxSize) {
-		return makeResult({ error: "File size exceeds limit." });
-	}
+  if (!(file instanceof File)) {
+    return makeResult({ error: 'Invalid file' });
+  }
 
-	if (!file.type.startsWith("image/")) {
-		return makeResult({ error: "File is not an image." });
-	}
+  const uploadMaxSize =
+    Number(process.env.NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE) || 921600;
+  if (file.size > uploadMaxSize) {
+    return makeResult({ error: 'File size exceeds limit.' });
+  }
 
-	const imageExtension = extname(file.name);
-	const uniqueImageName = `image-${Date.now()}${imageExtension}`;
+  if (!file.type.startsWith('image/')) {
+    return makeResult({ error: 'File is not an image.' });
+  }
 
-	const uploadDirectory = process.env.IMAGE_UPLOAD_DIRECTORY || "uploads";
-	const uploadFullPath = resolve(process.cwd(), "public", uploadDirectory);
-	await mkdir(uploadFullPath, { recursive: true });
+  const imageExtension = extname(file.name);
+  const uniqueImageName = `image-${Date.now()}${imageExtension}`;
 
-	const fileArrayBuffer = await file.arrayBuffer();
-	const buffer = Buffer.from(fileArrayBuffer);
+  const uploadDirectory = process.env.IMAGE_UPLOAD_DIRECTORY || 'uploads';
+  const uploadFullPath = resolve(process.cwd(), 'public', uploadDirectory);
+  await mkdir(uploadFullPath, { recursive: true });
 
-	const fileFullPath = resolve(uploadFullPath, uniqueImageName);
-	await writeFile(fileFullPath, buffer);
+  const fileArrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(fileArrayBuffer);
 
-	const imageServerUrl =
-		process.env.IMAGE_SERVER_URL || "http://localhost:3001/uploads";
-	const url = `${imageServerUrl}/${uniqueImageName}`;
+  const fileFullPath = resolve(uploadFullPath, uniqueImageName);
+  await writeFile(fileFullPath, buffer);
 
-	return makeResult({
-		url,
-	});
+  const imageServerUrl =
+    process.env.IMAGE_SERVER_URL || 'http://localhost:3001/uploads';
+  const url = `${imageServerUrl}/${uniqueImageName}`;
+
+  return makeResult({
+    url,
+  });
 }

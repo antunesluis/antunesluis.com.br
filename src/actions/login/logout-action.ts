@@ -1,7 +1,11 @@
-"use server";
+'use server';
 
-import { asyncDelay } from "@/utils/async-delay";
+import { deleteLoginSession } from '@/lib/login/manage-login';
+import { asyncDelay } from '@/utils/async-delay';
+import { redirect } from 'next/navigation';
 
-export async function loginAction() {
-	await asyncDelay(5000); // Vou Manter
+export async function logoutAction() {
+  await asyncDelay(3000); // Vou Manter
+  await deleteLoginSession();
+  redirect('/');
 }
