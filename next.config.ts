@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
         port: '3000',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'antunesluis.com.br',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
