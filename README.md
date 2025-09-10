@@ -2,7 +2,7 @@
   <a href="https://antunesluis.com.br">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="public/images/home.png">
-      <img alt="Blog Markdown Project Cover" src="public/images/home.png" style="border-radius: 15px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); max-width: 900px; height: auto; display: block; margin: 0 auto;">
+      <img alt="Personal Blog Project Cover" src="public/images/home.png">
     </picture>
   </a>
   <h1 align="center">
