@@ -1,2 +1,7 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
+
+:root {
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-bricolage-grotesque);
+}

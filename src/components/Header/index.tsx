@@ -1,19 +1,23 @@
-import clsx from 'clsx';
 import Link from 'next/link';
+import { HeaderNavigation } from '../HeaderNavigation';
+import clsx from 'clsx';
+import { HeaderMobileNavigation } from '../HeaderMobileNavigation';
 
 export function Header() {
   return (
     <header>
-      <h1
+      <nav
         className={clsx(
-          'text-4xl/normal font-extrabold py-8',
-          'sm:text-4xl/normal sm:py-10',
-          'md:text-5xl/normal md:py-11',
-          'lg:text-6xl/normal lg:py-12',
+          'flex items-center justify-between max-w-6xl mx-auto py-8',
         )}
       >
-        <Link href='/'>Luis Antunes</Link>
-      </h1>
+        <Link href='/' className='flex items-center space-x-3 group'>
+          <div className='w-10 h-10 rounded-lg bg-blue-900 transition-transform group-hover:scale-105'></div>
+        </Link>
+
+        <HeaderMobileNavigation />
+        <HeaderNavigation />
+      </nav>
     </header>
   );
 }
