@@ -21,7 +21,7 @@ export const findAllPublicProjectsCached = cache(
 );
 
 export const findProjectBySlugPublicCached = cache((slug: string) => {
-  unstable_cache(
+  return unstable_cache(
     async (slug: string) => {
       const project = await projectRepository
         .findBySlugPublic(slug)
@@ -31,8 +31,6 @@ export const findProjectBySlugPublicCached = cache((slug: string) => {
       return project;
     },
     [`project-${slug}`],
-    {
-      tags: [`project-${slug}`],
-    },
-  );
+    { tags: [`project-${slug}`] },
+  )(slug);
 });

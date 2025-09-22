@@ -2,10 +2,10 @@ import { Inter, Bricolage_Grotesque } from 'next/font/google';
 
 import type { Metadata } from 'next';
 import './globals.css';
-import { Container } from '@/components/Container';
-import { Header } from '@/components/Header';
-import Footer from '@/components/Footer';
-import { ToastifyContainer } from '@/components/ToastifyContainer';
+import { Container } from '@/components/layout/Container';
+import { Header } from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import { ToastifyContainer } from '@/components/ui/ToastifyContainer';
 
 export const metadata: Metadata = {
   title: {

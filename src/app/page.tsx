@@ -1,6 +1,6 @@
-import PostFeatured from '@/components/PostFeatured';
-import PostsList from '@/components/PostsList';
-import { SpinLoader } from '@/components/SpinLoader';
+import PostFeatured from '@/components/blog/PostFeatured';
+import PostsList from '@/components/blog/PostsList';
+import { SpinLoader } from '@/components/ui/SpinLoader';
 import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';

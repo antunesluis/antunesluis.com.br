@@ -1,5 +1,5 @@
 import { LoginForm } from '@/components/admin/LoginForm';
-import ErrorMessage from '@/components/ErrorMessage';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';

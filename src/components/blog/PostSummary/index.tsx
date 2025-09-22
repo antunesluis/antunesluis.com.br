@@ -1,5 +1,5 @@
-import { PostHeading } from '../PostHeading';
 import { PostDate } from '../PostDate';
+import { PostHeading } from '../PostHeading';
 
 type PostSummaryProps = {
   postHeading: 'h1' | 'h2';
@@ -25,6 +25,7 @@ export function PostSummary({
       </PostHeading>
 
       <p>{excerpt}</p>
+      {/* <p className='text-slate-800'>{excerpt}</p> */}
     </div>
   );
 }

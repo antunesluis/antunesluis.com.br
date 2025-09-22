@@ -2,7 +2,7 @@ import { findAllPostsAdmin } from '@/lib/post/queries/admin';
 import { DeletePostButton } from '../DeletePostButton';
 import clsx from 'clsx';
 import Link from 'next/link';
-import ErrorMessage from '@/components/ErrorMessage';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 
 export default async function PostListAdmin() {
   const posts = await findAllPostsAdmin();

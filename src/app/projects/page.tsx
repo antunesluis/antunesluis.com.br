@@ -1,21 +1,15 @@
-import { findAllPublicProjectsCached } from '@/lib/project/queries/public';
+import ProjectsList from '@/components/projects/ProjectsList';
+import { SpinLoader } from '@/components/ui/SpinLoader';
+import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Projects() {
-  const projects = await findAllPublicProjectsCached();
-
   return (
     <>
-      {projects.slice(1).map(project => {
-        const projectLink = `/projects/${project.slug}`;
-
-        return (
-          <div className='flex flex-col gap-4 group' key={project.slug}>
-            <h1>{projectLink}</h1>
-          </div>
-        );
-      })}
+      <Suspense fallback={<SpinLoader className='min-h-20 mb-16' />}>
+        <ProjectsList />
+      </Suspense>
     </>
   );
 }
