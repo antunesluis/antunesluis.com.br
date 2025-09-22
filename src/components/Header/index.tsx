@@ -8,11 +8,13 @@ export function Header() {
     <header>
       <nav
         className={clsx(
-          'flex items-center justify-between max-w-6xl mx-auto py-8',
+          'flex items-center justify-between max-w-6xl mx-auto pt-6 lg:pt-8 pb-12 lg:pb-16',
         )}
       >
         <Link href='/' className='flex items-center space-x-3 group'>
-          <div className='w-10 h-10 rounded-lg bg-blue-900 transition-transform group-hover:scale-105'></div>
+          <h1 className='text-3xl lg:text-4xl font-bold font-serif tracking-tighter'>
+            Luis Antunes
+          </h1>
         </Link>
 
         <HeaderMobileNavigation />

@@ -1,0 +1,101 @@
+{
+  "projects": [
+    {
+      "id": "project-001",
+      "name": "E-commerce Platform",
+      "slug": "e-commerce-platform",
+      "description": "Uma plataforma completa de e-commerce com carrinho de compras, pagamentos e gestão de produtos.",
+      "content": "# E-commerce Platform\n\nEste projeto é uma plataforma completa de e-commerce desenvolvida com Next.js e TypeScript. Inclui funcionalidades como:\n\n- Catálogo de produtos com filtros avançados\n- Carrinho de compras persistente\n- Integração com gateways de pagamento\n- Painel administrativo para gestão de produtos\n- Sistema de autenticação de usuários\n- Relatórios de vendas e analytics\n\n## Tecnologias Utilizadas\n\n- **Frontend**: Next.js, React, TypeScript, Tailwind CSS\n- **Backend**: Node.js, Prisma ORM\n- **Banco de Dados**: PostgreSQL\n- **Pagamentos**: Stripe API\n- **Deploy**: Vercel\n\n## Funcionalidades Principais\n\n### Para Clientes\n- Navegação intuitiva por categorias\n- Busca avançada de produtos\n- Carrinho de compras com cálculo automático\n- Checkout seguro com múltiplas formas de pagamento\n- Histórico de pedidos\n\n### Para Administradores\n- Dashboard com métricas de vendas\n- Gestão completa de produtos\n- Controle de estoque\n- Gestão de pedidos e status\n- Relatórios detalhados",
+      "coverImageUrl": "/images/projects/ecommerce-cover.jpg",
+      "repositoryUrl": "https://github.com/usuario/ecommerce-platform",
+      "deployUrl": "https://ecommerce-platform.vercel.app",
+      "techStack": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Prisma",
+        "PostgreSQL",
+        "Stripe"
+      ],
+      "published": true,
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-02-01T14:30:00.000Z"
+    },
+    {
+      "id": "project-002",
+      "name": "Task Management App",
+      "slug": "task-management-app",
+      "description": "Aplicativo de gerenciamento de tarefas com colaboração em tempo real e integração com calendário.",
+      "content": "# Task Management App\n\nUm aplicativo moderno de gerenciamento de tarefas e projetos com foco na produtividade e colaboração em equipe.\n\n## Características Principais\n\n- Interface drag-and-drop intuitiva\n- Colaboração em tempo real\n- Integração com Google Calendar\n- Notificações push\n- Relatórios de produtividade\n- Suporte a anexos e comentários\n\n## Arquitetura\n\nO projeto utiliza uma arquitetura moderna com separação clara entre frontend e backend:\n\n### Frontend (React + TypeScript)\n- Components reutilizáveis\n- State management com Zustand\n- Real-time updates com Socket.io\n- Design system consistente\n\n### Backend (Node.js + Express)\n- API RESTful bem documentada\n- WebSocket para real-time\n- Autenticação JWT\n- Rate limiting e validação\n\n## Funcionalidades\n\n### Gestão de Tarefas\n- Criação e edição de tarefas\n- Categorização por projetos\n- Definição de prioridades e prazos\n- Atribuição de responsáveis\n\n### Colaboração\n- Comentários em tarefas\n- Menções de usuários\n- Histórico de atividades\n- Notificações em tempo real",
+      "coverImageUrl": "/images/projects/task-app-cover.jpg",
+      "repositoryUrl": "https://github.com/usuario/task-management",
+      "deployUrl": "https://taskapp.vercel.app",
+      "techStack": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Socket.io",
+        "MongoDB",
+        "Express"
+      ],
+      "published": true,
+      "createdAt": "2024-02-10T09:15:00.000Z",
+      "updatedAt": "2024-02-20T16:45:00.000Z"
+    },
+    {
+      "id": "project-003",
+      "name": "Weather Dashboard",
+      "slug": "weather-dashboard",
+      "description": "Dashboard meteorológico com previsões detalhadas, mapas interativos e alertas personalizados.",
+      "content": "# Weather Dashboard\n\nUm dashboard completo para monitoramento de condições meteorológicas com visualizações interativas e previsões precisas.\n\n## Funcionalidades\n\n### Visualizações\n- Gráficos interativos de temperatura e umidade\n- Mapas meteorológicos com camadas personalizáveis\n- Previsões de 7 dias com detalhes por hora\n- Histórico meteorológico\n\n### Alertas e Notificações\n- Alertas personalizados por condição climática\n- Notificações push para mudanças significativas\n- Integração com serviços de emergência\n\n### APIs Utilizadas\n- OpenWeatherMap para dados meteorológicos\n- Mapbox para visualizações cartográficas\n- Push API para notificações\n\n## Tecnologias\n\n- **Frontend**: Vue.js 3, Composition API\n- **Visualização**: Chart.js, Mapbox GL\n- **Estado**: Pinia\n- **Estilização**: Sass, CSS Grid\n- **Build**: Vite\n\n## Características Técnicas\n\n### Performance\n- Lazy loading de componentes\n- Cache inteligente de dados meteorológicos\n- Otimização de imagens\n- Service Worker para funcionamento offline\n\n### Acessibilidade\n- Suporte completo a leitores de tela\n- Navegação por teclado\n- Alto contraste\n- Textos alternativos descritivos",
+      "coverImageUrl": "/images/projects/weather-dashboard-cover.jpg",
+      "repositoryUrl": "https://github.com/usuario/weather-dashboard",
+      "deployUrl": "https://weather-dash.netlify.app",
+      "techStack": ["Vue.js", "Chart.js", "Mapbox", "Sass", "Vite", "Pinia"],
+      "published": true,
+      "createdAt": "2024-03-05T11:30:00.000Z",
+      "updatedAt": "2024-03-15T13:20:00.000Z"
+    },
+    {
+      "id": "project-004",
+      "name": "AI Code Assistant",
+      "slug": "ai-code-assistant",
+      "description": "Assistente de código com IA para análise, refatoração e geração de código automatizada.",
+      "content": "# AI Code Assistant\n\nUm assistente inteligente para desenvolvedores que utiliza IA para análise, sugestões e geração de código.\n\n## Funcionalidades Principais\n\n### Análise de Código\n- Detecção de code smells\n- Sugestões de refatoração\n- Análise de complexidade\n- Verificação de padrões\n\n### Geração de Código\n- Geração de testes unitários\n- Criação de documentação\n- Sugestões de implementação\n- Conversão entre linguagens\n\n### Integração IDE\n- Extensão para VS Code\n- Plugin para IntelliJ\n- CLI para integração em pipelines\n- API para ferramentas customizadas\n\n## Arquitetura\n\n### Backend (Python + FastAPI)\n- Modelos de IA treinados localmente\n- API RESTful de alta performance\n- Queue system para processamento\n- Cache distribuído\n\n### Processamento\n- Natural Language Processing\n- Abstract Syntax Tree analysis\n- Machine Learning models\n- Pattern recognition\n\n## Stack Tecnológico\n\n- **IA/ML**: Python, TensorFlow, Transformers\n- **API**: FastAPI, Uvicorn\n- **Frontend**: Electron, React\n- **Banco**: Redis, PostgreSQL\n- **Deploy**: Docker, Kubernetes",
+      "coverImageUrl": "/images/projects/ai-assistant-cover.jpg",
+      "repositoryUrl": "https://github.com/usuario/ai-code-assistant",
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "TensorFlow",
+        "React",
+        "Electron",
+        "Docker"
+      ],
+      "published": false,
+      "createdAt": "2024-03-20T14:00:00.000Z",
+      "updatedAt": "2024-03-25T10:15:00.000Z"
+    },
+    {
+      "id": "project-005",
+      "name": "Social Media Analytics",
+      "slug": "social-media-analytics",
+      "description": "Plataforma de analytics para redes sociais com métricas avançadas e relatórios personalizáveis.",
+      "content": "# Social Media Analytics\n\nPlataforma completa para análise de desempenho em redes sociais com dashboards interativos e insights automatizados.\n\n## Recursos Principais\n\n### Métricas e KPIs\n- Engagement rate por plataforma\n- Crescimento de seguidores\n- Análise de alcance e impressões\n- ROI de campanhas publicitárias\n\n### Visualizações\n- Dashboards customizáveis\n- Gráficos interativos\n- Heatmaps de atividade\n- Comparações temporais\n\n### Relatórios\n- Relatórios automatizados\n- Export para PDF/Excel\n- Agendamento de envios\n- White-label para clientes\n\n### Integrações\n- Facebook/Instagram API\n- Twitter API v2\n- LinkedIn API\n- TikTok for Business\n- YouTube Analytics\n\n## Tecnologias Utilizadas\n\n### Backend\n- **Framework**: Django REST Framework\n- **Banco de Dados**: PostgreSQL + Redis\n- **Queue**: Celery com Redis\n- **Autenticação**: OAuth 2.0\n\n### Frontend\n- **Framework**: Angular 15+\n- **UI Library**: Angular Material\n- **Charts**: D3.js + Chart.js\n- **Estado**: NgRx\n\n### Infraestrutura\n- **Container**: Docker + Docker Compose\n- **CI/CD**: GitHub Actions\n- **Monitoramento**: Grafana + Prometheus\n- **Deploy**: AWS ECS",
+      "coverImageUrl": "/images/projects/social-analytics-cover.jpg",
+      "repositoryUrl": "https://github.com/usuario/social-media-analytics",
+      "deployUrl": "https://socialanalytics.app",
+      "techStack": [
+        "Django",
+        "Angular",
+        "PostgreSQL",
+        "D3.js",
+        "Docker",
+        "AWS"
+      ],
+      "published": true,
+      "createdAt": "2024-04-01T08:45:00.000Z",
+      "updatedAt": "2024-04-10T15:30:00.000Z"
+    }
+  ]
+}
