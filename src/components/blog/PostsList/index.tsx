@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { PostSummary } from '@/components/blog/PostSummary';
 import { CoverImage } from '../../ui/CoverImage';
 import { findAllPublicPostsCached } from '@/lib/post/queries/public';
@@ -21,17 +22,18 @@ export default async function PostsList() {
             <div key={rowIndex}>
               <div className='w-full h-px bg-slate-200 mb-6 mt-2'></div>
 
-              {/* Grid de posts da linha */}
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16'>
                 {rowPosts.map((post, postIndex) => {
                   const postLink = `/post/${post.slug}`;
-                  const isNotLastColumn = postIndex < 2; // máximo 3 colunas (índices 0, 1, 2)
+                  const isNotLastColumn = postIndex < 2;
 
                   return (
                     <div key={post.slug} className='relative'>
-                      <div className='flex flex-col gap-4 group'>
+                      <Link
+                        href={postLink}
+                        className='flex flex-col gap-4 group'
+                      >
                         <CoverImage
-                          linkProps={{ href: postLink }}
                           imageProps={{
                             width: 1200,
                             height: 700,
@@ -42,12 +44,11 @@ export default async function PostsList() {
                         />
                         <PostSummary
                           postHeading='h2'
-                          postLink={postLink}
                           createdAt={post.createdAt}
                           title={post.title}
                           excerpt={post.excerpt}
                         />
-                      </div>
+                      </Link>
 
                       {isNotLastColumn && rowPosts.length > 1 && (
                         <div className='hidden lg:block absolute top-0 -right-4 w-px h-full bg-slate-200'></div>

@@ -1,3 +1,4 @@
+import { SingleProject } from '@/components/projects/SingleProject';
 import { SpinLoader } from '@/components/ui/SpinLoader';
 import { findProjectBySlugPublicCached } from '@/lib/project/queries/public';
 import { Metadata } from 'next';
@@ -27,7 +28,7 @@ export default async function ProjectSlugPage({
 
   return (
     <Suspense fallback={<SpinLoader className='min-h-20 mb-16' />}>
-      <h1>{slug}</h1>
+      <SingleProject slug={slug} />
     </Suspense>
   );
 }

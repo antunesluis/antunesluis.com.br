@@ -1,11 +1,13 @@
 import clsx from 'clsx';
 import { ProjectTechBadges } from '../ProjectTechBadges';
+import { Heading } from '@/components/ui/Heading';
 
 type ProjectSummaryProps = {
   name: string;
-  projectYear: string;
+  projectYear?: string;
   description: string;
   techStack: string[];
+  className?: string;
 };
 
 export function ProjectSummary({
@@ -13,20 +15,18 @@ export function ProjectSummary({
   projectYear,
   description,
   techStack,
+  className = '',
 }: ProjectSummaryProps) {
   return (
-    <div className={clsx('flex flex-col justify-between', 'p-6', 'flex-1')}>
+    <div className={clsx('flex flex-col justify-between', 'flex-1', className)}>
       <div className='mb-4'>
-        <div className='flex flex-row justify-between align-start'>
-          <h2
-            className={clsx(
-              'text-xl/tight sm:text-2xl/tight font-bold text-slate-900 mb-4',
-              'transition-colors duration-200',
-            )}
-          >
-            {name}
-          </h2>
-          <p className='text-slate-500'>{projectYear}</p>
+        <div className='flex flex-row justify-between items-start mb-2'>
+          <Heading as='h2'>{name}</Heading>
+          {projectYear && (
+            <span className='text-slate-500 text-sm font-medium whitespace-nowrap flex-shrink-0'>
+              {projectYear}
+            </span>
+          )}
         </div>
 
         <p className={clsx('text-slate-800 leading-relaxed', 'line-clamp-3')}>
@@ -34,9 +34,8 @@ export function ProjectSummary({
         </p>
       </div>
 
-      {/* Tech Stack */}
       {techStack && techStack.length > 0 && (
-        <ProjectTechBadges techStack={techStack} />
+        <ProjectTechBadges isCompact={true} techStack={techStack} />
       )}
     </div>
   );

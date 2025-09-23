@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { PostHeading } from '../PostHeading';
 import { PostDate } from '../PostDate';
 import { SafeMarkdown } from '../../ui/SafeMarkdown';
 import { findPostBySlugPublicCached } from '@/lib/post/queries/public';
+import { Heading } from '@/components/ui/Heading';
 
 type SinglePostProps = {
   slug: string;
@@ -21,11 +21,9 @@ export async function SinglePost({ slug }: SinglePostProps) {
           alt={post.title}
         />
 
-        <PostHeading url={`/post/${post.slug}`} as='h2'>
-          {post.title}
-        </PostHeading>
+        <Heading as='h1'>{post.title}</Heading>
 
-        <p className='text-md text-gray-500'>
+        <p className='text-md/tight text-gray-500'>
           {post.author} | <PostDate dateTime={post.createdAt} />
         </p>
       </header>
@@ -34,7 +32,6 @@ export async function SinglePost({ slug }: SinglePostProps) {
         {post.excerpt}
       </p>
 
-      {/* Separador */}
       <hr className='border-slate-300 mb-6 ' />
 
       <SafeMarkdown markdown={post.content} />

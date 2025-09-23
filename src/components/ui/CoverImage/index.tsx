@@ -1,29 +1,24 @@
 import clsx from 'clsx';
 import Image from 'next/image';
-import Link from 'next/link';
 
 type CoverImageProps = {
   imageProps: React.ComponentProps<typeof Image>;
-  linkProps: React.ComponentProps<typeof Link>;
+  className?: string;
 };
 
-export function CoverImage({ imageProps, linkProps }: CoverImageProps) {
+export function CoverImage({ imageProps, className }: CoverImageProps) {
   return (
-    <Link
-      className={clsx(
-        'w-full h-full overflow-hidden rounded-xl',
-        linkProps.className,
-      )}
-      {...linkProps}
+    <div
+      className={clsx('w-full h-full overflow-hidden rounded-xl', className)}
     >
       <Image
         {...imageProps}
         className={clsx(
-          'w-full h-full object-cover object-center group-hover:scale-105 transition',
+          'w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300',
           imageProps.className,
         )}
         alt={imageProps.alt || 'Post cover image'}
       />
-    </Link>
+    </div>
   );
 }

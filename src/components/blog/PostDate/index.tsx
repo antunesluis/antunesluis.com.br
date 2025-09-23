@@ -9,7 +9,7 @@ export function PostDate({ dateTime }: PostDateProps) {
     <time
       dateTime={dateTime}
       title={formatDistanceToNow(dateTime)}
-      className='text-sm/tight text-gray-500'
+      className='text-md/tight text-gray-500'
     >
       {formatDatetime(dateTime)}
     </time>

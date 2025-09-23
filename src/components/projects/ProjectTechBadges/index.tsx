@@ -2,25 +2,56 @@ import clsx from 'clsx';
 
 type ProjectTechBadgesProps = {
   techStack: string[];
+  isCompact?: boolean;
+  maxItems?: number;
 };
 
-export function ProjectTechBadges({ techStack }: ProjectTechBadgesProps) {
+export function ProjectTechBadges({
+  techStack,
+  isCompact = false,
+  maxItems = 5,
+}: ProjectTechBadgesProps) {
+  if (!techStack || techStack.length === 0) {
+    return null;
+  }
+
   const badgeClasses = clsx(
     'px-3 py-1 text-sm font-medium',
     'bg-blue-100 text-blue-800 rounded-full',
     'border border-slate-200',
+    'transition-colors duration-200',
+  );
+
+  const remainingBadgeClasses = clsx(
+    'px-3 py-1 text-sm font-medium rounded-full border transition-colors duration-200',
+    'bg-slate-100 text-slate-600 border-slate-300',
   );
 
   return (
     <div className='flex flex-wrap gap-2'>
-      {techStack.slice(0, 5).map((tech, index) => (
-        <span key={index} className={badgeClasses}>
-          {`#${tech}`}
-        </span>
-      ))}
+      {isCompact ? (
+        <>
+          {techStack.slice(0, maxItems).map(tech => (
+            <span key={tech} className={badgeClasses}>
+              {tech}
+            </span>
+          ))}
 
-      {techStack.length > 4 && (
-        <span className={badgeClasses}>+{techStack.length - 4}</span>
+          {techStack.length > maxItems && (
+            <span
+              className={remainingBadgeClasses}
+              title={`Other techs: ${techStack.slice(maxItems).join(', ')}`}
+            >
+              +{techStack.length - maxItems}
+            </span>
+          )}
+        </>
+      ) : (
+        techStack.map(tech => (
+          <span key={tech} className={badgeClasses}>
+            {tech}
+          </span>
+        ))
       )}
     </div>
   );

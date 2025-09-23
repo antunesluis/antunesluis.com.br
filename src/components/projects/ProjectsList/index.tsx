@@ -27,10 +27,12 @@ export default async function ProjectsList() {
               'overflow-hidden',
             )}
           >
-            {/* Container da Imagem */}
-            <div className='w-full h-48 md:w-72 flex-shrink-0 overflow-hidden'>
+            <div
+              className={clsx(
+                'w-full h-64 md:h-auto md:w-72 flex-shrink-0 overflow-hidden',
+              )}
+            >
               <CoverImage
-                linkProps={{ href: projectLink }}
                 imageProps={{
                   width: 1200,
                   height: 700,
@@ -38,15 +40,18 @@ export default async function ProjectsList() {
                   alt: project.name,
                   priority: true,
                 }}
+                className={clsx(
+                  'rounded-t-xl rounded-l-xl rounded-r-xl rounded-b-none md:rounded-b-none md:rounded-r-none',
+                )}
               />
             </div>
 
-            {/* Container do Conteúdo */}
             <ProjectSummary
               name={project.name}
               projectYear={String(projectYear)}
               description={project.description}
               techStack={project.techStack}
+              className='p-6'
             />
           </Link>
         );
