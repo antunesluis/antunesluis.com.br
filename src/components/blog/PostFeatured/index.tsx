@@ -17,7 +17,6 @@ export default async function PostFeatured() {
   }
 
   const post = posts[0];
-  const postLink = `/post/${post.slug}`;
 
   return (
     <>
@@ -25,7 +24,6 @@ export default async function PostFeatured() {
         className={clsx('grid grid-cols-1 gap-8 mb-16 group', 'sm:grid-cols-2')}
       >
         <CoverImage
-          linkProps={{ href: postLink }}
           imageProps={{
             width: 1200,
             height: 700,
@@ -36,7 +34,6 @@ export default async function PostFeatured() {
         />
 
         <PostSummary
-          postLink={postLink}
           createdAt={post.createdAt}
           title={post.title}
           excerpt={post.excerpt}

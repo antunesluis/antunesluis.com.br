@@ -89,6 +89,16 @@ export function MenuAdmin() {
         Create Post
       </Link>
 
+      <Link className={linkClasses} href='/admin/projects'>
+        <FileTextIcon />
+        Projects
+      </Link>
+
+      <Link className={linkClasses} href='/admin/projects/new'>
+        <PlusIcon />
+        Create Project
+      </Link>
+
       <a onClick={handleLogout} href='#' className={linkClasses}>
         {isPending && (
           <>

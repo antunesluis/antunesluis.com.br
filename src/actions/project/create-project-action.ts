@@ -20,7 +20,7 @@ type CreateProjectActionState = {
 export async function createProjectAction(
   prevState: CreateProjectActionState,
   formData: FormData,
-) {
+): Promise<CreateProjectActionState> {
   const isAuthenticated = await verifyLoginSession();
 
   if (!(formData instanceof FormData)) {
