@@ -34,8 +34,8 @@ export async function deleteProjectAction(id: string) {
     };
   }
 
-  revalidateTag('posts');
-  revalidateTag(`posts-${project.slug}`);
+  revalidateTag('projects');
+  revalidateTag(`projects-${project.slug}`);
 
   return {
     error: '',

@@ -62,9 +62,9 @@ export async function updateProjectAction(
     ...validProjectData,
   };
 
-  let post;
+  let project;
   try {
-    post = await projectRepository.update(id, newProject);
+    project = await projectRepository.update(id, newProject);
   } catch (e: unknown) {
     if (e instanceof Error) {
       return {
@@ -79,11 +79,11 @@ export async function updateProjectAction(
     };
   }
 
-  revalidateTag('posts');
-  revalidateTag(`post-${post.slug}`);
+  revalidateTag('project');
+  revalidateTag(`project-${project.slug}`);
 
   return {
-    formState: makePublicProjectFromDb(post),
+    formState: makePublicProjectFromDb(project),
     errors: [],
     success: true,
   };
