@@ -22,9 +22,8 @@ export function ResumeSection() {
     <div className='space-y-4'>
       <Heading as='h3'>Currículo</Heading>
 
-      <p className='text-slate-600 text-md'>
-        Interessado em conhecer minha experiência? Visualize ou baixe meu
-        currículo atualizado.
+      <p className='text-slate-800 text-md'>
+        Se tiver interesse, você pode visualizar ou baixar meu currículo.
       </p>
 
       <div className='flex gap-3 justify-center sm:justify-start'>
