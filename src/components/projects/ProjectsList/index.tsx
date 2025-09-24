@@ -6,7 +6,7 @@ import { findAllPublicProjectCached } from '@/lib/project/queries/public';
 
 export default async function ProjectsList() {
   const projects = await findAllPublicProjectCached();
-  if (!projects || projects.length <= 1) return null;
+  if (!projects || projects.length <= 0) return null;
 
   return (
     <div className={clsx('flex flex-col mb-16 gap-6')}>

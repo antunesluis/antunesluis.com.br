@@ -74,5 +74,6 @@ export async function createProjectAction(
   }
 
   revalidateTag('projects');
+  revalidateTag(`project-${newProject.slug}`);
   redirect(`/admin/projects/${newProject.id}?created=1`);
 }
