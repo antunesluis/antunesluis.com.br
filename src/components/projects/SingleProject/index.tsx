@@ -1,18 +1,18 @@
 import Image from 'next/image';
 import { SafeMarkdown } from '../../ui/SafeMarkdown';
-import { findProjectBySlugPublicCached } from '@/lib/project/queries/public';
 import { Button } from '@/components/ui/Button';
 import { ExternalLinkIcon, GithubIcon } from 'lucide-react';
 import { ProjectTechBadges } from '../ProjectTechBadges';
 import { Heading } from '@/components/ui/Heading';
 import Link from 'next/link';
+import { findPublicProjectBySlugCached } from '@/lib/project/queries/public';
 
 type SingleProjectProps = {
   slug: string;
 };
 
 export async function SingleProject({ slug }: SingleProjectProps) {
-  const project = await findProjectBySlugPublicCached(slug);
+  const project = await findPublicProjectBySlugCached(slug);
   const projectYear = new Date(project.createdAt).getFullYear();
 
   return (

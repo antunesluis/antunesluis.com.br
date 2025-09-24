@@ -1,11 +1,11 @@
-import { findAllPublicProjectsCached } from '@/lib/project/queries/public';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { CoverImage } from '../../ui/CoverImage';
 import { ProjectSummary } from '../ProjectSummary';
+import { findAllPublicProjectCached } from '@/lib/project/queries/public';
 
 export default async function ProjectsList() {
-  const projects = await findAllPublicProjectsCached();
+  const projects = await findAllPublicProjectCached();
   if (!projects || projects.length <= 1) return null;
 
   return (

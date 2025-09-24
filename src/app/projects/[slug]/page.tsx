@@ -1,6 +1,6 @@
 import { SingleProject } from '@/components/projects/SingleProject';
 import { SpinLoader } from '@/components/ui/SpinLoader';
-import { findProjectBySlugPublicCached } from '@/lib/project/queries/public';
+import { findPublicProjectBySlugCached } from '@/lib/project/queries/public';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params,
 }: ProjectSlugPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = await findProjectBySlugPublicCached(slug);
+  const project = await findPublicProjectBySlugCached(slug);
   return {
     title: project.name,
     description: project.description,
