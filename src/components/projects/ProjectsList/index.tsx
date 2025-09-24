@@ -6,8 +6,6 @@ import { ProjectSummary } from '../ProjectSummary';
 
 export default async function ProjectsList() {
   const projects = await findAllPublicProjectsCached();
-  console.log(projects.length);
-
   if (!projects || projects.length <= 1) return null;
 
   return (
