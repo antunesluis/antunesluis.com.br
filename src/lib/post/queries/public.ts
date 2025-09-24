@@ -6,10 +6,7 @@ import { cache } from 'react';
 export const findAllPublicPostsCached = cache(
   unstable_cache(
     async () => {
-      const posts = await postRepository.findAllPublic().catch(() => undefined);
-
-      if (!posts) notFound();
-      return posts;
+      return await postRepository.findAllPublic();
     },
     ['posts'],
     {
@@ -18,7 +15,7 @@ export const findAllPublicPostsCached = cache(
   ),
 );
 
-export const findPostBySlugPublicCached = cache((slug: string) => {
+export const findPublicPostBySlugCached = cache((slug: string) => {
   return unstable_cache(
     async (slug: string) => {
       const post = await postRepository
@@ -26,6 +23,7 @@ export const findPostBySlugPublicCached = cache((slug: string) => {
         .catch(() => undefined);
 
       if (!post) notFound();
+
       return post;
     },
     [`post-${slug}`],

@@ -3,15 +3,10 @@ import { unstable_cache } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
-export const findAllPublicProjectsCached = cache(
+export const findAllPublicProjectCached = cache(
   unstable_cache(
     async () => {
-      const projects = await projectRepository
-        .findAllPublic()
-        .catch(() => undefined);
-
-      if (!projects) notFound();
-      return projects;
+      return await projectRepository.findAllPublic();
     },
     ['projects'],
     {
@@ -20,7 +15,7 @@ export const findAllPublicProjectsCached = cache(
   ),
 );
 
-export const findProjectBySlugPublicCached = cache((slug: string) => {
+export const findPublicProjectBySlugCached = cache((slug: string) => {
   return unstable_cache(
     async (slug: string) => {
       const project = await projectRepository
@@ -28,6 +23,7 @@ export const findProjectBySlugPublicCached = cache((slug: string) => {
         .catch(() => undefined);
 
       if (!project) notFound();
+
       return project;
     },
     [`project-${slug}`],

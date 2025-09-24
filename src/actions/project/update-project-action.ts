@@ -79,7 +79,7 @@ export async function updateProjectAction(
     };
   }
 
-  revalidateTag('project');
+  revalidateTag('projects');
   revalidateTag(`project-${project.slug}`);
 
   return {
