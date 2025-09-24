@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className='text-center pb-16'>
       <p className='text-slate-600'>
         <Link href='/'>
-          © {new Date().getFullYear()} The Blog. Todos os direitos reservados.
+          © {new Date().getFullYear()} Luis Antunes. All rights reserved.
         </Link>
       </p>
     </footer>

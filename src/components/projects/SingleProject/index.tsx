@@ -45,7 +45,7 @@ export async function SingleProject({ slug }: SingleProjectProps) {
               target='_blank'
               rel='noopener noreferrer'
             >
-              <Button variant='default' size='lg'>
+              <Button variant='default' size='md'>
                 Live Demo
                 <ExternalLinkIcon />
               </Button>
@@ -58,7 +58,7 @@ export async function SingleProject({ slug }: SingleProjectProps) {
               target='_blank'
               rel='noopener noreferrer'
             >
-              <Button variant='ghost' size='lg'>
+              <Button variant='ghost' size='md'>
                 Repository
                 <GithubIcon />
               </Button>

@@ -3,6 +3,7 @@ import { CoverImage } from '../../ui/CoverImage';
 import { findAllPublicPostsCached } from '@/lib/post/queries/public';
 import ErrorMessage from '../../ui/ErrorMessage';
 import { PostSummary } from '../PostSummary';
+import Link from 'next/link';
 
 export default async function PostFeatured() {
   const posts = await findAllPublicPostsCached();
@@ -19,7 +20,7 @@ export default async function PostFeatured() {
   const post = posts[0];
 
   return (
-    <>
+    <Link href={`/post/${post.slug}`}>
       <section
         className={clsx('grid grid-cols-1 gap-8 mb-16 group', 'sm:grid-cols-2')}
       >
@@ -40,6 +41,6 @@ export default async function PostFeatured() {
           postHeading='h1'
         />
       </section>
-    </>
+    </Link>
   );
 }

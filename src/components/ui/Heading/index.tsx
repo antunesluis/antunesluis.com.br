@@ -10,14 +10,14 @@ export function Heading({ children, as: Tag = 'h2', className }: HeadingProps) {
   const headingClassesMap: Record<string, string> = {
     h1: 'text-2xl/tight sm:text-3xl/tight lg:text-4xl/tight font-extrabold',
     h2: 'text-xl/tight sm:text-xl/tight lg:text-xl/tight font-extrabold',
-    h3: 'text-lg/tight sm:text-lg/tight lg:text-xl/tight font-bold',
+    h3: 'text-lg/tight sm:text-lg/tight lg:text-lg/tight font-bold underline decoration-3 underline-offset-5 decoration-gray-300',
   };
 
   return (
     <Tag
       className={clsx(
         headingClassesMap[Tag],
-        'group-hover:text-blue-500 transition-colors duration-200',
+        'text-slate-800 text-serif group-hover:text-blue-500 transition-colors duration-200',
         className,
       )}
     >

@@ -29,7 +29,7 @@ export default async function ProjectsList() {
           >
             <div
               className={clsx(
-                'w-full h-64 md:h-auto md:w-72 flex-shrink-0 overflow-hidden',
+                'w-full h-64 md:h-auto md:w-64 flex-shrink-0 overflow-hidden',
               )}
             >
               <CoverImage
