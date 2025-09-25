@@ -26,10 +26,10 @@ function CodeBlock({
     return (
       <div className='text-lg'>
         <SyntaxHighlighter
-          style={syntaxHighlighterStyle}
           language={match[1]}
           PreTag='div'
           {...props}
+          style={syntaxHighlighterStyle}
         >
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
