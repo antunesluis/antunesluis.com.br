@@ -1,4 +1,4 @@
-import { Inter, Bricolage_Grotesque, Space_Grotesk } from 'next/font/google';
+import { Space_Grotesk } from 'next/font/google';
 
 import type { Metadata } from 'next';
 import './globals.css';
