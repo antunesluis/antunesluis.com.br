@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import Image from 'next/image';
 
 export function AboutHeader() {
@@ -14,10 +15,15 @@ export function AboutHeader() {
         />
       </div>
       <div className='flex flex-col justify-center ml-6'>
-        <h1 className='text-xl md:text-2xl text-gray-900 font-semibold font-serif'>
+        <h1
+          className={clsx(
+            'text-xl md:text-2xl text-slate-900 font-semibold font-serif',
+            'dark:text-slate-100',
+          )}
+        >
           Luis Fernando Antunes
         </h1>
-        <h2 className='text-lg text-gray-500 font-light'>
+        <h2 className='text-lg text-gray-500 dark:text-gray-300 font-light'>
           Estudante de Ciência da Computação
         </h2>
       </div>

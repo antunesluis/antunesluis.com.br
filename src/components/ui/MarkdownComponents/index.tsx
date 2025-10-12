@@ -7,6 +7,9 @@ const syntaxHighlighterStyle = {
   'pre[class*="language-"]': {
     ...oneDark['pre[class*="language-"]'],
     background: 'transparent',
+    margin: 0,
+    padding: '1rem',
+    borderRadius: '0.5rem',
   },
   'code[class*="language-"]': {
     ...oneDark['code[class*="language-"]'],

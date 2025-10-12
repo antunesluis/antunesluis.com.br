@@ -22,7 +22,7 @@ export function ResumeSection() {
     <div className='space-y-4'>
       <Heading as='h3'>Currículo</Heading>
 
-      <p className='text-slate-800 text-md'>
+      <p className='text-md'>
         Se tiver interesse, você pode visualizar ou baixar meu currículo.
       </p>
 

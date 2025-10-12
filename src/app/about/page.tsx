@@ -8,7 +8,7 @@ export default function AboutPage() {
       <div className='flex flex-col gap-8 max-w-2xl mx-auto'>
         <AboutHeader />
         <div className='flex flex-col gap-6'>
-          <p className='text-slate-800 leading-relaxed'>
+          <p className='leading-relaxed'>
             Olá, sou o Luis Fernando, prazer! 👋
           </p>
           <p>

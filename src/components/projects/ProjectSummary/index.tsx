@@ -23,15 +23,13 @@ export function ProjectSummary({
         <div className='flex flex-row justify-between items-start mb-2'>
           <Heading as='h2'>{name}</Heading>
           {projectYear && (
-            <span className='text-slate-500 text-sm font-medium whitespace-nowrap flex-shrink-0'>
+            <span className='text-slate-500 dark:text-slate-400 text-sm font-medium whitespace-nowrap flex-shrink-0'>
               {projectYear}
             </span>
           )}
         </div>
 
-        <p className={clsx('text-slate-800 leading-relaxed', 'line-clamp-3')}>
-          {description}
-        </p>
+        <p className={clsx('leading-relaxed', 'line-clamp-3')}>{description}</p>
       </div>
 
       {techStack && techStack.length > 0 && (

@@ -3,6 +3,7 @@ import { HeaderNavigation } from '../HeaderNavigation';
 import clsx from 'clsx';
 import { HeaderMobileNavigation } from '../HeaderMobileNavigation';
 import { BirdIcon } from 'lucide-react';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 export function Header() {
   return (
@@ -12,15 +13,18 @@ export function Header() {
           'flex items-center justify-between max-w-6xl mx-auto pt-6 lg:pt-8 pb-12 lg:pb-16',
         )}
       >
-        <Link href='/' className='flex gap-1 items-center group'>
-          {/* Ícone com animação de rotação - menor e mais próximo */}
-          <BirdIcon className='w-8 h-8 text-slate-800 transition-transform duration-300 ease-in-out group-hover:rotate-12' />
-          <h1 className='text-2xl lg:text-3xl font-bold font-serif tracking-tighter'>
+        <Link href='/' className='flex gap-2 items-center group'>
+          <BirdIcon className='w-7 h-7 lg:w-8 lg:h-8 text-slate-800 dark:text-slate-200 transition-all duration-300 ease-in-out group-hover:rotate-12 group-hover:text-blue-600 dark:group-hover:text-blue-400' />
+          <h1 className='text-xl lg:text-2xl font-bold font-serif tracking-tight text-slate-900 dark:text-slate-100'>
             Luis Antunes
           </h1>
         </Link>
-        <HeaderMobileNavigation />
-        <HeaderNavigation />
+
+        <div className='flex items-center gap-6'>
+          <HeaderNavigation />
+          <ThemeToggle />
+          <HeaderMobileNavigation />
+        </div>
       </nav>
     </header>
   );

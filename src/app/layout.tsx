@@ -6,6 +6,7 @@ import { Container } from '@/components/layout/Container';
 import { Header } from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { ToastifyContainer } from '@/components/ui/ToastifyContainer';
+import { ThemeProvider } from '@/components/ui/ThemeProvider';
 
 export const metadata: Metadata = {
   title: {
@@ -36,17 +37,25 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
     <html
       lang='pt-BR'
       className={`${inter.variable} ${bricolageGrotesque.variable}`}
+      suppressHydrationWarning
     >
       <body suppressHydrationWarning={true}>
-        <Container>
-          <Header />
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Container>
+            <Header />
 
-          {children}
+            {children}
 
-          <Footer />
-        </Container>
+            <Footer />
+          </Container>
 
-        <ToastifyContainer />
+          <ToastifyContainer />
+        </ThemeProvider>
       </body>
     </html>
   );

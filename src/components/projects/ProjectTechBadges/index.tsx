@@ -18,13 +18,15 @@ export function ProjectTechBadges({
   const badgeClasses = clsx(
     'px-3 py-1 text-sm font-medium',
     'bg-blue-100 text-blue-800 rounded-full',
-    'border border-slate-200',
+    'dark:bg-blue-900/30 dark:text-blue-300',
+    'border border-slate-200 dark:border-blue-800/50',
     'transition-colors duration-200',
   );
 
   const remainingBadgeClasses = clsx(
     'px-3 py-1 text-sm font-medium rounded-full border transition-colors duration-200',
     'bg-slate-100 text-slate-600 border-slate-300',
+    'dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700', // Dark mode
   );
 
   return (

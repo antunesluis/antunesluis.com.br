@@ -21,6 +21,7 @@ export default async function ProjectsList() {
             className={clsx(
               'group flex flex-col md:flex-row rounded-xl',
               'hover:shadow-lg hover:bg-slate-100',
+              'dark:hover:bg-slate-800/60',
               'transition-all duration-300 ease-in-out',
               'overflow-hidden',
             )}

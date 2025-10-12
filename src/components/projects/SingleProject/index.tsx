@@ -28,12 +28,12 @@ export async function SingleProject({ slug }: SingleProjectProps) {
 
         <Heading as='h1'>{project.name}</Heading>
 
-        <p className='text-md/tight text-gray-500'>
+        <p className='text-md/tight text-slate-500 dark:text-slate-400'>
           Project developed in {projectYear}
         </p>
       </header>
 
-      <p className='text-xl mb-6 leading-relaxed text-slate-600 font-light italic'>
+      <p className='text-xl mb-6 leading-relaxed text-slate-600 dark:text-slate-200 font-light italic'>
         {project.description}
       </p>
 

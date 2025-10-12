@@ -20,7 +20,7 @@ export function PostSummary({
 
       <Heading as={postHeading}>{title}</Heading>
 
-      <p className='text-slate-800 leading-relaxed line-clamp-3'>{excerpt}</p>
+      <p className='leading-relaxed line-clamp-3'>{excerpt}</p>
     </div>
   );
 }

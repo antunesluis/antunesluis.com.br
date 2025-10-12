@@ -23,12 +23,12 @@ export async function SinglePost({ slug }: SinglePostProps) {
 
         <Heading as='h1'>{post.title}</Heading>
 
-        <p className='text-md/tight text-gray-500'>
+        <p className='text-md/tight text-slate-500 dark:text-slate-400'>
           {post.author} | <PostDate dateTime={post.createdAt} />
         </p>
       </header>
 
-      <p className='text-xl mb-6 leading-relaxed text-slate-600 font-light italic'>
+      <p className='text-xl mb-6 leading-relaxed text-slate-600 dark:text-slate-200 font-light italic'>
         {post.excerpt}
       </p>
 
