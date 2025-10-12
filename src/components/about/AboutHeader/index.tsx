@@ -23,7 +23,7 @@ export function AboutHeader() {
         >
           Luis Fernando Antunes
         </h1>
-        <h2 className='text-lg text-gray-500 dark:text-gray-300 font-light'>
+        <h2 className='text-lg text-gray-500 dark:text-gray-400 font-light'>
           Estudante de Ciência da Computação
         </h2>
       </div>

@@ -11,7 +11,9 @@ export default async function PostsList() {
 
   return (
     <div className='mb-16'>
-      <p className='text-slate-800 font-semibold text-md/tight'>LATEST</p>
+      <p className='text-slate-800 dark:text-slate-200 font-semibold text-md/tight'>
+        LATEST
+      </p>
 
       {Array.from({ length: Math.ceil(postsToShow.length / 3) }).map(
         (_, rowIndex) => {
@@ -20,12 +22,14 @@ export default async function PostsList() {
 
           return (
             <div key={rowIndex}>
-              <div className='w-full h-px bg-slate-200 mb-6 mt-2'></div>
+              <div className='w-full h-px bg-slate-200 dark:bg-slate-700 mb-6 mt-2' />
 
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6'>
                 {rowPosts.map((post, postIndex) => {
                   const postLink = `/post/${post.slug}`;
                   const isNotLastColumn = postIndex < 2;
+                  const globalIndex = startIndex + postIndex;
+                  const isNotLastPost = globalIndex < postsToShow.length - 1;
 
                   return (
                     <div key={post.slug} className='relative'>
@@ -51,7 +55,11 @@ export default async function PostsList() {
                       </Link>
 
                       {isNotLastColumn && rowPosts.length > 1 && (
-                        <div className='hidden lg:block absolute top-0 -right-4 w-px h-full bg-slate-200'></div>
+                        <div className='hidden lg:block absolute top-0 -right-4 w-px h-full bg-slate-200 dark:bg-slate-700' />
+                      )}
+
+                      {isNotLastPost && (
+                        <div className='lg:hidden w-full h-px bg-slate-200 dark:bg-slate-700 mt-8' />
                       )}
                     </div>
                   );

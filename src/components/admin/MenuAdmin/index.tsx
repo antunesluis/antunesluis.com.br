@@ -26,6 +26,7 @@ export function MenuAdmin() {
 
   const navClasses = clsx(
     'bg-slate-900 text-slate-100 rounded-lg',
+    'dark:bg-slate-800',
     'flex flex-col mb-8',
     'sm:flex-row sm:flex-wrap',
     !isOpen && 'h-10',
@@ -35,7 +36,7 @@ export function MenuAdmin() {
   const linkClasses = clsx(
     '[&>svg]:w-[16px] [&>svg]:h-[16px] px-4',
     'flex items-center justify-start gap-2 cursor-pointer',
-    'transition hover:bg-slate-800',
+    'transition hover:bg-slate-800 dark:hover:bg-slate-700',
     'h-10 rounded-lg',
     'shrink-0',
   );

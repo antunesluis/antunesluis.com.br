@@ -19,7 +19,7 @@ export async function SingleProject({ slug }: SingleProjectProps) {
     <article className='mb-16'>
       <header className='group flex flex-col gap-4 mb-4'>
         <Image
-          className='rounded-xl'
+          className='rounded-xl mb-6'
           src={project.coverImageUrl}
           width={1200}
           height={720}
@@ -73,7 +73,7 @@ export async function SingleProject({ slug }: SingleProjectProps) {
         </div>
       )}
 
-      <hr className='border-slate-300 mb-6' />
+      <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
 
       <SafeMarkdown markdown={project.content} />
     </article>

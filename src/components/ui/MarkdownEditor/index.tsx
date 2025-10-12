@@ -1,5 +1,6 @@
 'use client';
 
+import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
 import { useId } from 'react';
 
@@ -23,6 +24,7 @@ export function MarkdownEditor({
   disabled = false,
 }: MarkdownEditorProps) {
   const id = useId();
+  const { resolvedTheme } = useTheme();
 
   return (
     <div className='flex flex-col gap-2'>
@@ -32,29 +34,25 @@ export function MarkdownEditor({
         </label>
       )}
 
-      <MDEditor
-        className='whitespace-pre-wrap'
-        value={value}
-        onChange={value => {
-          if (value === undefined) return;
-
-          setValue(value);
-        }}
-        height={400}
-        extraCommands={[]}
-        preview='edit'
-        hideToolbar={disabled}
-        textareaProps={{
-          id,
-          name: textAreaName,
-          disabled: disabled,
-        }}
-        // Usados para sanitizar o conteúdo se o preview estiver ativo
-        // previewOptions={{
-        //   rehypePlugins: [[rehypeSanitize]],
-        //   remarkPlugins: [[remarkGfm]],
-        // }}
-      />
+      <div data-color-mode={resolvedTheme} suppressHydrationWarning>
+        <MDEditor
+          className='whitespace-pre-wrap'
+          value={value}
+          onChange={value => {
+            if (value === undefined) return;
+            setValue(value);
+          }}
+          height={400}
+          extraCommands={[]}
+          preview='edit'
+          hideToolbar={disabled}
+          textareaProps={{
+            id,
+            name: textAreaName,
+            disabled: disabled,
+          }}
+        />
+      </div>
     </div>
   );
 }

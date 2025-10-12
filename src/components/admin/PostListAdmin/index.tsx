@@ -20,7 +20,7 @@ export default async function PostListAdmin() {
           <div
             className={clsx(
               'py-2 px-2',
-              !post.published && 'bg-slate-300',
+              !post.published && 'bg-slate-300 dark:bg-slate-600',
               'flex gap-2 items-center justify-between',
             )}
             key={post.id}
@@ -28,7 +28,7 @@ export default async function PostListAdmin() {
             <Link href={`/admin/post/${post.id}`}>{post.title}</Link>
 
             {!post.published && (
-              <span className='text-xs text-slate-600 italic ml-2'>
+              <span className='text-xs text-slate-600 dark:text-slate-300 italic ml-2'>
                 (Draft)
               </span>
             )}
