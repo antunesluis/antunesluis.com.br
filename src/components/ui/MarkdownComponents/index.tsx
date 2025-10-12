@@ -33,6 +33,7 @@ function CodeBlock({
           PreTag='div'
           {...props}
           style={syntaxHighlighterStyle}
+          className='text-base md:text-lg'
         >
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>

@@ -1,16 +1,17 @@
+import { Suspense } from 'react';
 import PostFeatured from '@/components/blog/PostFeatured';
 import PostsList from '@/components/blog/PostsList';
 import { SpinLoader } from '@/components/ui/SpinLoader';
-import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   return (
     <>
-      <Suspense fallback={<SpinLoader className='min-h-20 mb-16' />}>
+      <Suspense fallback={<SpinLoader className='mb-16 min-h-20' />}>
         <PostFeatured />
         <PostsList />
+        <div className='h-24 md:h-32' />
       </Suspense>
     </>
   );

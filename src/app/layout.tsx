@@ -1,4 +1,4 @@
-import { Inter, Bricolage_Grotesque } from 'next/font/google';
+import { Inter, Bricolage_Grotesque, Space_Grotesk } from 'next/font/google';
 
 import type { Metadata } from 'next';
 import './globals.css';
@@ -16,16 +16,22 @@ export const metadata: Metadata = {
   description: 'Blog built with Next.js and TypeScript for Markdown content',
 };
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
+// const inter = Inter({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-inter',
+// });
+//
+// const bricolageGrotesque = Bricolage_Grotesque({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-bricolage-grotesque',
+// });
 
-const bricolageGrotesque = Bricolage_Grotesque({
+const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-bricolage-grotesque',
+  variable: '--font-space-grotesk',
 });
 
 type RootLayoutProps = {
@@ -36,7 +42,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html
       lang='pt-BR'
-      className={`${inter.variable} ${bricolageGrotesque.variable}`}
+      className={`${space_grotesk.variable}`}
       suppressHydrationWarning
     >
       <body suppressHydrationWarning={true}>
