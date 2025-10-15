@@ -22,7 +22,7 @@ export function Header() {
           </h1>
         </Link>
 
-        <div className='flex items-center gap-1'>
+        <div className='flex items-center md:gap-2'>
           <HeaderNavigation />
           <ThemeToggle />
           <SearchButton />
