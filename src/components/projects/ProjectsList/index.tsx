@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { CoverImage } from '../../ui/CoverImage';
 import { ProjectSummary } from '../ProjectSummary';
 import { findAllPublicProjectCached } from '@/lib/project/queries/public';
+import { getYearFromDate } from '@/utils/format-datetime';
 
 export default async function ProjectsList() {
   const projects = await findAllPublicProjectCached();
@@ -12,7 +13,7 @@ export default async function ProjectsList() {
     <div className={clsx('flex flex-col mb-16 gap-6')}>
       {projects.map(project => {
         const projectLink = `/projects/${project.slug}`;
-        const projectYear = new Date(project.createdAt).getFullYear();
+        const projectYear = getYearFromDate(project.createdAt);
 
         return (
           <Link

@@ -17,7 +17,7 @@ export function HeaderNavigation() {
   );
 
   return (
-    <div className={clsx('hidden md:flex items-center space-x-6', '')}>
+    <div className={clsx('hidden md:flex items-center space-x-6 px-2', '')}>
       {navigationLinks.map(link => (
         <Link key={link.href} href={link.href} className={navItemClasses}>
           {link.label}

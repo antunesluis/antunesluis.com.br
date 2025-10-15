@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { HeaderMobileNavigation } from '../HeaderMobileNavigation';
 import { BirdIcon } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { SearchButton } from '@/components/ui/SearchButton';
 
 export function Header() {
   return (
@@ -23,6 +24,7 @@ export function Header() {
         <div className='flex items-center gap-2'>
           <HeaderNavigation />
           <ThemeToggle />
+          <SearchButton />
           <HeaderMobileNavigation />
         </div>
       </nav>
