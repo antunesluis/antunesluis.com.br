@@ -30,7 +30,7 @@ export function HeaderMobileNavigation() {
         aria-label='Toggle mobile menu'
         aria-expanded={isOpen}
       >
-        <MenuIcon className='w-7 h-7 text-slate-600 dark:text-slate-300' />
+        <MenuIcon className='w-6 h-6 text-slate-600 dark:text-slate-300' />
       </button>
 
       {isOpen && (
