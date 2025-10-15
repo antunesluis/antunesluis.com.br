@@ -33,7 +33,7 @@ export function ThemeToggle({ onThemeChange }: ThemeToggleProps = {}) {
         aria-label='Toggle theme'
         disabled
       >
-        <div className='w-5 h-5' />
+        <div className='w-7 h-7' />
       </button>
     );
   }
@@ -47,9 +47,9 @@ export function ThemeToggle({ onThemeChange }: ThemeToggleProps = {}) {
       title={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
     >
       {isDark ? (
-        <Moon className='w-6 h-6 text-slate-300 hover:text-slate-300 transition-colors' />
+        <Moon className='w-7 h-7 text-slate-300 hover:text-slate-300 transition-colors' />
       ) : (
-        <Sun className='w-6 h-6 text-slate-600 hover:text-slate-700 transition-colors' />
+        <Sun className='w-7 h-7 text-slate-600 hover:text-slate-700 transition-colors' />
       )}
     </button>
   );

@@ -26,11 +26,11 @@ export function HeaderMobileNavigation() {
     <div className='md:hidden'>
       <button
         onClick={toggleMenu}
-        className='flex items-center justify-center w-10 h-10 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
+        className='flex items-center justify-center p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
         aria-label='Toggle mobile menu'
         aria-expanded={isOpen}
       >
-        <MenuIcon className='w-8 h-8 text-slate-700 dark:text-slate-300' />
+        <MenuIcon className='w-7 h-7 text-slate-700 dark:text-slate-300' />
       </button>
 
       {isOpen && (

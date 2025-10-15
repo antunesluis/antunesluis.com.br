@@ -138,7 +138,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
         )}
         aria-label='Abrir busca'
       >
-        <SearchIcon className='w-6 h-6' />
+        <SearchIcon className='w-7 h-7' />
       </button>
 
       {isOpen && (
