@@ -11,7 +11,6 @@ export default async function HomePage() {
       <Suspense fallback={<SpinLoader className='mb-16 min-h-20' />}>
         <PostFeatured />
         <PostsList />
-        <div className='h-24 md:h-32' />
       </Suspense>
     </>
   );
