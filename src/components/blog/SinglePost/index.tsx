@@ -4,6 +4,7 @@ import { SafeMarkdown } from '../../ui/SafeMarkdown';
 import { Heading } from '@/components/ui/Heading';
 import { Comments } from '@/components/blog/Comments';
 import { findPublicPostBySlugCached } from '@/lib/post/queries/public';
+import { ScrollTopAndComment } from '@/components/ui/ScrollTopAndComment';
 
 type SinglePostProps = {
   slug: string;
@@ -36,12 +37,11 @@ export async function SinglePost({ slug }: SinglePostProps) {
       </p>
 
       <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
-
       <SafeMarkdown markdown={post.content} />
-
       <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
 
       <Comments commentsTerm={pathname} />
+      <ScrollTopAndComment />
     </article>
   );
 }

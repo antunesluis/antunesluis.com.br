@@ -7,6 +7,7 @@ import { Heading } from '@/components/ui/Heading';
 import Link from 'next/link';
 import { findPublicProjectBySlugCached } from '@/lib/project/queries/public';
 import { Comments } from '@/components/blog/Comments';
+import { ScrollTopAndComment } from '@/components/ui/ScrollTopAndComment';
 
 type SingleProjectProps = {
   slug: string;
@@ -76,12 +77,11 @@ export async function SingleProject({ slug }: SingleProjectProps) {
       )}
 
       <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
-
       <SafeMarkdown markdown={project.content} />
-
       <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
 
       <Comments commentsTerm={pathname} />
+      <ScrollTopAndComment />
     </article>
   );
 }
