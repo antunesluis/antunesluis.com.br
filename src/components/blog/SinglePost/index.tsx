@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { PostDate } from '../PostDate';
 import { SafeMarkdown } from '../../ui/SafeMarkdown';
 import { Heading } from '@/components/ui/Heading';
-import { Comments } from '@/components/blog/Comments';
+import { Comments } from '@/components/ui/Comments';
 import { findPublicPostBySlugCached } from '@/lib/post/queries/public';
 import { ScrollTopAndComment } from '@/components/ui/ScrollTopAndComment';
 

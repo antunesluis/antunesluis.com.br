@@ -6,7 +6,7 @@ import { ProjectTechBadges } from '../ProjectTechBadges';
 import { Heading } from '@/components/ui/Heading';
 import Link from 'next/link';
 import { findPublicProjectBySlugCached } from '@/lib/project/queries/public';
-import { Comments } from '@/components/blog/Comments';
+import { Comments } from '@/components/ui/Comments';
 import { ScrollTopAndComment } from '@/components/ui/ScrollTopAndComment';
 
 type SingleProjectProps = {
