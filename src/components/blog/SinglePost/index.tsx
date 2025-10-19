@@ -2,13 +2,16 @@ import Image from 'next/image';
 import { PostDate } from '../PostDate';
 import { SafeMarkdown } from '../../ui/SafeMarkdown';
 import { Heading } from '@/components/ui/Heading';
+import { Comments } from '@/components/blog/Comments';
 import { findPublicPostBySlugCached } from '@/lib/post/queries/public';
 
 type SinglePostProps = {
   slug: string;
 };
+
 export async function SinglePost({ slug }: SinglePostProps) {
   const post = await findPublicPostBySlugCached(slug);
+  const pathname = `post/${post.slug}`;
 
   return (
     <article className='mb-16'>
@@ -35,6 +38,10 @@ export async function SinglePost({ slug }: SinglePostProps) {
       <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
 
       <SafeMarkdown markdown={post.content} />
+
+      <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
+
+      <Comments commentsTerm={pathname} />
     </article>
   );
 }

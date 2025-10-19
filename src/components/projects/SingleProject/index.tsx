@@ -6,6 +6,7 @@ import { ProjectTechBadges } from '../ProjectTechBadges';
 import { Heading } from '@/components/ui/Heading';
 import Link from 'next/link';
 import { findPublicProjectBySlugCached } from '@/lib/project/queries/public';
+import { Comments } from '@/components/blog/Comments';
 
 type SingleProjectProps = {
   slug: string;
@@ -14,6 +15,7 @@ type SingleProjectProps = {
 export async function SingleProject({ slug }: SingleProjectProps) {
   const project = await findPublicProjectBySlugCached(slug);
   const projectYear = new Date(project.createdAt).getFullYear();
+  const pathname = `projects/${project.slug}`;
 
   return (
     <article className='mb-16'>
@@ -76,6 +78,10 @@ export async function SingleProject({ slug }: SingleProjectProps) {
       <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
 
       <SafeMarkdown markdown={project.content} />
+
+      <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
+
+      <Comments commentsTerm={pathname} />
     </article>
   );
 }
