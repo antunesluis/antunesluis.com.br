@@ -16,7 +16,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await findPublicPostBySlugCached(slug);
   return {
-    title: post.title,
+    title: {
+      absolute: post.title,
+    },
     description: post.excerpt,
   };
 }
