@@ -2,7 +2,7 @@ import ErrorMessage from '@/components/ui/ErrorMessage';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Página não encontrada',
+  title: '404 - Página não encontrada',
 };
 
 export default function NotFoundPage() {

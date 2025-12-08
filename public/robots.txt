@@ -1,0 +1,12 @@
+# public/robots.txt
+User-agent: *
+Allow: /
+
+# Bloquear área administrativa
+Disallow: /admin/
+
+# Host
+Host: https://antunesluis.com.br
+
+# Sitemap
+Sitemap: https://antunesluis.com.br/sitemap.xml
