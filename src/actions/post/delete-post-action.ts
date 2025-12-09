@@ -34,8 +34,8 @@ export async function deletePostAction(id: string) {
     };
   }
 
-  revalidateTag('posts');
-  revalidateTag(`posts-${post.slug}`);
+  revalidateTag('posts', 'fetch');
+  revalidateTag(`posts-${post.slug}`, 'fetch');
 
   return {
     error: '',

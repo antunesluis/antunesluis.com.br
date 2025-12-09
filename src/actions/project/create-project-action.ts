@@ -73,6 +73,6 @@ export async function createProjectAction(
     };
   }
 
-  revalidateTag('projects');
+  revalidateTag('projects', 'fetch');
   redirect(`/admin/projects/${newProject.id}?created=1`);
 }

@@ -79,8 +79,8 @@ export async function updateProjectAction(
     };
   }
 
-  revalidateTag('projects');
-  revalidateTag(`project-${project.slug}`);
+  revalidateTag('projects', 'fetch');
+  revalidateTag(`project-${project.slug}`, 'fetch');
 
   return {
     formState: makePublicProjectFromDb(project),

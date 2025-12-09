@@ -79,8 +79,8 @@ export async function updatePostAction(
     };
   }
 
-  revalidateTag('posts');
-  revalidateTag(`post-${post.slug}`);
+  revalidateTag('posts', 'fetch');
+  revalidateTag(`post-${post.slug}`, 'fetch');
 
   return {
     formState: makePublicPostFromDb(post),

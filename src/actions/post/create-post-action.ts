@@ -73,6 +73,6 @@ export async function createPostAction(
     };
   }
 
-  revalidateTag('posts');
+  revalidateTag('posts', 'fetch');
   redirect(`/admin/post/${newPost.id}?created=1`);
 }

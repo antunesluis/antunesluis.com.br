@@ -1,49 +1,49 @@
 import { Metadata } from 'next';
-import { siteConfig } from './siteMetadata';
+import { siteMetadata } from './siteMetadata';
 
 export const defaultMetadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(siteMetadata.url),
 
   title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.name}`,
+    default: siteMetadata.title,
+    template: `%s | ${siteMetadata.name}`,
   },
 
-  description: siteConfig.description,
+  description: siteMetadata.description,
   // keywords: siteConfig.keywords,
 
   authors: [
     {
-      name: siteConfig.author.name,
-      url: siteConfig.url,
+      name: siteMetadata.author.name,
+      url: siteMetadata.url,
     },
   ],
 
-  creator: siteConfig.author.name,
+  creator: siteMetadata.author.name,
 
   openGraph: {
     type: 'website',
-    locale: siteConfig.locale,
-    url: siteConfig.url,
-    title: siteConfig.title,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
+    locale: siteMetadata.locale,
+    url: siteMetadata.url,
+    title: siteMetadata.title,
+    description: siteMetadata.description,
+    siteName: siteMetadata.name,
     images: [
       {
-        url: siteConfig.ogImage,
+        url: siteMetadata.ogImage,
         width: 1200,
         height: 630,
-        alt: siteConfig.ogImageAlt,
+        alt: siteMetadata.ogImageAlt,
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [siteConfig.ogImage],
-    creator: siteConfig.social.twitter,
+    title: siteMetadata.title,
+    description: siteMetadata.description,
+    images: [siteMetadata.ogImage],
+    creator: siteMetadata.social.twitter,
   },
 
   robots: {
@@ -83,9 +83,9 @@ export function generatePostMetadata({
   coverImage?: string | null;
   publishedAt?: Date | string | null;
 }): Metadata {
-  const url = `${siteConfig.url}/post/${slug}`;
-  const ogImage = coverImage || siteConfig.ogImage;
-  const description = excerpt || siteConfig.description;
+  const url = `${siteMetadata.url}/post/${slug}`;
+  const ogImage = coverImage || siteMetadata.ogImage;
+  const description = excerpt || siteMetadata.description;
 
   return {
     title: {
@@ -103,8 +103,8 @@ export function generatePostMetadata({
       publishedTime: publishedAt
         ? new Date(publishedAt).toISOString()
         : undefined,
-      authors: [siteConfig.author.name],
-      siteName: siteConfig.name,
+      authors: [siteMetadata.author.name],
+      siteName: siteMetadata.name,
       images: [
         {
           url: ogImage,
@@ -119,7 +119,7 @@ export function generatePostMetadata({
       title,
       description,
       images: [ogImage],
-      creator: siteConfig.social.twitter,
+      creator: siteMetadata.social.twitter,
     },
   };
 }
@@ -135,8 +135,8 @@ export function generateProjectMetadata({
   slug: string;
   coverImage?: string | null;
 }): Metadata {
-  const url = `${siteConfig.url}/projects/${slug}`;
-  const ogImage = coverImage || siteConfig.ogImage;
+  const url = `${siteMetadata.url}/projects/${slug}`;
+  const ogImage = coverImage || siteMetadata.ogImage;
 
   return {
     title: {
@@ -151,7 +151,7 @@ export function generateProjectMetadata({
       url,
       title: name,
       description,
-      siteName: siteConfig.name,
+      siteName: siteMetadata.name,
       images: [
         {
           url: ogImage,
@@ -166,7 +166,7 @@ export function generateProjectMetadata({
       title: name,
       description,
       images: [ogImage],
-      creator: siteConfig.social.twitter,
+      creator: siteMetadata.social.twitter,
     },
   };
 }
