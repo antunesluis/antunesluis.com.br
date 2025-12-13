@@ -9,7 +9,7 @@ import { verifyLoginSession } from '@/lib/login/manage-login';
 import { ProjectUpdateSchema } from '@/lib/project/validation';
 import { projectRepository } from '@/repositories/project';
 import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 
 type UpdateProjectActionState = {
   formState: PublicProject;
@@ -79,8 +79,8 @@ export async function updateProjectAction(
     };
   }
 
-  revalidateTag('projects', 'fetch');
-  revalidateTag(`project-${project.slug}`, 'fetch');
+  updateTag('projects');
+  updateTag(`project-${project.slug}`);
 
   return {
     formState: makePublicProjectFromDb(project),

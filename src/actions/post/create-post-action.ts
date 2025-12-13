@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { v4 as uuidV4 } from 'uuid';
 import { makePartialPublicPost, type PublicPost } from '@/dto/post/dto';
@@ -10,6 +9,7 @@ import { postRepository } from '@/repositories/post';
 import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
 import { makeSlugFromText } from '@/utils/make-slug-from-text';
 import { verifyLoginSession } from '@/lib/login/manage-login';
+import { updateTag } from 'next/cache';
 
 type CreatePostActionState = {
   formState: PublicPost;
@@ -73,6 +73,6 @@ export async function createPostAction(
     };
   }
 
-  revalidateTag('posts', 'fetch');
+  updateTag('posts');
   redirect(`/admin/post/${newPost.id}?created=1`);
 }

@@ -2,7 +2,7 @@
 
 import { verifyLoginSession } from '@/lib/login/manage-login';
 import { projectRepository } from '@/repositories/project';
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 
 export async function deleteProjectAction(id: string) {
   const isAuthenticated = await verifyLoginSession();
@@ -34,8 +34,8 @@ export async function deleteProjectAction(id: string) {
     };
   }
 
-  revalidateTag('projects', 'fetch');
-  revalidateTag(`project-${project.slug}`, 'fetch');
+  updateTag('projects');
+  updateTag(`project-${project.slug}`);
 
   return {
     error: '',

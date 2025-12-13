@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
 import {
   makePartialPublicPost,
   makePublicPostFromDb,
@@ -10,6 +9,7 @@ import { PostUpdateSchema } from '@/lib/post/validation';
 import { postRepository } from '@/repositories/post';
 import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
 import { verifyLoginSession } from '@/lib/login/manage-login';
+import { updateTag } from 'next/cache';
 
 type UpdatePostActionState = {
   formState: PublicPost;
@@ -79,8 +79,8 @@ export async function updatePostAction(
     };
   }
 
-  revalidateTag('posts', 'fetch');
-  revalidateTag(`post-${post.slug}`, 'fetch');
+  updateTag('posts');
+  updateTag(`post-${post.slug}`);
 
   return {
     formState: makePublicPostFromDb(post),

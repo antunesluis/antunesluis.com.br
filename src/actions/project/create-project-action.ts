@@ -7,7 +7,7 @@ import { ProjectModel } from '@/models/project/project-model';
 import { projectRepository } from '@/repositories/project';
 import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
 import { makeSlugFromText } from '@/utils/make-slug-from-text';
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { v4 as uuidV4 } from 'uuid';
 
@@ -73,6 +73,6 @@ export async function createProjectAction(
     };
   }
 
-  revalidateTag('projects', 'fetch');
+  updateTag('projects');
   redirect(`/admin/projects/${newProject.id}?created=1`);
 }

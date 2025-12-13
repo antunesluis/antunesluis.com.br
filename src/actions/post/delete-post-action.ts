@@ -2,7 +2,7 @@
 
 import { verifyLoginSession } from '@/lib/login/manage-login';
 import { postRepository } from '@/repositories/post';
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 
 export async function deletePostAction(id: string) {
   const isAuthenticated = await verifyLoginSession();
@@ -34,8 +34,8 @@ export async function deletePostAction(id: string) {
     };
   }
 
-  revalidateTag('posts', 'fetch');
-  revalidateTag(`posts-${post.slug}`, 'fetch');
+  updateTag('posts');
+  updateTag(`posts-${post.slug}`);
 
   return {
     error: '',
