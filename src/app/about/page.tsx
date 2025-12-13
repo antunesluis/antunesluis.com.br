@@ -1,6 +1,15 @@
 import { AboutHeader } from '@/components/about/AboutHeader';
 import { ResumeSection } from '@/components/about/ResumeSection';
 import { SocialLinks } from '@/components/about/SocialLinks';
+import { createMetadata } from '@/lib/metadata';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = createMetadata({
+  title: 'About',
+  description:
+    'Luis Fernando Antunes - Estudante de Ciência da Computação na UFSM. Desenvolvedor Full Stack especializado em TypeScript, React, Next.js e Go.',
+  pathname: '/about',
+});
 
 export default function AboutPage() {
   return (
