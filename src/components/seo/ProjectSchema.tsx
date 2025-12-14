@@ -39,8 +39,6 @@ export function ProjectSchema({ project }: ProjectSchemaProps) {
     },
     datePublished: project.createdAt,
     dateModified: project.updatedAt,
-    programmingLanguage: techStack,
-    codeRepository: project.repositoryUrl,
     ...(project.deployUrl && {
       installUrl: project.deployUrl,
       url: project.deployUrl,

@@ -1,5 +1,5 @@
 import { JsonLd } from './JsonLd';
-import { SITE_URL, FULL_NAME, MY_NAME } from '@/config/constants';
+import { SITE_URL, FULL_NAME } from '@/config/constants';
 import { PostModel } from '@/models/post/post-model';
 
 type BlogPostSchemaProps = {
@@ -23,10 +23,6 @@ export function BlogPostSchema({ post }: BlogPostSchemaProps) {
     publisher: {
       '@type': 'Person',
       name: FULL_NAME,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${SITE_URL}/icon-512.png`,
-      },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
