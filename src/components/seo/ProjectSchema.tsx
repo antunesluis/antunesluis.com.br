@@ -7,12 +7,12 @@ type ProjectSchemaProps = {
 };
 
 export function ProjectSchema({ project }: ProjectSchemaProps) {
-  const techStack =
-    typeof project.techStack === 'string'
-      ? (JSON.parse(project.techStack) as string[])
-      : Array.isArray(project.techStack)
-        ? project.techStack
-        : [];
+  // const techStack =
+  //   typeof project.techStack === 'string'
+  //     ? (JSON.parse(project.techStack) as string[])
+  //     : Array.isArray(project.techStack)
+  //       ? project.techStack
+  //       : [];
 
   const schema = {
     '@context': 'https://schema.org',
