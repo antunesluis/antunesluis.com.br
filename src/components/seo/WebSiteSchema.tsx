@@ -1,0 +1,34 @@
+import { JsonLd } from './JsonLd';
+import {
+  SITE_URL,
+  FULL_NAME,
+  MY_NAME,
+  SITE_DESCRIPTION,
+} from '@/config/constants';
+
+export function WebSiteSchema() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: MY_NAME,
+    alternateName: FULL_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    inLanguage: 'pt-BR',
+    author: {
+      '@type': 'Person',
+      name: FULL_NAME,
+      url: SITE_URL,
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  return <JsonLd data={schema} />;
+}

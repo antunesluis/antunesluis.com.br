@@ -1,4 +1,5 @@
 export const MY_NAME = 'Luis Antunes';
+export const FULL_NAME = 'Luis Fernando Antunes';
 export const SITE_TITLE = 'Luis Antunes - Desenvolvedor Full Stack';
 export const SITE_DESCRIPTION =
   'Blog pessoal sobre desenvolvimento de software, tecnologia e projetos. Estudante de Ciência da Computação na UFSM.';
@@ -10,7 +11,8 @@ export const SITE_URL =
 export const SOCIAL = {
   twitter: '@aantunesluis',
   github: 'antunesluis',
-  email: 'contato@antunesluis.com.br',
+  email: 'antunesluisbr@gmail.com',
+  linkedin: 'luisantuness',
 } as const;
 
 export const OG_IMAGE_WIDTH = 1200;

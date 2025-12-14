@@ -1,4 +1,5 @@
 import {
+  FULL_NAME,
   MY_NAME,
   OG_IMAGE_ALT,
   OG_IMAGE_HEIGHT,
@@ -37,18 +38,18 @@ export function createMetadata(options: CreateMetadataOptions): Metadata {
   } = options;
 
   const url = `${SITE_URL}${pathname}`;
-  const pageTitle = `${title} - ${MY_NAME}`;
+  const pageTitle = pathname === '/' ? MY_NAME : `${title} - ${MY_NAME}`;
 
   return {
     title: pageTitle,
     description,
     keywords: tags ? [...SITE_KEYWORDS, ...tags] : SITE_KEYWORDS,
     authors: {
-      name: author || MY_NAME,
+      name: author || FULL_NAME,
       url: SITE_URL,
     },
-    creator: MY_NAME,
-    publisher: MY_NAME,
+    creator: FULL_NAME,
+    publisher: FULL_NAME,
     manifest: `${SITE_URL}/manifest.json`,
     metadataBase: new URL(SITE_URL),
     alternates: {
@@ -84,7 +85,7 @@ export function createMetadata(options: CreateMetadataOptions): Metadata {
       ...(type === 'article' && publishedTime
         ? {
             publishedTime,
-            authors: [author || MY_NAME],
+            authors: [author || FULL_NAME],
             ...(tags && { tags }),
           }
         : {}),
@@ -95,6 +96,7 @@ export function createMetadata(options: CreateMetadataOptions): Metadata {
       description,
       images: [image],
       creator: SOCIAL.twitter,
+      site: SOCIAL.twitter,
     },
     icons: {
       icon: [
