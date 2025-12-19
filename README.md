@@ -2,143 +2,165 @@
   <a href="https://antunesluis.com.br">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="public/images/home.png">
-      <img alt="Personal Blog Project Cover" src="public/images/home.png">
+      <img alt="antunesluis.com.br – personal blog" src="public/images/home.png">
     </picture>
   </a>
-  <h1 align="center">
-    antunesluis.com.br
-  </h1>
+
+  <h1 align="center">antunesluis.com.br</h1>
 
   <p align="center">
-    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-    <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
-    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
-    <img src="https://img.shields.io/badge/Drizzle_ORM-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black" alt="Drizzle ORM" />
-    <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge" alt="License MIT" />
+    personal blog and portfolio built with modern web technologies.
+  </p>
+
+  <p align="center">
+    <img src="https://img.shields.io/badge/typescript-3178c6?style=for-the-badge&logo=typescript&logocolor=white" />
+    <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logocolor=white" />
+    <img src="https://img.shields.io/badge/react-20232a?style=for-the-badge&logo=react&logocolor=61dafb" />
+    <img src="https://img.shields.io/badge/tailwind_css-38b2ac?style=for-the-badge&logo=tailwind-css&logocolor=white" />
+    <img src="https://img.shields.io/badge/sqlite-003b57?style=for-the-badge&logo=sqlite&logocolor=white" />
+    <img src="https://img.shields.io/badge/license-mit-blue?style=for-the-badge" />
   </p>
 </div>
 
-<br />
-
-A modern personal blog built with Next.js that renders Markdown posts with a
+A modern personal blog built with **Next.js** that renders Markdown posts with a
 complete administrative area for content management.
+
+it supports **markdown-based posts**, project showcasing, and secure
+authentication for the admin area.
+
+🔗 **live website:** https://antunesluis.com.br
 
 ## Features
 
-### Public Frontend
+### Public area
 
-- **Blog Posts**: Full Markdown rendering with syntax highlighting and GitHub
-  Flavored Markdown
-- **Featured Posts**: Automatic highlighting of featured articles on homepage
-- **Project Portfolio**: Showcase of software projects with technical details
-- **About Page**: Personal information with resume download and social links
-- **Responsive Design**: Mobile-first approach with modern, clean interface
+- **blog posts** - markdown rendering with syntax highlighting and github
+  flavored markdown (gfm)
 
-### Administrative Area
+- **featured content** - highlighted posts automatically displayed on the
+  homepage
 
-- **Login System**: Secure authentication with password hashing
-- **Post Management**: Complete CRUD operations (create, read, update, delete)
-- **Markdown Editor**: Intuitive interface for creating and editing posts
-- **Image Upload**: Integrated upload system for cover images
-- **Publication Status**: Control over published/draft posts
-- **Route Protection**: Authentication middleware for all admin routes
+- **projects portfolio** - dedicated section for software projects with
+  technical descriptions
 
-### SEO & Performance
+- **about page** - personal presentation, resume download, and social media
+  links
 
-- **Advanced SEO**: Complete Schema.org structured data (JSON-LD) implementation
-- **Dynamic Meta Tags**: Automatic Open Graph and Twitter Card generation
-- **Sitemap & Robots.txt**: Automated XML sitemap generation
+- **responsive ui** - mobile-first design with a clean and minimal interface
 
-## Tech Stack
+### Administrative dashboard
 
-### Core Technologies
+- **authentication system** - secure login using hashed passwords and jwt
 
-- **Next.js 15.3.3** - React framework with App Router
-- **React 19** - User interface library
-- **TypeScript 5** - Typed programming language
+- **post management** - full crud operations (create, edit, publish, delete)
+
+- **markdown editor** - intuitive editor for writing and editing posts
+
+- **image upload** - integrated upload system for cover images
+
+- **publication control** - draft and published states for posts
+
+- **protected routes** - middleware-based access control for admin pages
+
+### Seo & performance
+
+- **advanced seo** - schema.org structured data (json-ld)
+
+- **dynamic metadata** - automatic open graph and twitter card generation
+
+- **sitemap & robots.txt** - automatically generated for search engine indexing
+
+## Tech stack
+
+### Core
+
+- **next.js 15.3.3** – react framework with app router
+- **react 19**
+- **typescript 5**
 
 ### Database
 
-- **SQLite** - Lightweight, serverless database
-- **Drizzle ORM 0.44.4** - Type-safe SQL query builder
-- **Better SQLite3** - Synchronous SQLite driver for Node.js
-- **Drizzle Kit** - Database migrations and introspection
+- **sqlite** – lightweight, serverless database
+- **drizzle orm 0.44.4** – type-safe sql query builder
+- **better-sqlite3** – high-performance sqlite driver
+- **drizzle kit** – database migrations and schema management
 
-### Markdown & Editor
+### Markdown & content
 
-- **@uiw/react-md-editor** - React Markdown editor
-- **react-markdown** - Markdown renderer
-- **remark-gfm** - GitHub Flavored Markdown support
-- **rehype-sanitize** - HTML sanitization
-- **sanitize-html** - HTML cleaning
+- **@uiw/react-md-editor** – markdown editor
+- **react-markdown** – markdown renderer
+- **remark-gfm** – github flavored markdown
+- **rehype-sanitize / sanitize-html** – html sanitization
 
-### Authentication & Security
+### Security & validation
 
-- **bcryptjs** - Password hashing
-- **jose** - JWT manipulation
-- **Zod** - TypeScript schema validation
-- **Proxy** - Next.js proxy for route protection
+- **bcryptjs** – password hashing
+- **jose** – jwt creation and verification
+- **zod** – runtime schema validation
+- **next.js middleware** – route protection
 
-## Security
+## Security overview
 
-- **Authentication**: bcrypt password hashing
-- **Middleware**: Automatic protection of administrative routes
-- **Validation**: Zod schemas for input validation
-- **Sanitization**: Safe Markdown and HTML processing
+- passwords stored using **bcrypt hashing**
+- jwt-based authentication
+- protected admin routes via middleware
+- input validation with zod
+- sanitized markdown and html rendering
 
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
-- Node.js 18+
+- **node.js 18+**
 - npm or yarn
 
 ### Installation
 
-1. **Clone the repository**
+1. **clone the repository**
 
 ```bash
-   git clone https://github.com/antunesluis/antunesluis.com.br.git
-   cd antunesluis.com.br
+git clone https://github.com/antunesluis/antunesluis.com.br.git
+cd antunesluis.com.br
 ```
 
-2. **Install dependencies**
+2. **install dependencies**
 
 ```bash
-   npm install
+npm install
 ```
 
-3. **Set up environment variables**
+3. **configure environment variables**
 
 ```bash
-   cp .env.example .env.local
+cp .env.example .env.local
 ```
 
-Edit `.env.local`:
+edit `.env.local`:
 
 ```env
-   NEXT_PUBLIC_SITE_URL=http://localhost:3000
-   ADMIN_PASSWORD_HASH=your_hash_here
-   JWT_SECRET=your_secret_here
-   ...
+next_public_site_url=http://localhost:3000
+admin_password_hash=your_bcrypt_hash_here
+jwt_secret=your_secret_here
+...
 ```
 
-5. **Run the database migrations**
+> you can generate a password hash using `bcrypt`.
+
+4. **run database migrations**
 
 ```bash
-   npm run migrate
+npm run migrate
 ```
 
-6. **Start development server**
+5. **start the development server**
 
 ```bash
-   npm run dev
+npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) 🎉
+the application will be available at: 👉 http://localhost:3000
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file
-for more details.
+this project is licensed under the **mit license**. see the [license](license)
+file for more information.
