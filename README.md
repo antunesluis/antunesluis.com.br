@@ -34,49 +34,60 @@ authentication for the admin area.
 
 ### Public area
 
-- **blog posts** - markdown rendering with syntax highlighting and github
-  flavored markdown (gfm)
+- **Blog Posts** - Markdown rendering with syntax highlighting and GitHub
+  Flavored Markdown (GFM)
 
-- **featured content** - highlighted posts automatically displayed on the
-  homepage
-
-- **projects portfolio** - dedicated section for software projects with
+- **Projects Portfolio** - Dedicated section for software projects with
   technical descriptions
 
-- **about page** - personal presentation, resume download, and social media
+- **About Page** - Personal presentation, resume download, and social media
   links
 
-- **responsive ui** - mobile-first design with a clean and minimal interface
+- **Responsive UI** - Mobile-first design with clean and minimal interface
+
+- **Comments System** - Giscus integration powered by GitHub Discussions
+
+- **Theme Support** - Dark and light mode with system preference detection
 
 ### Administrative dashboard
 
-- **authentication system** - secure login using hashed passwords and jwt
+- **Authentication System** - Secure login using bcrypt hashed passwords and JWT
 
-- **post management** - full crud operations (create, edit, publish, delete)
+- **Post Management** - Full CRUD operations (create, edit, publish, delete)
 
-- **markdown editor** - intuitive editor for writing and editing posts
+- **Project Management** - Complete portfolio management with tech stack tags
 
-- **image upload** - integrated upload system for cover images
+- **Markdown Editor** - Live preview editor for writing and editing content
 
-- **publication control** - draft and published states for posts
+- **Image Upload** - Integrated upload system for cover images
 
-- **protected routes** - middleware-based access control for admin pages
+- **Publication Control** - Draft and published states for posts and projects
+
+- **Protected Routes** - Middleware-based access control for admin pages
 
 ### Seo & performance
 
-- **advanced seo** - schema.org structured data (json-ld)
+- **Advanced SEO** - Complete Schema.org structured data (JSON-LD):
 
-- **dynamic metadata** - automatic open graph and twitter card generation
+- **Dynamic Metadata** - Automatic Open Graph and Twitter Card generation
 
-- **sitemap & robots.txt** - automatically generated for search engine indexing
+- **Sitemap & Robots.txt** - Automatically generated XML sitemap for search
+  engine indexing
+
+- **Performance Optimized** - Server-side rendering with dynamic content
+  generation
+
+- **Core Web Vitals** - Optimized loading, interactivity, and visual stability
+
+- **Real-time Updates** - Always displays the latest content without rebuild
 
 ## Tech stack
 
 ### Core
 
-- **next.js 15.3.3** – react framework with app router
-- **react 19**
-- **typescript 5**
+- **Next.js 15.3.3** – react framework with app router
+- **React 19**
+- **Typescript 5**
 
 ### Database
 
@@ -101,11 +112,17 @@ authentication for the admin area.
 
 ## Security overview
 
-- passwords stored using **bcrypt hashing**
-- jwt-based authentication
-- protected admin routes via middleware
-- input validation with zod
-- sanitized markdown and html rendering
+- **Password Storage** - Passwords hashed using bcrypt with 10 rounds
+
+- **JWT Authentication** - Tokens stored in httpOnly cookies
+
+- **Protected Routes** - Middleware-based automatic route protection
+
+- **Input Validation** - All inputs validated with Zod schemas
+
+- **Content Sanitization** - Safe Markdown and HTML rendering
+
+- **SQL Injection Prevention** - Drizzle ORM parameterized queries
 
 ## Getting started
 
@@ -116,26 +133,26 @@ authentication for the admin area.
 
 ### Installation
 
-1. **clone the repository**
+1. **Clone the repository**
 
 ```bash
 git clone https://github.com/antunesluis/antunesluis.com.br.git
 cd antunesluis.com.br
 ```
 
-2. **install dependencies**
+2. **Install dependencies**
 
 ```bash
 npm install
 ```
 
-3. **configure environment variables**
+3. **Configure environment variables**
 
 ```bash
 cp .env.example .env.local
 ```
 
-edit `.env.local`:
+Edit `.env.local`:
 
 ```env
 next_public_site_url=http://localhost:3000
@@ -146,21 +163,21 @@ jwt_secret=your_secret_here
 
 > you can generate a password hash using `bcrypt`.
 
-4. **run database migrations**
+4. **Run database migrations**
 
 ```bash
 npm run migrate
 ```
 
-5. **start the development server**
+5. **Start the development server**
 
 ```bash
 npm run dev
 ```
 
-the application will be available at: 👉 http://localhost:3000
+The application will be available at: 👉 http://localhost:3000
 
 ## License
 
-this project is licensed under the **mit license**. see the [license](license)
+This project is licensed under the **mit license**. see the [license](license)
 file for more information.
