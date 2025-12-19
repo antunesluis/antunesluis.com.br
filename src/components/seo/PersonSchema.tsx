@@ -34,12 +34,6 @@ export function PersonSchema() {
       `https://twitter.com/${SOCIAL.twitter}`,
       `https://www.linkedin.com/in/${SOCIAL.linkedin}`,
     ],
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Santa Maria',
-      addressRegion: 'RS',
-      addressCountry: 'BR',
-    },
   };
 
   return <JsonLd data={schema} />;

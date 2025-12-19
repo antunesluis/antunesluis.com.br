@@ -18,7 +18,7 @@ export function BlogSchema({ posts }: BlogSchemaProps) {
     name: `${MY_NAME} - Blog`,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
-    inLanguage: 'en-US', // ou 'pt-BR'
+    inLanguage: 'pt-BR', // ou 'pt-BR'
     author: {
       '@type': 'Person',
       name: FULL_NAME,

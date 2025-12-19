@@ -43,7 +43,7 @@ export function ProjectSchema({ project }: ProjectSchemaProps) {
       installUrl: project.deployUrl,
       url: project.deployUrl,
     }),
-    inLanguage: 'en-US',
+    inLanguage: 'pt-BR',
   };
 
   return <JsonLd data={schema} />;
