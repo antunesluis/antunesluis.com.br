@@ -50,7 +50,7 @@ export function SocialLinks() {
   return (
     <div className='space-y-4'>
       <Heading as='h3'>Vamos nos conectar!</Heading>
-      <div className='flex flex-wrap gap-4'>
+      <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
         {socialLinks.map(social => {
           const Icon = social.icon;
           return (
