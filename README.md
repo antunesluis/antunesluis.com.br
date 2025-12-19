@@ -65,14 +65,6 @@ complete administrative area for content management.
 - **Better SQLite3** - Synchronous SQLite driver for Node.js
 - **Drizzle Kit** - Database migrations and introspection
 
-### Styling & UI
-
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **@tailwindcss/typography** - Beautiful typography defaults
-- **next-themes** - Dark mode implementation
-- **Lucide React** - Modern icon library
-- **Space Grotesk** - Google Font for typography
-
 ### Markdown & Editor
 
 - **@uiw/react-md-editor** - React Markdown editor
@@ -88,18 +80,63 @@ complete administrative area for content management.
 - **Zod** - TypeScript schema validation
 - **Proxy** - Next.js proxy for route protection
 
-### Utilities
-
-- **react-toastify** - Toast notification system
-- **clsx** - Conditional className utility (if used)
-- **date-fns** - Date formatting utilities (if used)
-
 ## Security
 
 - **Authentication**: bcrypt password hashing
 - **Middleware**: Automatic protection of administrative routes
 - **Validation**: Zod schemas for input validation
 - **Sanitization**: Safe Markdown and HTML processing
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+
+```bash
+   git clone https://github.com/antunesluis/antunesluis.com.br.git
+   cd antunesluis.com.br
+```
+
+2. **Install dependencies**
+
+```bash
+   npm install
+```
+
+3. **Set up environment variables**
+
+```bash
+   cp .env.example .env.local
+```
+
+Edit `.env.local`:
+
+```env
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   ADMIN_PASSWORD_HASH=your_hash_here
+   JWT_SECRET=your_secret_here
+   ...
+```
+
+5. **Run the database migrations**
+
+```bash
+   npm run migrate
+```
+
+6. **Start development server**
+
+```bash
+   npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) 🎉
 
 ## License
 
