@@ -9,8 +9,12 @@ export default {
   ],
   theme: {
     fontFamily: {
-      sans: ['var(--font-space-grotesk)', ...defaultTheme.fontFamily.sans],
-      serif: ['var(--font-space-grotesk)', ...defaultTheme.fontFamily.serif],
+      sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
+      mono: ['var(--font-jetbrains-mono)', ...defaultTheme.fontFamily.mono],
+      serif: [
+        'var(--font-bricolage-grotesque)',
+        ...defaultTheme.fontFamily.serif,
+      ],
     },
   },
   plugins: [],

@@ -25,7 +25,7 @@ export default function AboutPage() {
         ]}
       />
 
-      <section className='mb-16'>
+      <section className='mb-24'>
         <div className='flex flex-col gap-8 mx-auto'>
           <AboutHeader />
           <div className='flex flex-col gap-6'>

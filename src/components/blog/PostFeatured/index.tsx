@@ -20,27 +20,35 @@ export default async function PostFeatured() {
   const post = posts[0];
 
   return (
-    <Link href={`/blog/${post.slug}`}>
-      <section
-        className={clsx('grid grid-cols-1 gap-8 mb-16 group', 'sm:grid-cols-2')}
-      >
-        <CoverImage
-          imageProps={{
-            width: 1200,
-            height: 700,
-            src: post.coverImageUrl,
-            alt: post.title,
-            priority: true,
-          }}
-        />
+    <>
+      <p className='text-foreground font-semibold text-md/tight'>LAST POST</p>
+      <div className='w-full h-px bg-border mb-6 mt-2' />
 
-        <PostSummary
-          createdAt={post.createdAt}
-          title={post.title}
-          excerpt={post.excerpt}
-          postHeading='h1'
-        />
-      </section>
-    </Link>
+      <Link href={`/blog/${post.slug}`}>
+        <section
+          className={clsx(
+            'grid grid-cols-1 gap-8 mb-16 group',
+            'sm:grid-cols-2',
+          )}
+        >
+          <CoverImage
+            imageProps={{
+              width: 1200,
+              height: 700,
+              src: post.coverImageUrl,
+              alt: post.title,
+              priority: true,
+            }}
+          />
+
+          <PostSummary
+            createdAt={post.createdAt}
+            title={post.title}
+            excerpt={post.excerpt}
+            postHeading='h1'
+          />
+        </section>
+      </Link>
+    </>
   );
 }

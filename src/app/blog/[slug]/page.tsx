@@ -48,7 +48,7 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
         </>
       )}
 
-      <Suspense fallback={<SpinLoader className='min-h-20 mb-16' />}>
+      <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
         <SinglePost slug={slug} />
       </Suspense>
     </>

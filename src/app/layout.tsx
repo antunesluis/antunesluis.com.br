@@ -1,4 +1,4 @@
-import { JetBrains_Mono, Space_Grotesk } from 'next/font/google';
+import { Bricolage_Grotesque, Inter, JetBrains_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Container } from '@/components/layout/Container';
@@ -8,10 +8,16 @@ import { ToastifyContainer } from '@/components/ui/ToastifyContainer';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { createMetadata } from '@/lib/metadata';
 
-const space_grotesk = Space_Grotesk({
+const inter_font = Inter({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-space-grotesk',
+  variable: '--font-inter',
+});
+
+const bricolage_grotesque_font = Bricolage_Grotesque({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-bricolage-grotesque',
 });
 
 const jetbrains_mono = JetBrains_Mono({
@@ -35,7 +41,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html
       lang='pt-BR'
-      className={`${space_grotesk.variable} ${jetbrains_mono.variable}`}
+      className={`${inter_font.variable} ${jetbrains_mono.variable} ${bricolage_grotesque_font.variable}`}
       suppressHydrationWarning
     >
       <head>

@@ -11,20 +11,18 @@ export default async function PostsList() {
 
   return (
     <div className='mb-16'>
-      <p className='text-foreground font-semibold text-md/tight'>
-        ALL ARTICLES
-      </p>
+      <p className='text-foreground font-semibold text-md/tight'>ALL POSTS</p>
 
       {Array.from({ length: Math.ceil(postsToShow.length / 3) }).map(
         (_, rowIndex) => {
-          const startIndex = rowIndex * 3;
+          const startIndex = rowIndex * 2;
           const rowPosts = postsToShow.slice(startIndex, startIndex + 3);
 
           return (
             <div key={rowIndex}>
               <div className='w-full h-px bg-border mb-6 mt-2' />
 
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mb-6'>
                 {rowPosts.map((post, postIndex) => {
                   const postLink = `/blog/${post.slug}`;
                   const isNotLastColumn = postIndex < 2;

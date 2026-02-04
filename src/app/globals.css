@@ -2,8 +2,9 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --font-sans: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+  --font-serif: var(--font-bricolage-grotesque);
 
   --background: oklch(0.98 0.01 264); /* Branco com leve toque azulado */
   --foreground: oklch(0.2 0.02 264); /* Texto principal escuro azulado */

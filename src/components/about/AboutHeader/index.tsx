@@ -1,3 +1,4 @@
+import { Heading } from '@/components/ui/Heading';
 import Image from 'next/image';
 
 export function AboutHeader() {
@@ -18,9 +19,9 @@ export function AboutHeader() {
       </div>
 
       <div className='flex-1 space-y-6'>
-        <h1 className='text-4xl md:text-5xl font-bold text-foreground'>
-          Olá, sou o Luis!
-        </h1>
+        <Heading as='h1' className='md:text-5xl/tight'>
+          /about
+        </Heading>
 
         <div className='space-y-4 text-foreground leading-relaxed'>
           <p>

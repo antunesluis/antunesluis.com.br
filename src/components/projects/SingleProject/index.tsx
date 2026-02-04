@@ -19,7 +19,7 @@ export async function SingleProject({ slug }: SingleProjectProps) {
   const pathname = `projects/${project.slug}`;
 
   return (
-    <article className='mb-16'>
+    <article className='mb-24'>
       <header className='group flex flex-col gap-4 mb-4'>
         <Image
           className='rounded-xl mb-6'
@@ -71,14 +71,14 @@ export async function SingleProject({ slug }: SingleProjectProps) {
       )}
 
       {project.techStack && project.techStack.length > 0 && (
-        <div className='mb-6'>
+        <div className='mb-12'>
           <ProjectTechBadges techStack={project.techStack} isCompact={false} />
         </div>
       )}
 
-      <div className='w-full h-px bg-border my-12'></div>
+      <div className='w-full h-px bg-border mb-12'></div>
       <SafeMarkdown markdown={project.content} />
-      <div className='w-full h-px bg-border my-12'></div>
+      <div className='w-full h-px bg-border mb-12'></div>
 
       <Comments commentsTerm={pathname} />
       <ScrollTopAndComment />

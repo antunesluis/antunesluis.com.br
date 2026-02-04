@@ -10,9 +10,7 @@ export function Header() {
   return (
     <header>
       <nav
-        className={clsx(
-          'flex items-center justify-between mx-auto pt-6 lg:pt-8 pb-12 lg:pb-16',
-        )}
+        className={clsx('flex items-center justify-between mx-auto pt-6 pb-12')}
       >
         <Link href='/' className='flex gap-2 items-center group'>
           <BirdIcon className='w-7 h-7 lg:w-8 lg:h-8 text-foreground group-hover:text-primary' />
