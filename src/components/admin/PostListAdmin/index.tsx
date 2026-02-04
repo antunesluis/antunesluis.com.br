@@ -25,7 +25,7 @@ export default async function PostListAdmin() {
             )}
             key={post.id}
           >
-            <Link href={`/admin/post/${post.id}`}>{post.title}</Link>
+            <Link href={`/admin/blog/${post.id}`}>{post.title}</Link>
 
             {!post.published && (
               <span className='text-xs text-muted-foreground italic ml-2'>

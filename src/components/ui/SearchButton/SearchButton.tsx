@@ -79,7 +79,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
           event.preventDefault();
           if (selectedIndex >= 0 && selectedIndex < results.length) {
             const selectedPost = results[selectedIndex];
-            window.location.href = `/post/${selectedPost.slug}`;
+            window.location.href = `/blog/${selectedPost.slug}`;
             handleClose();
           }
           break;
@@ -230,7 +230,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
                           ref={el => {
                             resultRefs.current[index] = el;
                           }}
-                          href={`/post/${post.slug}`}
+                          href={`/blog/${post.slug}`}
                           onClick={handleClose}
                           onMouseEnter={() => setSelectedIndex(index)}
                           className={clsx(

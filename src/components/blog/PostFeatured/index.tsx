@@ -20,7 +20,7 @@ export default async function PostFeatured() {
   const post = posts[0];
 
   return (
-    <Link href={`/post/${post.slug}`}>
+    <Link href={`/blog/${post.slug}`}>
       <section
         className={clsx('grid grid-cols-1 gap-8 mb-16 group', 'sm:grid-cols-2')}
       >

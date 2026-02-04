@@ -34,8 +34,8 @@ export async function deletePostAction(id: string) {
     };
   }
 
-  updateTag('posts');
-  updateTag(`posts-${post.slug}`);
+  updateTag('blog');
+  updateTag(`blog-${post.slug}`);
 
   return {
     error: '',

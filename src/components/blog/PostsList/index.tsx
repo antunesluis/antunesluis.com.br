@@ -26,7 +26,7 @@ export default async function PostsList() {
 
               <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6'>
                 {rowPosts.map((post, postIndex) => {
-                  const postLink = `/post/${post.slug}`;
+                  const postLink = `/blog/${post.slug}`;
                   const isNotLastColumn = postIndex < 2;
                   const globalIndex = startIndex + postIndex;
                   const isNotLastPost = globalIndex < postsToShow.length - 1;

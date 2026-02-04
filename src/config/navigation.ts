@@ -5,7 +5,7 @@ export interface NavigationLink {
 
 export const navigationLinks: NavigationLink[] = [
   {
-    href: '/',
+    href: '/blog',
     label: 'Blog',
   },
   {

@@ -22,7 +22,7 @@ export async function generateMetadata({
   return createMetadata({
     title: post.title,
     description: post.excerpt,
-    pathname: `/post/${slug}`,
+    pathname: `/blog/${slug}`,
     image: post.coverImageUrl,
     type: 'article',
     publishedTime: post.createdAt,
@@ -42,7 +42,7 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
           <BreadcrumbSchema
             items={[
               { name: 'Home', url: '/' },
-              { name: post.title, url: `/post/${slug}` },
+              { name: post.title, url: `/blog/${slug}` },
             ]}
           />
         </>

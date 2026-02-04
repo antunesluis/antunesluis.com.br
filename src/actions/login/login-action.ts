@@ -52,5 +52,5 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
   }
 
   await createLoginSession(username);
-  redirect('/admin/post');
+  redirect('/admin/blog');
 }

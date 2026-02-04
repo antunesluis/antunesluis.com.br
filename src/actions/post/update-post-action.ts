@@ -79,8 +79,8 @@ export async function updatePostAction(
     };
   }
 
-  updateTag('posts');
-  updateTag(`post-${post.slug}`);
+  updateTag('blog');
+  updateTag(`blog-${post.slug}`);
 
   return {
     formState: makePublicPostFromDb(post),
