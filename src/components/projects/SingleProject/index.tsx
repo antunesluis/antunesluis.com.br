@@ -31,12 +31,12 @@ export async function SingleProject({ slug }: SingleProjectProps) {
 
         <Heading as='h1'>{project.name}</Heading>
 
-        <p className='text-md/tight text-slate-500 dark:text-slate-400'>
+        <p className='text-md/tight text-muted-foreground'>
           Project developed in {projectYear}
         </p>
       </header>
 
-      <p className='text-xl mb-6 leading-relaxed text-slate-600 dark:text-slate-200 font-light italic'>
+      <p className='text-xl mb-6 leading-relaxed text-foreground font-light italic'>
         {project.description}
       </p>
 
@@ -76,9 +76,9 @@ export async function SingleProject({ slug }: SingleProjectProps) {
         </div>
       )}
 
-      <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
+      <div className='w-full h-px bg-border my-12'></div>
       <SafeMarkdown markdown={project.content} />
-      <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
+      <div className='w-full h-px bg-border my-12'></div>
 
       <Comments commentsTerm={pathname} />
       <ScrollTopAndComment />

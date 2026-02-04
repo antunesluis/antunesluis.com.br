@@ -6,6 +6,7 @@ import {
   MailIcon,
 } from 'lucide-react';
 import { Heading } from '@/components/ui/Heading';
+import clsx from 'clsx';
 
 type SocialLink = {
   name: string;
@@ -41,8 +42,8 @@ const socialLinks: SocialLink[] = [
     name: 'GitHub',
     url: 'https://github.com/antunesluis',
     icon: GithubIcon,
-    colorLight: 'hover:text-slate-900',
-    colorDark: 'dark:hover:text-slate-100',
+    colorLight: 'hover:text-slate-400',
+    colorDark: 'dark:hover:text-slate-300',
   },
 ];
 
@@ -59,17 +60,14 @@ export function SocialLinks() {
               href={social.url}
               target='_blank'
               rel='noopener noreferrer'
-              className={`
-                flex items-center gap-2 px-4 py-2
-                text-slate-600 dark:text-slate-300
-                ${social.colorLight} ${social.colorDark}
-                bg-slate-50 hover:bg-slate-100
-                dark:bg-slate-800 dark:hover:bg-slate-700
-                rounded-lg border border-slate-200 dark:border-slate-700
-                transition-all duration-200 ease-in-out
-                hover:shadow-sm hover:border-slate-300 dark:hover:border-slate-600
-                text-sm font-medium
-              `}
+              className={clsx(
+                'flex items-center gap-2 px-4 py-2',
+                'text-foreground text-sm font-medium',
+                'bg-muted hover:bg-muted/70 border border-border rounded-lg',
+                'hover:shadow-sm transition-all duration-200',
+                social.colorLight,
+                social.colorDark,
+              )}
             >
               <Icon className='w-4 h-4' />
               {social.name}

@@ -23,8 +23,7 @@ export default function ErrorMessage({
       {title && <title>{title}</title>}
       <div
         className={clsx(
-          'min-h-[400px] bg-slate-900 text-slate-100',
-          'dark:bg-slate-800',
+          'min-h-100 bg-card text-card-foreground shadow-xs',
           'mb-16 p-8 rounded-xl',
           'flex items-center justify-center',
           'text-center',
@@ -33,17 +32,19 @@ export default function ErrorMessage({
       >
         <div className='space-y-6'>
           {showStatusCode && statusCode && (
-            <h1 className='text-7xl/tight mb-4 font-extrabold text-slate-100'>
+            <h1 className='text-7xl/tight mb-4 font-extrabold text-card-foreground'>
               {statusCode}
             </h1>
           )}
 
           <div className='space-y-2'>
             {title && (
-              <p className='text-xl font-semibold text-slate-200'>{title}</p>
+              <p className='text-xl font-semibold text-card-foreground'>
+                {title}
+              </p>
             )}
 
-            <div className='text-slate-400 max-w-md'>{content}</div>
+            <div className='text-card-foreground max-w-md'>{content}</div>
           </div>
         </div>
       </div>

@@ -11,33 +11,38 @@ export function InputText({ labelText = '', ...props }: InputTextProps) {
   return (
     <div className='flex flex-col gap-2'>
       {labelText && (
-        <label
-          className='text-sm font-medium text-slate-700 dark:text-slate-300'
-          htmlFor={id}
-        >
+        <label className='text-sm font-medium text-foreground' htmlFor={id}>
           {labelText}
         </label>
       )}
+
       <input
         {...props}
         className={clsx(
-          'bg-white dark:bg-slate-800 outline-0 text-base/tight',
-          'text-slate-900 dark:text-slate-100',
-          'ring-2 ring-slate-300 dark:ring-slate-600 rounded-md',
-          'focus:ring-blue-500 dark:focus:ring-blue-400',
-          'px-3 py-2 transition-all duration-200',
-          'placeholder:text-slate-400 dark:placeholder:text-slate-500',
+          // Base
+          'bg-background text-foreground',
+          'outline-none text-base',
 
-          'disabled:placeholder:text-slate-300 dark:disabled:placeholder:text-slate-600',
-          'disabled:bg-slate-100 dark:disabled:bg-slate-900',
-          'disabled:text-slate-400 dark:disabled:text-slate-600',
-          'disabled:ring-slate-200 dark:disabled:ring-slate-700',
+          // Border e ring
+          'border-2 border-input rounded-lg',
+          'focus:border-ring focus:ring-2 focus:ring-ring/20',
+
+          // Padding e transição
+          'px-3 py-2',
+          'transition-all duration-200',
+
+          // Placeholder
+          'placeholder:text-muted-foreground',
+
+          // Estado disabled
+          'disabled:opacity-50',
           'disabled:cursor-not-allowed',
+          'disabled:bg-muted',
 
-          'read-only:bg-slate-50 dark:read-only:bg-slate-900',
-          'read-only:text-slate-600 dark:read-only:text-slate-400',
-          'read-only:ring-slate-200 dark:read-only:ring-slate-700',
+          // Estado read-only
+          'read-only:bg-muted',
           'read-only:cursor-default',
+          'read-only:focus:ring-0',
 
           props.className,
         )}

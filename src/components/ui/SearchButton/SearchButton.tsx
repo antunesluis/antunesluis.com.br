@@ -128,13 +128,14 @@ export function SearchButton({ posts }: SearchButtonProps) {
 
   return (
     <>
+      {/* Botão de abrir busca */}
       <button
         onClick={() => setIsOpen(true)}
         className={clsx(
           'p-2 flex items-center justify-center rounded-lg',
           'transition-all duration-200',
-          'text-slate-600 dark:text-slate-300',
-          'hover:bg-slate-200 dark:hover:bg-slate-800',
+          'text-foreground',
+          'hover:bg-muted hover:text-primary',
         )}
         aria-label='Abrir busca'
       >
@@ -143,12 +144,14 @@ export function SearchButton({ posts }: SearchButtonProps) {
 
       {isOpen && (
         <>
+          {/* Backdrop */}
           <div
             className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm'
             onClick={handleClose}
             aria-hidden='true'
           />
 
+          {/* Modal de busca */}
           <div
             ref={dialogRef}
             className='fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl mx-auto px-4'
@@ -156,10 +159,10 @@ export function SearchButton({ posts }: SearchButtonProps) {
             aria-modal='true'
             aria-labelledby='search-title'
           >
-            <div className='bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden'>
+            <div className='bg-card rounded-lg shadow-2xl border border-border overflow-hidden'>
               {/* Search Input */}
-              <div className='flex items-center gap-3 p-4 border-b border-slate-200 dark:border-slate-700'>
-                <SearchIcon className='w-5 h-5 text-slate-400' />
+              <div className='flex items-center gap-3 p-4 border-b border-border'>
+                <SearchIcon className='w-5 h-5 text-muted-foreground' />
                 <input
                   ref={inputRef}
                   type='text'
@@ -168,8 +171,8 @@ export function SearchButton({ posts }: SearchButtonProps) {
                   onChange={e => handleSearch(e.target.value)}
                   className={clsx(
                     'flex-1 bg-transparent outline-none',
-                    'text-slate-900 dark:text-slate-100',
-                    'placeholder-slate-500 dark:placeholder-slate-400',
+                    'text-foreground',
+                    'placeholder:text-muted-foreground',
                   )}
                   aria-autocomplete='list'
                   aria-controls='search-results'
@@ -181,38 +184,45 @@ export function SearchButton({ posts }: SearchButtonProps) {
                 {query && (
                   <button
                     onClick={() => handleSearch('')}
-                    className='p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors'
+                    className='p-1 rounded hover:bg-muted transition-colors'
                     aria-label='Limpar busca'
-                  />
+                  >
+                    <XIcon className='w-5 h-5 text-muted-foreground' />
+                  </button>
                 )}
 
                 <button
                   onClick={handleClose}
-                  className='p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors'
+                  className='p-1 rounded hover:bg-muted transition-colors'
                   aria-label='Fechar busca'
                 >
-                  <XIcon className='w-5 h-5 text-slate-600 dark:text-slate-400' />
+                  <XIcon className='w-5 h-5 text-muted-foreground hover:text-foreground' />
                 </button>
               </div>
 
+              {/* Resultados */}
               <div
                 id='search-results'
                 className='max-h-96 overflow-y-auto'
                 role='listbox'
               >
+                {/* Sem resultados */}
                 {results.length === 0 && query.trim() && (
-                  <div className='p-8 text-center text-slate-500 dark:text-slate-400'>
+                  <div className='p-8 text-center text-muted-foreground'>
                     Nenhum post encontrado para {`"${query}"`}
                   </div>
                 )}
 
+                {/* Com resultados */}
                 {results.length > 0 && (
                   <div>
-                    <div className='px-4 py-2 font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-black/50'>
+                    {/* Header dos resultados */}
+                    <div className='px-4 py-2 text-sm font-semibold text-muted-foreground uppercase tracking-wider bg-muted'>
                       {results.length} resultado{results.length > 1 ? 's' : ''}
                     </div>
 
-                    <div className='divide-y divide-slate-200 dark:divide-slate-700'>
+                    {/* Lista de resultados */}
+                    <div className='divide-y divide-border'>
                       {results.map((post, index) => (
                         <Link
                           key={post.slug}
@@ -226,19 +236,19 @@ export function SearchButton({ posts }: SearchButtonProps) {
                           className={clsx(
                             'block p-4 transition-colors',
                             selectedIndex === index
-                              ? 'bg-slate-200 dark:bg-slate-600/50'
-                              : 'hover:bg-slate-100 dark:hover:bg-slate-700/30',
+                              ? 'bg-primary/10 border-l-2 border-l-primary'
+                              : 'hover:bg-muted',
                           )}
                           role='option'
                           aria-selected={selectedIndex === index}
                         >
-                          <h3 className='font-semibold text-slate-900 dark:text-slate-100 line-clamp-2'>
+                          <h3 className='font-semibold text-foreground line-clamp-2'>
                             {post.title}
                           </h3>
-                          <p className='text-slate-600 dark:text-slate-400 mt-1 line-clamp-2'>
+                          <p className='text-muted-foreground mt-1 line-clamp-2'>
                             {post.excerpt}
                           </p>
-                          <div className='flex items-center justify-between mt-2 text-slate-500'>
+                          <div className='flex items-center justify-between mt-2 text-sm text-muted-foreground'>
                             {formatShortDate(post.createdAt)}
                           </div>
                         </Link>
@@ -247,8 +257,9 @@ export function SearchButton({ posts }: SearchButtonProps) {
                   </div>
                 )}
 
+                {/* Estado inicial (sem busca) */}
                 {!query.trim() && (
-                  <div className='p-8 text-center text-slate-500 dark:text-slate-400'>
+                  <div className='p-8 text-center text-muted-foreground'>
                     <p>Digite para buscar posts por título, resumo ou autor</p>
                   </div>
                 )}

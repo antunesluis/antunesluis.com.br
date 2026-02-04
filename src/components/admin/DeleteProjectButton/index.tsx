@@ -40,10 +40,9 @@ export function DeleteProjectButton({ id, title }: DeleteProjectButtonProps) {
     <>
       <button
         className={clsx(
-          'text-red-500 cursor-pointer transition-transform',
-          '[&_svg]:h-5 [&_svg]:w-5',
-          'hover:scale-120 hover:text-red-700',
-          'disabled:text-slate-600 disabled:cursor-not-allowed disabled:hover:scale-100',
+          'text-error cursor-pointer transition-transform',
+          '[&_svg]:h-5 [&_svg]:w-5 hover:scale-120',
+          'disabled:text-muted disabled:cursor-not-allowed disabled:hover:scale-100',
         )}
         aria-label={`Delete project ${title}`}
         title={`Delete project ${title}`}

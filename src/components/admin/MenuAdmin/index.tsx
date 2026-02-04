@@ -25,8 +25,7 @@ export function MenuAdmin() {
   }, [pathName]);
 
   const navClasses = clsx(
-    'bg-slate-900 text-slate-100 rounded-lg',
-    'dark:bg-slate-800',
+    'bg-card text-card-foreground rounded-lg shadow-sm',
     'flex flex-col mb-8',
     'sm:flex-row sm:flex-wrap',
     !isOpen && 'h-10',
@@ -36,13 +35,13 @@ export function MenuAdmin() {
   const linkClasses = clsx(
     '[&>svg]:w-[16px] [&>svg]:h-[16px] px-4',
     'flex items-center justify-start gap-2 cursor-pointer',
-    'transition hover:bg-slate-800 dark:hover:bg-slate-700',
+    'transition hover:bg-muted',
     'h-10 rounded-lg',
     'shrink-0',
   );
   const openCloseBtnClasses = clsx(
     linkClasses,
-    'text-blue-200 italic',
+    'text-primary italic',
     'sm:hidden',
   );
 

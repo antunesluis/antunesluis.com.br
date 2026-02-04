@@ -42,14 +42,14 @@ export function ThemeToggle({ onThemeChange }: ThemeToggleProps = {}) {
     <button
       type='button'
       onClick={toggleTheme}
-      className='p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-200'
+      className='p-2 rounded-lg hover:bg-muted transition-colors duration-200'
       aria-label={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
       title={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
     >
       {isDark ? (
-        <Moon className='w-6 h-6 text-slate-300 hover:text-slate-300 transition-colors' />
+        <Moon className='w-6 h-6 text-foreground hover:text-primary transition-colors' />
       ) : (
-        <Sun className='w-6 h-6 text-slate-600 hover:text-slate-700 transition-colors' />
+        <Sun className='w-6 h-6 text-foreground hover:text-primary transition-colors' />
       )}
     </button>
   );

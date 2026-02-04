@@ -23,7 +23,7 @@ export function ProjectSummary({
         <div className='flex flex-row justify-between items-start mb-2'>
           <Heading as='h2'>{name}</Heading>
           {projectYear && (
-            <span className='text-slate-500 dark:text-slate-400 text-sm font-medium whitespace-nowrap flex-shrink-0'>
+            <span className='text-muted-foreground text-sm font-medium whitespace-nowrap shrink-0'>
               {projectYear}
             </span>
           )}

@@ -37,8 +37,7 @@ export function Dialog({
     >
       <div
         className={clsx(
-          'bg-slate-100 p-6 mx-6 rounded-lg max-w-2xl',
-          'dark:bg-slate-800',
+          'bg-card p-6 mx-6 rounded-lg max-w-2xl',
           'flex flex-col gap-6',
           'shadow-lg shadow-black/30 text-center',
         )}

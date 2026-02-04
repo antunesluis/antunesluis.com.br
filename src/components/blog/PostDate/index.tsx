@@ -12,7 +12,7 @@ export function PostDate({ dateTime }: PostDateProps) {
     <time
       dateTime={dateTime}
       title={formatDistanceToNow(dateTime)}
-      className='text-md/tight text-gray-500'
+      className='text-md/tight text-muted-foreground'
     >
       {formatFullDateTime(dateTime)}
     </time>

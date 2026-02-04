@@ -1,5 +1,4 @@
-import { Space_Grotesk } from 'next/font/google';
-
+import { JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Container } from '@/components/layout/Container';
@@ -13,6 +12,12 @@ const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-space-grotesk',
+});
+
+const jetbrains_mono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
 });
 
 type RootLayoutProps = {
@@ -30,7 +35,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html
       lang='pt-BR'
-      className={`${space_grotesk.variable}`}
+      className={`${space_grotesk.variable} ${jetbrains_mono.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -49,12 +54,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         >
           <Container>
             <Header />
-
             {children}
-
             <Footer />
           </Container>
-
           <ToastifyContainer />
         </ThemeProvider>
       </body>

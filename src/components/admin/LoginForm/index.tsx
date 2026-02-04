@@ -52,7 +52,7 @@ export function LoginForm() {
           Entrar
         </Button>
 
-        {!!state.error && <p className='text-red-600'>{state.error}</p>}
+        {!!state.error && <p className='text-error'>{state.error}</p>}
       </form>
     </div>
   );

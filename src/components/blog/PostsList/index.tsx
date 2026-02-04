@@ -11,8 +11,8 @@ export default async function PostsList() {
 
   return (
     <div className='mb-16'>
-      <p className='text-slate-800 dark:text-slate-200 font-semibold text-md/tight'>
-        LATEST
+      <p className='text-foreground font-semibold text-md/tight'>
+        ALL ARTICLES
       </p>
 
       {Array.from({ length: Math.ceil(postsToShow.length / 3) }).map(
@@ -22,7 +22,7 @@ export default async function PostsList() {
 
           return (
             <div key={rowIndex}>
-              <div className='w-full h-px bg-slate-200 dark:bg-slate-700 mb-6 mt-2' />
+              <div className='w-full h-px bg-border mb-6 mt-2' />
 
               <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6'>
                 {rowPosts.map((post, postIndex) => {
@@ -55,11 +55,11 @@ export default async function PostsList() {
                       </Link>
 
                       {isNotLastColumn && rowPosts.length > 1 && (
-                        <div className='hidden lg:block absolute top-0 -right-4 w-px h-full bg-slate-200 dark:bg-slate-700' />
+                        <div className='hidden lg:block bg-border absolute top-0 -right-4 w-px h-full' />
                       )}
 
                       {isNotLastPost && (
-                        <div className='lg:hidden w-full h-px bg-slate-200 dark:bg-slate-700 mt-8' />
+                        <div className='lg:hidden bg-border w-full h-px mt-8' />
                       )}
                     </div>
                   );

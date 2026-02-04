@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ArrowUpIcon, MessageSquareIcon } from 'lucide-react';
+import clsx from 'clsx';
 
 export function ScrollTopAndComment() {
   const [show, setShow] = useState(false);
@@ -27,6 +28,10 @@ export function ScrollTopAndComment() {
     document.getElementById('comments')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollAndTopClases = clsx(
+    'rounded-full bg-muted p-2 text-card-foreground transition-all hover:bg-primary/50',
+  );
+
   return (
     <div
       className={`fixed right-8 bottom-8 hidden flex-col gap-3 ${
@@ -36,7 +41,7 @@ export function ScrollTopAndComment() {
       <button
         aria-label='Scroll to comments'
         onClick={handleScrollToComment}
-        className='rounded-full bg-slate-200 p-2 text-slate-600 transition-all hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-400 dark:hover:bg-slate-600'
+        className={scrollAndTopClases}
       >
         <MessageSquareIcon className='h-5 w-5' />
       </button>
@@ -44,7 +49,7 @@ export function ScrollTopAndComment() {
       <button
         aria-label='Scroll to top'
         onClick={handleScrollTop}
-        className='rounded-full bg-slate-200 p-2 text-slate-600 transition-all hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-400 dark:hover:bg-slate-600'
+        className={scrollAndTopClases}
       >
         <ArrowUpIcon className='h-5 w-5' />
       </button>

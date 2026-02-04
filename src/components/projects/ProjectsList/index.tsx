@@ -21,15 +21,14 @@ export default async function ProjectsList() {
             key={project.slug}
             className={clsx(
               'group flex flex-col md:flex-row rounded-xl',
-              'hover:shadow-lg hover:bg-slate-100',
-              'dark:hover:bg-slate-800/60',
+              'hover:shadow-lg hover:bg-background',
               'transition-all duration-300 ease-in-out',
               'overflow-hidden',
             )}
           >
             <div
               className={clsx(
-                'w-full h-64 md:h-auto md:w-64 flex-shrink-0 overflow-hidden',
+                'w-full h-64 md:h-auto md:w-64 shrink-0 overflow-hidden',
               )}
             >
               <CoverImage

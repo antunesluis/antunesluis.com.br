@@ -13,7 +13,7 @@ const containerClasses = clsx(
   'prose-slate',
   'w-full max-w-none',
   'overflow-hidden',
-  'prose-a:text-blue-500 prose-a:hover:text-blue-700',
+  'prose-a:text-primary prose-a:hover:text-primary',
   'prose-a:transition prose-a:no-underline prose-a:hover:underline',
   'prose-img:mx-auto',
   'lg:prose-lg',

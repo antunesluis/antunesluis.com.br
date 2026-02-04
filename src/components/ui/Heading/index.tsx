@@ -13,7 +13,7 @@ export function Heading({ children, as: Tag = 'h2', className }: HeadingProps) {
     h3: clsx(
       'text-lg/tight sm:text-lg/tight lg:text-lg/tight font-bold',
       'underline decoration-3 underline-offset-5',
-      'decoration-gray-300 dark:decoration-gray-700',
+      'decoration-border',
     ),
   };
 
@@ -21,8 +21,7 @@ export function Heading({ children, as: Tag = 'h2', className }: HeadingProps) {
     <Tag
       className={clsx(
         headingClassesMap[Tag],
-        'text-slate-800 text-serif group-hover:text-blue-500 transition-colors duration-200',
-        'dark:text-slate-100 dark:group-hover:text-blue-400',
+        'text-foreground text-serif group-hover:text-primary transition-colors duration-200',
         className,
       )}
     >

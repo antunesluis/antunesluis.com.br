@@ -27,18 +27,18 @@ export async function SinglePost({ slug }: SinglePostProps) {
 
         <Heading as='h1'>{post.title}</Heading>
 
-        <p className='text-md/tight text-slate-500 dark:text-slate-400'>
+        <p className='text-md/tight text-muted-foreground'>
           {post.author} | <PostDate dateTime={post.createdAt} />
         </p>
       </header>
 
-      <p className='text-xl mb-6 leading-relaxed text-slate-600 dark:text-slate-200 font-light italic'>
+      <p className='text-xl mb-6 leading-relaxed font-light italic'>
         {post.excerpt}
       </p>
 
-      <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
+      <div className='w-full h-px bg-border my-12'></div>
       <SafeMarkdown markdown={post.content} />
-      <div className='w-full h-px bg-slate-200 dark:bg-slate-700 my-12'></div>
+      <div className='w-full h-px bg-border my-12'></div>
 
       <Comments commentsTerm={pathname} />
       <ScrollTopAndComment />

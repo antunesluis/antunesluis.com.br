@@ -18,7 +18,7 @@ export function InputCheckbox({
       <input
         {...props}
         className={clsx(
-          'w-5 h-5 outline-none focus:ring-2 focus:ring-blue-500',
+          'w-5 h-5 outline-none focus:ring-2 focus:ring-ring',
           props.className,
         )}
         type={type}
