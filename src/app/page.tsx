@@ -26,7 +26,7 @@ export default function HomePage() {
         </p>
 
         <ButtonLink
-          href='/projects'
+          href='/about'
           variant='link'
           size='sm'
           className='group hover:text-primary'
