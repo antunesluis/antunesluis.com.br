@@ -55,6 +55,7 @@ export default async function HomePage() {
                       src: post.coverImageUrl,
                       alt: post.title,
                       priority: false,
+                      className: 'h-auto md:h-64',
                     }}
                   />
                   <PostSummary
@@ -101,6 +102,7 @@ export default async function HomePage() {
                       src: project.coverImageUrl,
                       alt: project.name,
                       priority: false,
+                      className: 'h-auto md:h-64',
                     }}
                   />
                   <ProjectSummary
