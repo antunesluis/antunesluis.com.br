@@ -27,6 +27,7 @@ export function LoginForm() {
       className={clsx(
         'flex items-center justify-center',
         'text-center max-w-sm mt-16 mb-32 mx-auto',
+        'text-foreground',
       )}
     >
       <form action={action} className='flex-1 flex flex-col gap-6'>

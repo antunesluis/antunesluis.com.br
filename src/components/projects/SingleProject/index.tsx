@@ -19,69 +19,74 @@ export async function SingleProject({ slug }: SingleProjectProps) {
   const pathname = `projects/${project.slug}`;
 
   return (
-    <article className='mb-24'>
-      <header className='group flex flex-col gap-4 mb-4'>
-        <Image
-          className='rounded-xl mb-6'
-          src={project.coverImageUrl}
-          width={1200}
-          height={720}
-          alt={project.name}
-        />
+    <main>
+      <article className='mb-24'>
+        <header className='group flex flex-col gap-4 mb-4'>
+          <Image
+            className='rounded-xl mb-6'
+            src={project.coverImageUrl}
+            width={1200}
+            height={720}
+            alt={project.name}
+          />
 
-        <Heading as='h1'>{project.name}</Heading>
+          <Heading as='h1'>{project.name}</Heading>
 
-        <p className='text-md/tight text-muted-foreground'>
-          Project developed in {projectYear}
+          <p className='text-md/tight text-muted-foreground'>
+            Project developed in {projectYear}
+          </p>
+        </header>
+
+        <p className='text-xl mb-6 leading-relaxed text-foreground font-light italic'>
+          {project.description}
         </p>
-      </header>
 
-      <p className='text-xl mb-6 leading-relaxed text-foreground font-light italic'>
-        {project.description}
-      </p>
+        {(project.deployUrl || project.repositoryUrl) && (
+          <div className='flex flex-wrap gap-4 mb-6'>
+            {project.deployUrl && (
+              <Link
+                href={project.deployUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <Button variant='default' size='md'>
+                  Live Demo
+                  <ExternalLinkIcon />
+                </Button>
+              </Link>
+            )}
 
-      {(project.deployUrl || project.repositoryUrl) && (
-        <div className='flex flex-wrap gap-4 mb-6'>
-          {project.deployUrl && (
-            <Link
-              href={project.deployUrl}
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <Button variant='default' size='md'>
-                Live Demo
-                <ExternalLinkIcon />
-              </Button>
-            </Link>
-          )}
+            {project.repositoryUrl && (
+              <Link
+                href={project.repositoryUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <Button variant='ghost' size='md'>
+                  Repository
+                  <GithubIcon />
+                </Button>
+              </Link>
+            )}
+          </div>
+        )}
 
-          {project.repositoryUrl && (
-            <Link
-              href={project.repositoryUrl}
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <Button variant='ghost' size='md'>
-                Repository
-                <GithubIcon />
-              </Button>
-            </Link>
-          )}
-        </div>
-      )}
+        {project.techStack && project.techStack.length > 0 && (
+          <div className='mb-12'>
+            <ProjectTechBadges
+              techStack={project.techStack}
+              isCompact={false}
+            />
+          </div>
+        )}
 
-      {project.techStack && project.techStack.length > 0 && (
-        <div className='mb-12'>
-          <ProjectTechBadges techStack={project.techStack} isCompact={false} />
-        </div>
-      )}
+        <div className='w-full h-px bg-border mb-12'></div>
+        <SafeMarkdown markdown={project.content} />
+        <div className='w-full h-px bg-border mb-12'></div>
 
-      <div className='w-full h-px bg-border mb-12'></div>
-      <SafeMarkdown markdown={project.content} />
-      <div className='w-full h-px bg-border mb-12'></div>
-
-      <Comments commentsTerm={pathname} />
-      <ScrollTopAndComment />
-    </article>
+        <Comments commentsTerm={pathname} />
+        <ScrollTopAndComment />
+      </article>
+    </main>
   );
 }

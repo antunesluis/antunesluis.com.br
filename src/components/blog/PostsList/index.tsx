@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { PostSummary } from '@/components/blog/PostSummary';
 import { CoverImage } from '../../ui/CoverImage';
 import { findAllPublicPostsCached } from '@/lib/post/queries/public';
+import { Heading } from '@/components/ui/Heading';
 
 export default async function PostsList() {
   const posts = await findAllPublicPostsCached();
@@ -10,63 +11,36 @@ export default async function PostsList() {
   const postsToShow = posts.slice(1);
 
   return (
-    <div className='mb-16'>
-      <p className='text-foreground font-semibold text-md/tight'>ALL POSTS</p>
+    <section className='flex flex-col gap-6'>
+      <Heading as='h2'>All Posts</Heading>
 
-      {Array.from({ length: Math.ceil(postsToShow.length / 3) }).map(
-        (_, rowIndex) => {
-          const startIndex = rowIndex * 2;
-          const rowPosts = postsToShow.slice(startIndex, startIndex + 3);
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
+        {postsToShow.map(post => {
+          const postLink = `/blog/${post.slug}`;
 
           return (
-            <div key={rowIndex}>
-              <div className='w-full h-px bg-border mb-6 mt-2' />
-
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mb-6'>
-                {rowPosts.map((post, postIndex) => {
-                  const postLink = `/blog/${post.slug}`;
-                  const isNotLastColumn = postIndex < 2;
-                  const globalIndex = startIndex + postIndex;
-                  const isNotLastPost = globalIndex < postsToShow.length - 1;
-
-                  return (
-                    <div key={post.slug} className='relative'>
-                      <Link
-                        href={postLink}
-                        className='flex flex-col gap-4 group'
-                      >
-                        <CoverImage
-                          imageProps={{
-                            width: 1200,
-                            height: 700,
-                            src: post.coverImageUrl,
-                            alt: post.title,
-                            priority: true,
-                          }}
-                        />
-                        <PostSummary
-                          postHeading='h2'
-                          createdAt={post.createdAt}
-                          title={post.title}
-                          excerpt={post.excerpt}
-                        />
-                      </Link>
-
-                      {isNotLastColumn && rowPosts.length > 1 && (
-                        <div className='hidden lg:block bg-border absolute top-0 -right-4 w-px h-full' />
-                      )}
-
-                      {isNotLastPost && (
-                        <div className='lg:hidden bg-border w-full h-px mt-8' />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            <article key={post.slug}>
+              <Link href={postLink} className='flex flex-col gap-4 group'>
+                <CoverImage
+                  imageProps={{
+                    width: 1200,
+                    height: 700,
+                    src: post.coverImageUrl,
+                    alt: post.title,
+                    priority: false,
+                  }}
+                />
+                <PostSummary
+                  postHeading='h3'
+                  createdAt={post.createdAt}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                />
+              </Link>
+            </article>
           );
-        },
-      )}
-    </div>
+        })}
+      </div>
+    </section>
   );
 }

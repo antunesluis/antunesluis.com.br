@@ -3,6 +3,7 @@ import { ResumeSection } from '@/components/about/ResumeSection';
 import { SocialLinks } from '@/components/about/SocialLinks';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
 import { PersonSchema } from '@/components/seo/PersonSchema';
+import { Heading } from '@/components/ui/Heading';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 
@@ -17,7 +18,6 @@ export default function AboutPage() {
   return (
     <>
       <PersonSchema />
-
       <BreadcrumbSchema
         items={[
           { name: 'Home', url: '/' },
@@ -25,21 +25,31 @@ export default function AboutPage() {
         ]}
       />
 
-      <section className='mb-24'>
-        <div className='flex flex-col gap-8 mx-auto'>
+      <main>
+        <article className='flex flex-col gap-8 mx-auto mb-24'>
           <AboutHeader />
-          <div className='flex flex-col gap-6'>
+
+          <section className='flex flex-col gap-4'>
+            <Heading as='h2'>Site</Heading>
             <p>
-              Este site foi desenvolvido com diversas das ferramentas que mais
-              gosto, e pretendo mantê-lo sempre atualizado com meus projetos e
-              ideias sobre tecnologia. Fique à vontade para explorar o conteúdo
-              e entrar em contato!
+              This website was built using several of the tools I enjoy the
+              most, and I plan to keep it constantly updated with my projects
+              and ideas about technology. Feel free to explore the content and
+              get in touch!
             </p>
-          </div>
-          <SocialLinks />
-          <ResumeSection />
-        </div>
-      </section>
+          </section>
+
+          <section className='space-y-4'>
+            <Heading as='h2'>Let’s connect!</Heading>
+            <SocialLinks />
+          </section>
+
+          <section className='space-y-4'>
+            <Heading as='h2'>Resume</Heading>
+            <ResumeSection />
+          </section>
+        </article>
+      </main>
     </>
   );
 }

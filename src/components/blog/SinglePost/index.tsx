@@ -15,33 +15,35 @@ export async function SinglePost({ slug }: SinglePostProps) {
   const pathname = `post/${post.slug}`;
 
   return (
-    <article className='mb-24'>
-      <header className='group flex flex-col gap-4 mb-4'>
-        <Image
-          className='rounded-xl mb-6'
-          src={post.coverImageUrl}
-          width={1200}
-          height={720}
-          alt={post.title}
-        />
+    <main>
+      <article className='mb-24'>
+        <header className='group flex flex-col gap-4 mb-4'>
+          <Image
+            className='rounded-xl mb-6'
+            src={post.coverImageUrl}
+            width={1200}
+            height={720}
+            alt={post.title}
+          />
 
-        <Heading as='h1'>{post.title}</Heading>
+          <Heading as='h1'>{post.title}</Heading>
 
-        <p className='text-md/tight text-muted-foreground'>
-          {post.author} | <PostDate dateTime={post.createdAt} />
+          <p className='text-md/tight text-muted-foreground'>
+            {post.author} | <PostDate dateTime={post.createdAt} />
+          </p>
+        </header>
+
+        <p className='text-xl mb-12 leading-relaxed font-light italic'>
+          {post.excerpt}
         </p>
-      </header>
 
-      <p className='text-xl mb-12 leading-relaxed font-light italic'>
-        {post.excerpt}
-      </p>
+        <div className='w-full h-px bg-border mb-12'></div>
+        <SafeMarkdown markdown={post.content} />
+        <div className='w-full h-px bg-border mb-12'></div>
 
-      <div className='w-full h-px bg-border mb-12'></div>
-      <SafeMarkdown markdown={post.content} />
-      <div className='w-full h-px bg-border mb-12'></div>
-
-      <Comments commentsTerm={pathname} />
-      <ScrollTopAndComment />
-    </article>
+        <Comments commentsTerm={pathname} />
+        <ScrollTopAndComment />
+      </article>
+    </main>
   );
 }

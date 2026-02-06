@@ -19,7 +19,7 @@ export default async function PostListAdmin() {
         return (
           <div
             className={clsx(
-              'py-2 px-2 rounded-md',
+              'py-2 px-2 rounded-md text-foreground',
               !post.published && 'bg-muted',
               'flex gap-2 items-center justify-between',
             )}

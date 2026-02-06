@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { navigationLinks } from '@/config/navigation';
 import { MenuIcon, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { Heading } from '@/components/ui/Heading';
 
 export function HeaderMobileNavigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +56,9 @@ export function HeaderMobileNavigation() {
       >
         {/* Header do menu */}
         <div className='flex items-center justify-between p-4 border-b border-border'>
-          <h2 className='text-lg font-semibold text-foreground'>Menu</h2>
+          <Heading as='h2' className='font-semibold'>
+            Menu
+          </Heading>
           <button
             onClick={closeMenu}
             className='flex items-center justify-center w-10 h-10 rounded-lg hover:bg-muted transition-colors'

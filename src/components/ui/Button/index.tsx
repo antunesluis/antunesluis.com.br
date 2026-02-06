@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-type ButtonVariants = 'default' | 'ghost' | 'danger' | 'upload';
+type ButtonVariants = 'default' | 'ghost' | 'transparent' | 'danger' | 'upload';
 type ButtonSizes = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
@@ -25,6 +25,11 @@ export function Button({
       'border border-border',
       'hover:bg-muted/80',
       'active:bg-muted/60',
+    ),
+
+    transparent: clsx(
+      'bg-transparent text-foreground',
+      'hover:text-foreground',
     ),
 
     danger: clsx(

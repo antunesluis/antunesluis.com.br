@@ -1,28 +1,18 @@
 import clsx from 'clsx';
 import { CoverImage } from '../../ui/CoverImage';
 import { findAllPublicPostsCached } from '@/lib/post/queries/public';
-import ErrorMessage from '../../ui/ErrorMessage';
 import { PostSummary } from '../PostSummary';
 import Link from 'next/link';
+import { Heading } from '@/components/ui/Heading';
 
 export default async function PostFeatured() {
   const posts = await findAllPublicPostsCached();
-
-  if (!posts || posts.length <= 0) {
-    return (
-      <ErrorMessage
-        statusCode='😅 Oops!'
-        content="We haven't created any posts yet."
-      />
-    );
-  }
-
+  if (!posts || posts.length <= 1) return null;
   const post = posts[0];
 
   return (
-    <>
-      <p className='text-foreground font-semibold text-md/tight'>LAST POST</p>
-      <div className='w-full h-px bg-border mb-6 mt-2' />
+    <section className='flex flex-col gap-6'>
+      <Heading as='h2'>Featured Post</Heading>
 
       <Link href={`/blog/${post.slug}`}>
         <section
@@ -45,10 +35,10 @@ export default async function PostFeatured() {
             createdAt={post.createdAt}
             title={post.title}
             excerpt={post.excerpt}
-            postHeading='h1'
+            postHeading='h3'
           />
         </section>
       </Link>
-    </>
+    </section>
   );
 }

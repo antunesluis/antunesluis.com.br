@@ -60,7 +60,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         >
           <Container>
             <Header />
-            {children}
+            <main id='main-content'>{children}</main>
             <Footer />
           </Container>
           <ToastifyContainer />

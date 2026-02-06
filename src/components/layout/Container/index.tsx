@@ -4,7 +4,7 @@ type ContainerProps = {
 
 export function Container({ children }: ContainerProps) {
   return (
-    <div className='min-h-screen text-foreground bg-background'>
+    <div className='min-h-screen text-muted-foreground bg-background'>
       <div className='max-w-4xl mx-auto px-6'>{children}</div>
     </div>
   );

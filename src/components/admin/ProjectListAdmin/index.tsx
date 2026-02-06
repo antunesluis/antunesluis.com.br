@@ -22,7 +22,7 @@ export default async function ProjectListAdmin() {
         return (
           <div
             className={clsx(
-              'py-2 px-2 rounded-md',
+              'py-2 px-2 rounded-md text-foreground',
               !project.published && 'bg-muted',
               'flex gap-2 items-center justify-between',
             )}

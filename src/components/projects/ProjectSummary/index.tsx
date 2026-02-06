@@ -7,7 +7,9 @@ type ProjectSummaryProps = {
   projectYear?: string;
   description: string;
   techStack: string[];
+  showTechs?: boolean;
   className?: string;
+  variant?: 'card' | 'default';
 };
 
 export function ProjectSummary({
@@ -15,13 +17,26 @@ export function ProjectSummary({
   projectYear,
   description,
   techStack,
+  showTechs = true,
   className = '',
+  variant = 'default',
 }: ProjectSummaryProps) {
+  const summaryVariants = {
+    default: clsx('p-6'),
+    card: clsx('p-0'),
+  };
+
   return (
-    <div className={clsx('flex flex-col justify-between', 'flex-1', className)}>
+    <section
+      className={clsx(
+        'flex flex-col justify-between flex-1',
+        className,
+        summaryVariants[variant],
+      )}
+    >
       <div className='mb-4'>
         <div className='flex flex-row justify-between items-start mb-2'>
-          <Heading as='h2'>{name}</Heading>
+          <Heading as='h3'>{name}</Heading>
           {projectYear && (
             <span className='text-muted-foreground text-sm font-medium whitespace-nowrap shrink-0'>
               {projectYear}
@@ -32,9 +47,9 @@ export function ProjectSummary({
         <p className={clsx('leading-relaxed', 'line-clamp-3')}>{description}</p>
       </div>
 
-      {techStack && techStack.length > 0 && (
+      {techStack && showTechs && techStack.length > 0 && (
         <ProjectTechBadges isCompact={true} techStack={techStack} />
       )}
-    </div>
+    </section>
   );
 }

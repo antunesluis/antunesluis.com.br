@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 export function AboutHeader() {
   return (
-    <div className='flex flex-col md:flex-row gap-8 items-start'>
-      <div className='w-full md:w-84 shrink-0'>
+    <section className='flex flex-col md:flex-row gap-10 items-start md:items-center'>
+      <div className='max-w-[336px] w-full shrink-0 mx-auto md:mx-0'>
         <div className='relative w-full aspect-square rounded-2xl overflow-hidden shadow-lg ring-1 ring-border'>
           <Image
             src='/images/hero-bw.jpg'
@@ -13,36 +13,32 @@ export function AboutHeader() {
             height={336}
             className='object-cover'
             priority
-            sizes='(max-width: 768px) 100vw, 336px'
+            sizes='(max-width: 768px) 256px, (max-width: 1024px) 300px, 336px'
           />
         </div>
       </div>
 
       <div className='flex-1 space-y-6'>
-        <Heading as='h1' className='md:text-5xl/tight'>
-          /about
-        </Heading>
+        <Heading as='h1'>/about</Heading>
 
-        <div className='space-y-4 text-foreground leading-relaxed'>
+        <div className='space-y-4 leading-relaxed text-muted-foreground'>
           <p>
-            Tenho 21 anos e estou no 6º semestre de Ciência da Computação na
-            UFSM. Comecei a programar em 2022 e desde então venho me dedicando a
-            aprender e construir coisas incríveis com código.
+            I am 21 years old and currently in my 6th semester of Computer
+            Science at UFSM. I started programming in 2022 and, since then, I
+            have been building projects with a strong focus on quality, clarity,
+            and best practices.
           </p>
 
           <p>
-            Minha paixão é desenvolver com linguagens tipadas como{' '}
-            <strong>TypeScript</strong> e <strong>Go</strong>. Também tenho
-            grande interesse em DevOps e infraestrutura — uso Linux há alguns
-            anos e dedico bastante tempo explorando esse universo.
-          </p>
-
-          <p>
-            Atualmente, foco em aprender a construir aplicações completas e
-            aprimorar minhas habilidades em backend e sistemas distribuídos.
+            I have a preference for statically typed languages such as{' '}
+            <strong>TypeScript</strong> and <strong>Go</strong>, working mainly
+            with frontend and backend development. I am also deeply interested
+            in DevOps and infrastructure, have been using Linux daily for
+            several years, and enjoy understanding how things work under the
+            hood.
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

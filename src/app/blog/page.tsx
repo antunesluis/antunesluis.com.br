@@ -7,34 +7,46 @@ import { PersonSchema } from '@/components/seo/PersonSchema';
 import { BlogSchema } from '@/components/seo/BlogSchema';
 import { findAllPublicPostsCached } from '@/lib/post/queries/public';
 import { Heading } from '@/components/ui/Heading';
+import ErrorMessage from '@/components/ui/ErrorMessage';
 
 export const dynamic = 'force-dynamic';
 
 export default async function BlogPage() {
   const posts = await findAllPublicPostsCached();
 
+  if (!posts || posts.length <= 0) {
+    return (
+      <ErrorMessage
+        statusCode='😅 Oops!'
+        content="We haven't created any posts yet."
+      />
+    );
+  }
+
   return (
-    <section className='mb-24'>
+    <>
       <WebSiteSchema />
       <PersonSchema />
 
-      <div className='flex flex-col gap-4 mb-12'>
-        <Heading as='h1' className='md:text-5xl/tight'>
-          /blog
-        </Heading>
-        <p>
-          Here you can find all the 199 articles I wrote. You can read about web
-          development, software engineering, and tech career in both English and
-          Portuguese.
-        </p>
-      </div>
+      <main>
+        <article className='mb-24'>
+          <section className='flex flex-col gap-6 mb-12'>
+            <Heading as='h1'>/blog</Heading>
+            <p>
+              This is where you’ll find all {posts.length} articles I’ve
+              written. I share thoughts on web development and tech in both
+              English and Portuguese.
+            </p>
+          </section>
 
-      {posts && posts.length > 0 && <BlogSchema posts={posts} />}
+          {posts && posts.length > 0 && <BlogSchema posts={posts} />}
 
-      <Suspense fallback={<SpinLoader className='mb-24 min-h-20' />}>
-        <PostFeatured />
-        <PostsList />
-      </Suspense>
-    </section>
+          <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
+            <PostFeatured />
+            <PostsList />
+          </Suspense>
+        </article>
+      </main>
+    </>
   );
 }

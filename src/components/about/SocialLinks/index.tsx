@@ -1,12 +1,11 @@
-import Link from 'next/link';
 import {
   GithubIcon,
   InstagramIcon,
   LinkedinIcon,
   MailIcon,
 } from 'lucide-react';
-import { Heading } from '@/components/ui/Heading';
 import clsx from 'clsx';
+import { ButtonLink } from '@/components/ui/ButtonLink';
 
 type SocialLink = {
   name: string;
@@ -49,32 +48,20 @@ const socialLinks: SocialLink[] = [
 
 export function SocialLinks() {
   return (
-    <div className='space-y-4'>
-      <Heading as='h3'>Vamos nos conectar!</Heading>
-      <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
-        {socialLinks.map(social => {
-          const Icon = social.icon;
-          return (
-            <Link
-              key={social.name}
-              href={social.url}
-              target='_blank'
-              rel='noopener noreferrer'
-              className={clsx(
-                'flex items-center gap-2 px-4 py-2',
-                'text-foreground text-sm font-medium',
-                'bg-muted hover:bg-muted/70 border border-border rounded-lg',
-                'hover:shadow-sm transition-all duration-200',
-                social.colorLight,
-                social.colorDark,
-              )}
-            >
-              <Icon className='w-4 h-4' />
-              {social.name}
-            </Link>
-          );
-        })}
-      </div>
+    <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
+      {socialLinks.map(({ name, url, icon: Icon, colorLight, colorDark }) => (
+        <ButtonLink
+          key={name}
+          href={url}
+          target='_blank'
+          variant='ghost'
+          size='sm'
+          className={clsx('gap-2', colorLight, colorDark)}
+        >
+          <Icon className='w-4 h-4' />
+          {name}
+        </ButtonLink>
+      ))}
     </div>
   );
 }
