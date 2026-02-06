@@ -4,47 +4,47 @@ import { SITE_URL } from '@/config/constants';
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      // General crawlers
+      // General crawlers (Google, Bing, etc.)
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/'],
+        disallow: ['/admin/'],
       },
-      // OpenAI ChatGPT crawler
+
+      // OpenAI crawler
       {
         userAgent: 'GPTBot',
         allow: '/',
-        crawlDelay: 2,
       },
-      // Anthropic Claude crawler
+
+      // Anthropic crawler
       {
         userAgent: ['ClaudeBot', 'anthropic-ai'],
         allow: '/',
-        crawlDelay: 2,
       },
-      // Perplexity AI crawler
+
+      // Perplexity crawler
       {
         userAgent: 'PerplexityBot',
         allow: '/',
-        crawlDelay: 2,
       },
-      // Google's AI training crawler
+
+      // Google AI training crawler
       {
         userAgent: 'Google-Extended',
         allow: '/',
-        crawlDelay: 2,
       },
-      // Common Crawl (used by many AI models)
+
+      // Common Crawl
       {
         userAgent: 'CCBot',
         allow: '/',
-        crawlDelay: 2,
       },
-      // Meta AI crawler
+
+      // Facebook / Meta preview crawler
       {
-        userAgent: 'FacebookBot',
+        userAgent: 'facebookexternalhit',
         allow: '/',
-        crawlDelay: 2,
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

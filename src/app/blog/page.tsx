@@ -8,8 +8,17 @@ import { BlogSchema } from '@/components/seo/BlogSchema';
 import { findAllPublicPostsCached } from '@/lib/post/queries/public';
 import { Heading } from '@/components/ui/Heading';
 import ErrorMessage from '@/components/ui/ErrorMessage';
+import { Metadata } from 'next';
+import { createMetadata } from '@/lib/metadata';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = createMetadata({
+  title: 'Blog',
+  description:
+    'Technical blog by Luis Antunes featuring articles on web development, software engineering, and technology in English and Portuguese.',
+  pathname: '/blog',
+});
 
 export default async function BlogPage() {
   const posts = await findAllPublicPostsCached();

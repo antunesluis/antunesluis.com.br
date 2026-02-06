@@ -3,13 +3,22 @@ import { ProjectSummary } from '@/components/projects/ProjectSummary';
 import { ButtonLink } from '@/components/ui/ButtonLink';
 import { CoverImage } from '@/components/ui/CoverImage';
 import { Heading } from '@/components/ui/Heading';
+import { createMetadata } from '@/lib/metadata';
 import { findAllPublicPostsCached } from '@/lib/post/queries/public';
 import { findAllPublicProjectCached } from '@/lib/project/queries/public';
 import { getYearFromDate } from '@/utils/format-datetime';
 import { ArrowRight } from 'lucide-react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = createMetadata({
+  title: 'Home',
+  description:
+    'Personal website of Luis Antunes, a Computer Science student sharing projects, articles, and ideas about web development and technology.',
+  pathname: '/',
+});
 
 export default async function HomePage() {
   const projects = await findAllPublicProjectCached();
@@ -37,7 +46,6 @@ export default async function HomePage() {
         </ButtonLink>
       </header>
 
-      {/* Latest Posts Section */}
       <section className='space-y-6'>
         <Heading as='h2'>Latest Posts</Heading>
 
@@ -83,7 +91,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Latest Projects Section */}
       <section className='space-y-6'>
         <Heading as='h2'>Latest Projects</Heading>
 
