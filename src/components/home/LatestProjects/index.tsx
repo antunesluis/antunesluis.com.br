@@ -5,9 +5,6 @@ import { findAllPublicProjectCached } from '@/lib/project/queries/public';
 import { getYearFromDate } from '@/utils/format-datetime';
 
 export default async function LatestProjects() {
-  // Delay opcional para treinar loader
-  await new Promise(r => setTimeout(r, 1500));
-
   const projects = await findAllPublicProjectCached();
   const latestProjects = projects.slice(0, 2);
 

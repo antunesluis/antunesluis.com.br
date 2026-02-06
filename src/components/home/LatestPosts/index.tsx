@@ -4,9 +4,6 @@ import { CoverImage } from '@/components/ui/CoverImage';
 import { findAllPublicPostsCached } from '@/lib/post/queries/public';
 
 export default async function LatestPosts() {
-  // Delay opcional para treinar loader
-  await new Promise(r => setTimeout(r, 1500));
-
   const posts = await findAllPublicPostsCached();
   const latestPosts = posts.slice(0, 2);
 
