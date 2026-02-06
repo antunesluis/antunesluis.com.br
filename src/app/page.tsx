@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
 import { Suspense } from 'react';
 import LatestProjects from '@/components/home/LatestProjects';
+import LatestPosts from '@/components/home/LatestPosts';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,7 +41,7 @@ export default function HomePage() {
         <Heading as='h2'>Latest Posts</Heading>
 
         <Suspense fallback={<SpinLoader className='min-h-64' />}>
-          <LatestProjects />
+          <LatestPosts />
         </Suspense>
 
         <div className='flex justify-center pt-2'>
