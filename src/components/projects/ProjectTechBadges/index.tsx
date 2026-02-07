@@ -9,7 +9,7 @@ type ProjectTechBadgesProps = {
 export function ProjectTechBadges({
   techStack,
   isCompact = false,
-  maxItems = 5,
+  maxItems = 4,
 }: ProjectTechBadgesProps) {
   if (!techStack || techStack.length === 0) {
     return null;
@@ -17,13 +17,13 @@ export function ProjectTechBadges({
 
   const badgeClasses = clsx(
     'px-3 py-1 text-sm font-medium',
-    'bg-secondary/30 text-secondary-foreground hover:bg-secondary/60',
-    'border border-secondary/20 rounded-full',
+    'bg-secondary/20 text-primary hover:bg-secondary/50',
+    'rounded-full',
     'transition-colors duration-200',
   );
 
   const remainingBadgeClasses = clsx(
-    'px-3 py-1.5 text-sm font-medium',
+    'px-3 py-1 text-sm font-medium',
     'bg-muted text-muted-foreground',
     'border border-border',
     'rounded-full',

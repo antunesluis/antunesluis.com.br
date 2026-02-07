@@ -1,10 +1,9 @@
 import Image from 'next/image';
 import { SafeMarkdown } from '../../ui/SafeMarkdown';
-import { Button } from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/ButtonLink';
 import { ExternalLinkIcon, GithubIcon } from 'lucide-react';
 import { ProjectTechBadges } from '../ProjectTechBadges';
 import { Heading } from '@/components/ui/Heading';
-import Link from 'next/link';
 import { findPublicProjectBySlugCached } from '@/lib/project/queries/public';
 import { Comments } from '@/components/ui/Comments';
 import { ScrollTopAndComment } from '@/components/ui/ScrollTopAndComment';
@@ -19,72 +18,81 @@ export async function SingleProject({ slug }: SingleProjectProps) {
   const pathname = `projects/${project.slug}`;
 
   return (
-    <main>
-      <article className='mb-24'>
-        <header className='group flex flex-col gap-4 mb-4'>
+    <main className='mb-24'>
+      <article className='flex flex-col gap-12'>
+        <header className='group flex flex-col gap-12'>
           <Image
-            className='rounded-xl mb-6'
+            className='rounded-xl w-full h-auto'
             src={project.coverImageUrl}
             width={1200}
             height={720}
             alt={project.name}
+            priority
           />
 
-          <Heading as='h1'>{project.name}</Heading>
+          <div className='flex flex-col gap-4'>
+            <Heading as='h1'>{project.name}</Heading>
 
-          <p className='text-md/tight text-muted-foreground'>
-            Project developed in {projectYear}
-          </p>
+            <p className='text-lg text-muted-foreground font-semibold'>
+              Project developed in{' '}
+              <time dateTime={String(projectYear)}>{projectYear}</time>
+            </p>
+
+            <p className='text-xl leading-relaxed text-foreground font-light italic'>
+              {project.description}
+            </p>
+
+            {project.techStack && project.techStack.length > 0 && (
+              <ProjectTechBadges
+                techStack={project.techStack}
+                isCompact={false}
+              />
+            )}
+          </div>
         </header>
 
-        <p className='text-xl mb-6 leading-relaxed text-foreground font-light italic'>
-          {project.description}
-        </p>
-
         {(project.deployUrl || project.repositoryUrl) && (
-          <div className='flex flex-wrap gap-4 mb-6'>
-            {project.deployUrl && (
-              <Link
-                href={project.deployUrl}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <Button variant='default' size='md'>
+          <section aria-label='Project links'>
+            <div className='flex flex-wrap gap-4 justify-center'>
+              {project.deployUrl && (
+                <ButtonLink
+                  href={project.deployUrl}
+                  target='_blank'
+                  variant='default'
+                  size='md'
+                >
                   Live Demo
                   <ExternalLinkIcon />
-                </Button>
-              </Link>
-            )}
+                </ButtonLink>
+              )}
 
-            {project.repositoryUrl && (
-              <Link
-                href={project.repositoryUrl}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <Button variant='ghost' size='md'>
+              {project.repositoryUrl && (
+                <ButtonLink
+                  href={project.repositoryUrl}
+                  target='_blank'
+                  variant='ghost'
+                  size='md'
+                >
                   Repository
                   <GithubIcon />
-                </Button>
-              </Link>
-            )}
-          </div>
+                </ButtonLink>
+              )}
+            </div>
+          </section>
         )}
 
-        {project.techStack && project.techStack.length > 0 && (
-          <div className='mb-12'>
-            <ProjectTechBadges
-              techStack={project.techStack}
-              isCompact={false}
-            />
-          </div>
-        )}
+        <hr className='border-border' />
 
-        <div className='w-full h-px bg-border mb-12'></div>
-        <SafeMarkdown markdown={project.content} />
-        <div className='w-full h-px bg-border mb-12'></div>
+        <section>
+          <SafeMarkdown markdown={project.content} />
+        </section>
 
-        <Comments commentsTerm={pathname} />
+        <hr className='border-border' />
+
+        <section>
+          <Comments commentsTerm={pathname} />
+        </section>
+
         <ScrollTopAndComment />
       </article>
     </main>
