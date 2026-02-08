@@ -1,6 +1,6 @@
 import { JsonLd } from './JsonLd';
 import { FULL_NAME, SITE_URL } from '@/config/constants';
-import { ProjectModel } from '@/models/project/project-model';
+import { ProjectModel } from '@/features/projects/models/project-model';
 
 type ProjectSchemaProps = {
   project: ProjectModel;

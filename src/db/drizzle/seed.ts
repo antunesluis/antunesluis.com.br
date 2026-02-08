@@ -1,6 +1,6 @@
+import { JsonProjectRepository } from '@/features/projects/repositories/json-project-repository';
 import { drizzleDb } from '.';
 import { projectsTable } from './schemas';
-import { JsonProjectRepository } from '@/repositories/project/json-project-repository';
 
 // (async () => {
 // 	const jsonPostRepository = new JsonPostRepository();

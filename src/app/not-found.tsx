@@ -1,4 +1,4 @@
-import ErrorMessage from '@/components/ui/ErrorMessage';
+import { ErrorMessage } from '@/components/ui';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

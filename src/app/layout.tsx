@@ -1,12 +1,9 @@
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
-import { Container } from '@/components/layout/Container';
-import { Header } from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import { ToastifyContainer } from '@/components/ui/ToastifyContainer';
-import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { createMetadata } from '@/lib/metadata';
+import { ThemeProvider, ToastifyContainer } from '@/components/ui';
+import { Container, Header, Footer } from '@/components/layout';
 
 const inter_font = Inter({
   subsets: ['latin'],

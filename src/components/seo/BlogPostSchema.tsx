@@ -1,6 +1,6 @@
 import { JsonLd } from './JsonLd';
 import { SITE_URL, FULL_NAME } from '@/config/constants';
-import { PostModel } from '@/models/post/post-model';
+import { PostModel } from '@/features/blog/models/post-model';
 
 type BlogPostSchemaProps = {
   post: PostModel;

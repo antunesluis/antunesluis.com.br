@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyJwt } from './lib/login/manage-login';
+import { verifyJwt } from './lib/auth';
 
 export const config = {
   matcher: '/admin/:path*',

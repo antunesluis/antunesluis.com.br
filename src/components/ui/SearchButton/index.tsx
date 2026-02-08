@@ -1,4 +1,4 @@
-import { findAllPublicPostsCached } from '@/lib/post/queries/public';
+import { findAllPublicPostsCached } from '@/features/blog';
 import { SearchButton } from './SearchButton';
 
 export async function SearchButtonServer() {

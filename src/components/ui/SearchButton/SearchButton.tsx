@@ -4,7 +4,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { SearchIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { formatShortDate } from '@/utils/format-datetime';
+import { formatShortDate } from '@/lib/utils';
 
 type SearchPost = {
   slug: string;

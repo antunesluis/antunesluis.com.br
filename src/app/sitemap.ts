@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
-import { findAllPublicPostsCached } from '@/lib/post/queries/public';
-import { findAllPublicProjectCached } from '@/lib/project/queries/public';
 import { SITE_URL } from '@/config/constants';
+import { findAllPublicPostsCached } from '@/features/blog';
+import { findAllPublicProjectCached } from '@/features/projects';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;

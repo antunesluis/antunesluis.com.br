@@ -5,7 +5,7 @@ import {
   MY_NAME,
   SITE_DESCRIPTION,
 } from '@/config/constants';
-import { PostModel } from '@/models/post/post-model';
+import { PostModel } from '@/features/blog/models/post-model';
 
 type BlogSchemaProps = {
   posts: PostModel[];
