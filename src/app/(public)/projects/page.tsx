@@ -1,6 +1,10 @@
-import { BreadcrumbSchema, ProjectsListSchema } from '@/components/seo';
+import { BreadcrumbSchema } from '@/components/seo';
 import { ErrorMessage, Heading, SpinLoader } from '@/components/ui';
-import { findAllPublicProjectCached, ProjectsList } from '@/features/projects';
+import {
+  findAllPublicProjectCached,
+  ProjectsList,
+  ProjectsListSchema,
+} from '@/features/projects';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -31,7 +35,6 @@ export default async function ProjectsPage() {
       {projects && projects.length > 0 && (
         <ProjectsListSchema projects={projects} />
       )}
-
       <BreadcrumbSchema
         items={[
           { name: 'Home', url: '/' },
@@ -46,7 +49,7 @@ export default async function ProjectsPage() {
         </div>
 
         <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
-          <ProjectsList />
+          <ProjectsList projects={projects} />
         </Suspense>
       </section>
     </>

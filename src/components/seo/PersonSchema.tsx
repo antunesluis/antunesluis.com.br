@@ -1,4 +1,4 @@
-import { JsonLd } from './JsonLd';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, FULL_NAME, MY_NAME, SOCIAL } from '@/config/constants';
 
 export function PersonSchema() {
@@ -13,9 +13,14 @@ export function PersonSchema() {
       url: `${SITE_URL}/og-image.png`,
       width: 1200,
       height: 630,
-      caption: 'Luis Antunes Profile Picture',
+      caption: `${FULL_NAME} Profile Picture`,
     },
     jobTitle: 'Full Stack Developer',
+    alumniOf: {
+      '@type': 'Organization',
+      name: 'Universidade Federal de Santa Maria',
+      sameAs: 'https://www.ufsm.br/',
+    },
     description:
       'Computer Science student at UFSM. Full Stack Developer specialized in TypeScript, React, Next.js and Go.',
     knowsAbout: [
@@ -27,6 +32,18 @@ export function PersonSchema() {
       'DevOps',
       'Linux',
       'Full Stack Development',
+    ],
+    knowsLanguage: [
+      {
+        '@type': 'Language',
+        name: 'Portuguese',
+        alternateName: 'pt',
+      },
+      {
+        '@type': 'Language',
+        name: 'English',
+        alternateName: 'en',
+      },
     ],
     email: SOCIAL.email,
     sameAs: [

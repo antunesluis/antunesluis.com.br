@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { ExternalLinkIcon, GithubIcon } from 'lucide-react';
-import { findPublicProjectBySlugCached } from '../lib/queries/public';
 import {
   ButtonLink,
   Comments,
@@ -9,13 +8,13 @@ import {
   ScrollTopAndComment,
 } from '@/components/ui';
 import { ProjectTechBadges } from './ProjectTechBadges';
+import { ProjectModel } from '../models/project-model';
 
 type SingleProjectProps = {
-  slug: string;
+  project: ProjectModel;
 };
 
-export async function SingleProject({ slug }: SingleProjectProps) {
-  const project = await findPublicProjectBySlugCached(slug);
+export async function SingleProject({ project }: SingleProjectProps) {
   const projectYear = new Date(project.createdAt).getFullYear();
   const pathname = `projects/${project.slug}`;
 

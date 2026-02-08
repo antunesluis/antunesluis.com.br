@@ -1,14 +1,15 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import { findAllPublicProjectCached } from '../lib/queries/public';
 import { CoverImage, Heading } from '@/components/ui';
 import { getYearFromDate } from '@/lib/utils';
 import { ProjectSummary } from './ProjectSummary';
+import { ProjectModel } from '../models/project-model';
 
-export async function ProjectsList() {
-  const projects = await findAllPublicProjectCached();
-  if (!projects || projects.length <= 0) return null;
+type ProjectsListProps = {
+  projects: ProjectModel[];
+};
 
+export async function ProjectsList({ projects }: ProjectsListProps) {
   return (
     <section>
       <Heading as='h2' className='mb-6'>

@@ -1,6 +1,10 @@
-import { BlogPostSchema, BreadcrumbSchema } from '@/components/seo';
+import { BreadcrumbSchema } from '@/components/seo';
 import { SpinLoader } from '@/components/ui';
-import { findPublicPostBySlugCached, SinglePost } from '@/features/blog';
+import {
+  BlogPostSchema,
+  findPublicPostBySlugCached,
+  SinglePost,
+} from '@/features/blog';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -40,6 +44,7 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
           <BreadcrumbSchema
             items={[
               { name: 'Home', url: '/' },
+              { name: 'Blog', url: '/blog' },
               { name: post.title, url: `/blog/${slug}` },
             ]}
           />
@@ -47,7 +52,7 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
       )}
 
       <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
-        <SinglePost slug={slug} />
+        <SinglePost post={post} />
       </Suspense>
     </>
   );

@@ -1,5 +1,5 @@
-import { JsonLd } from './JsonLd';
-import { SITE_URL, MY_NAME } from '@/config/constants';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { SITE_URL, MY_NAME, FULL_NAME } from '@/config/constants';
 import { ProjectModel } from '@/features/projects/models/project-model';
 
 type ProjectsListSchemaProps = {
@@ -14,9 +14,10 @@ export function ProjectsListSchema({ projects }: ProjectsListSchemaProps) {
     description: 'Portfolio of web development and software projects',
     url: `${SITE_URL}/projects`,
     inLanguage: 'pt-BR',
+    image: `${SITE_URL}/og-image.png`,
     author: {
       '@type': 'Person',
-      name: 'Luis Fernando Antunes',
+      name: FULL_NAME,
       url: SITE_URL,
     },
     mainEntity: {
@@ -31,6 +32,8 @@ export function ProjectsListSchema({ projects }: ProjectsListSchemaProps) {
           description: project.description,
           url: `${SITE_URL}/projects/${project.slug}`,
           image: project.coverImageUrl,
+          applicationCategory: 'WebApplication',
+          datePublished: project.createdAt,
         },
       })),
     },

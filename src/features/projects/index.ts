@@ -1,12 +1,5 @@
 // Components
-export * from './components/ProjectsList';
-export * from './components/ProjectSummary';
-export * from './components/ProjectTechBadges';
-export * from './components/SingleProject';
-export * from './components/LatestProjects';
-export * from './components/admin/ProjectListAdmin';
-export * from './components/admin/ManageProjectForm';
-export * from './components/admin/DeleteProjectButton';
+export * from './components';
 
 // Actions
 export * from './actions/create-project-action';

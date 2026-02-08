@@ -1,6 +1,9 @@
 'use client';
 
-import { logoutAction } from '@/features/auth/actions/logout-action';
+type MenuAdminProps = {
+  onLogout: () => Promise<void>;
+};
+
 import clsx from 'clsx';
 import {
   CircleXIcon,
@@ -15,7 +18,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 
-export function MenuAdmin() {
+export function MenuAdmin({ onLogout }: MenuAdminProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathName = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -45,11 +48,11 @@ export function MenuAdmin() {
     'sm:hidden',
   );
 
-  function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+  function handleLogout(e: React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
 
     startTransition(async () => {
-      await logoutAction();
+      await onLogout();
     });
   }
 

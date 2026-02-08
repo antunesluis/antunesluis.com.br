@@ -2,12 +2,13 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { createMetadata } from '@/lib/metadata';
 import {
+  BlogSchema,
   findAllPublicPostsCached,
   PostFeatured,
   PostsList,
 } from '@/features/blog';
 import { ErrorMessage, Heading, SpinLoader } from '@/components/ui';
-import { BlogSchema, PersonSchema, WebSiteSchema } from '@/components/seo';
+import { BreadcrumbSchema, WebSiteSchema } from '@/components/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,11 +30,17 @@ export default async function BlogPage() {
       />
     );
   }
+  const firstPost = posts[0];
 
   return (
     <>
-      <WebSiteSchema />
-      <PersonSchema />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Blog', url: '/blog' },
+        ]}
+      />
+      {posts && posts.length > 0 && <BlogSchema posts={posts} />}
 
       <main>
         <article className='mb-24'>
@@ -49,8 +56,8 @@ export default async function BlogPage() {
           {posts && posts.length > 0 && <BlogSchema posts={posts} />}
 
           <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
-            <PostFeatured />
-            <PostsList />
+            <PostFeatured post={firstPost} />
+            <PostsList posts={posts} />
           </Suspense>
         </article>
       </main>

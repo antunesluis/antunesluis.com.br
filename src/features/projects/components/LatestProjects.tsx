@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import { CoverImage } from '@/components/ui/CoverImage';
-import { findAllPublicProjectCached } from '../lib/queries/public';
 import { getYearFromDate } from '@/lib/utils';
 import { ProjectSummary } from './ProjectSummary';
+import { ProjectModel } from '../models/project-model';
 
-export async function LatestProjects() {
-  const projects = await findAllPublicProjectCached();
-  const latestProjects = projects.slice(0, 2);
+type LatestProjectsProps = {
+  latestProjects: ProjectModel[];
+};
 
+export async function LatestProjects({ latestProjects }: LatestProjectsProps) {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
       {latestProjects.map(project => {

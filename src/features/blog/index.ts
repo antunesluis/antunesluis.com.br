@@ -1,13 +1,5 @@
 // Components
-export * from './components/PostDate';
-export * from './components/PostFeatured';
-export * from './components/PostsList';
-export * from './components/PostSummary';
-export * from './components/SinglePost';
-export * from './components/LatestPosts';
-export * from './components/admin/ManagePostForm';
-export * from './components/admin/PostListAdmin';
-export * from './components/admin/DeletePostButton';
+export * from './components';
 
 // Actions
 export * from './actions/create-post-action';

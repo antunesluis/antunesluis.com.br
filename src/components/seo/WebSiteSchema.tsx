@@ -1,4 +1,4 @@
-import { JsonLd } from './JsonLd';
+import { JsonLd } from '@/components/seo/JsonLd';
 import {
   SITE_URL,
   FULL_NAME,
@@ -14,11 +14,16 @@ export function WebSiteSchema() {
     alternateName: FULL_NAME,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
-    inLanguage: 'pt-BR',
+    inLanguage: ['pt-BR', 'en-US'],
+    image: `${SITE_URL}/og-image.png`,
     author: {
       '@type': 'Person',
       name: FULL_NAME,
       url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Person',
+      name: FULL_NAME,
     },
     potentialAction: {
       '@type': 'SearchAction',

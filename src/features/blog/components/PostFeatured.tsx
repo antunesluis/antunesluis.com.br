@@ -1,15 +1,15 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { Heading } from '@/components/ui/Heading';
-import { findAllPublicPostsCached } from '../lib/queries/public';
 import { CoverImage } from '@/components/ui';
 import { PostSummary } from './PostSummary';
+import { PostModel } from '../models/post-model';
 
-export async function PostFeatured() {
-  const posts = await findAllPublicPostsCached();
-  if (!posts || posts.length <= 1) return null;
-  const post = posts[0];
+type PostFeaturedProps = {
+  post: PostModel;
+};
 
+export async function PostFeatured({ post }: PostFeaturedProps) {
   return (
     <section className='flex flex-col gap-6'>
       <Heading as='h2'>Featured Post</Heading>

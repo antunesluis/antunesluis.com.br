@@ -1,4 +1,4 @@
-import { JsonLd } from './JsonLd';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL } from '@/config/constants';
 
 type BreadcrumbItem = {
@@ -11,6 +11,10 @@ type BreadcrumbSchemaProps = {
 };
 
 export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
+  if (!items || items.length === 0) {
+    return null;
+  }
+
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -18,7 +22,7 @@ export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: `${SITE_URL}${item.url}`,
+      item: item.url.startsWith('http') ? item.url : `${SITE_URL}${item.url}`,
     })),
   };
 

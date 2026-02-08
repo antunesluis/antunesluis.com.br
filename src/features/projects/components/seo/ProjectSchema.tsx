@@ -1,4 +1,4 @@
-import { JsonLd } from './JsonLd';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { FULL_NAME, SITE_URL } from '@/config/constants';
 import { ProjectModel } from '@/features/projects/models/project-model';
 
@@ -7,12 +7,11 @@ type ProjectSchemaProps = {
 };
 
 export function ProjectSchema({ project }: ProjectSchemaProps) {
-  // const techStack =
-  //   typeof project.techStack === 'string'
-  //     ? (JSON.parse(project.techStack) as string[])
-  //     : Array.isArray(project.techStack)
-  //       ? project.techStack
-  //       : [];
+  const techStack = Array.isArray(project.techStack)
+    ? project.techStack
+    : typeof project.techStack === 'string' && project.techStack
+      ? JSON.parse(project.techStack)
+      : [];
 
   const schema = {
     '@context': 'https://schema.org',
@@ -26,7 +25,7 @@ export function ProjectSchema({ project }: ProjectSchemaProps) {
     offers: {
       '@type': 'Offer',
       price: '0',
-      priceCurrency: 'BRL',
+      priceCurrency: 'USD',
     },
     author: {
       '@type': 'Person',
@@ -41,7 +40,17 @@ export function ProjectSchema({ project }: ProjectSchemaProps) {
     dateModified: project.updatedAt,
     ...(project.deployUrl && {
       installUrl: project.deployUrl,
-      url: project.deployUrl,
+      downloadUrl: project.deployUrl,
+    }),
+    ...(project.repositoryUrl && {
+      codeRepository: project.repositoryUrl,
+    }),
+    ...(techStack.length > 0 && {
+      keywords: techStack.join(', '),
+      programmingLanguage: techStack.map((tech: string) => ({
+        '@type': 'ComputerLanguage',
+        name: tech,
+      })),
     }),
     inLanguage: 'pt-BR',
   };

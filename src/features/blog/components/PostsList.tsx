@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { findAllPublicPostsCached } from '../lib/queries/public';
 import { CoverImage, Heading } from '@/components/ui';
 import { PostSummary } from './PostSummary';
+import { PostModel } from '../models/post-model';
 
-export async function PostsList() {
-  const posts = await findAllPublicPostsCached();
-  if (!posts || posts.length <= 1) return null;
+type PostsListProps = {
+  posts: PostModel[];
+};
 
+export async function PostsList({ posts }: PostsListProps) {
   const postsToShow = posts.slice(1);
 
   return (

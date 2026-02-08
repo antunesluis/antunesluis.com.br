@@ -1,12 +1,14 @@
-import { JsonLd } from './JsonLd';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, FULL_NAME } from '@/config/constants';
-import { PostModel } from '@/features/blog/models/post-model';
+import { PostModel } from '../../models/post-model';
 
 type BlogPostSchemaProps = {
   post: PostModel;
 };
 
 export function BlogPostSchema({ post }: BlogPostSchemaProps) {
+  const wordCount = post.content ? post.content.split(/\s+/).length : 0;
+
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -23,14 +25,21 @@ export function BlogPostSchema({ post }: BlogPostSchemaProps) {
     publisher: {
       '@type': 'Person',
       name: FULL_NAME,
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/icon-512.png`,
+        width: 512,
+        height: 512,
+      },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${SITE_URL}/post/${post.slug}`,
+      '@id': `${SITE_URL}/blog/${post.slug}`,
     },
-    url: `${SITE_URL}/post/${post.slug}`,
+    url: `${SITE_URL}/blog/${post.slug}`,
     articleBody: post.content,
-    inLanguage: 'en-US',
+    wordCount,
   };
 
   return <JsonLd data={schema} />;

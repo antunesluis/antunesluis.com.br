@@ -35,3 +35,5 @@ export const SITE_KEYWORDS = [
   'devops',
   'linux',
 ];
+
+export const LATEST_OFFSET = 2;

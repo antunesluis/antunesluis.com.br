@@ -1,12 +1,13 @@
 import Link from 'next/link';
-import { findAllPublicPostsCached } from '../lib/queries/public';
 import { CoverImage } from '@/components/ui';
 import { PostSummary } from './PostSummary';
+import { PostModel } from '../models/post-model';
 
-export async function LatestPosts() {
-  const posts = await findAllPublicPostsCached();
-  const latestPosts = posts.slice(0, 2);
+type LatestPostsProps = {
+  latestPosts: PostModel[];
+};
 
+export async function LatestPosts({ latestPosts }: LatestPostsProps) {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
       {latestPosts.map(post => {

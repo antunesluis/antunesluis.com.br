@@ -1,7 +1,8 @@
-import { BreadcrumbSchema, ProjectSchema } from '@/components/seo';
+import { BreadcrumbSchema } from '@/components/seo';
 import { SpinLoader } from '@/components/ui';
 import {
   findPublicProjectBySlugCached,
+  ProjectSchema,
   SingleProject,
 } from '@/features/projects';
 import { createMetadata } from '@/lib/metadata';
@@ -51,7 +52,7 @@ export default async function ProjectSlugPage({
       )}
 
       <Suspense fallback={<SpinLoader className='min-h-20 mb-16' />}>
-        <SingleProject slug={slug} />
+        <SingleProject project={project} />
       </Suspense>
     </>
   );

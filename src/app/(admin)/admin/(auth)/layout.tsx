@@ -1,4 +1,5 @@
 import { MenuAdmin } from '@/features/admin';
+import { logoutAction } from '@/features/auth';
 import { requireLoginSessionOrRedirect } from '@/lib/auth';
 
 type RootLayoutProps = {
@@ -12,7 +13,7 @@ export default async function RootLayout({
 
   return (
     <>
-      <MenuAdmin />
+      <MenuAdmin onLogout={logoutAction} />
       {children}
     </>
   );

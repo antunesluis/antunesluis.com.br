@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { findPublicPostBySlugCached } from '../lib/queries/public';
 import {
   Comments,
   Heading,
@@ -7,13 +6,13 @@ import {
   ScrollTopAndComment,
 } from '@/components/ui';
 import { PostDate } from './PostDate';
+import { PostModel } from '../models/post-model';
 
 type SinglePostProps = {
-  slug: string;
+  post: PostModel;
 };
 
-export async function SinglePost({ slug }: SinglePostProps) {
-  const post = await findPublicPostBySlugCached(slug);
+export async function SinglePost({ post }: SinglePostProps) {
   const pathname = `post/${post.slug}`;
 
   return (
