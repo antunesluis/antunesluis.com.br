@@ -1,22 +1,22 @@
 import assert from 'node:assert/strict';
-import { before, mock, test } from 'node:test';
+import { beforeAll, test, vi } from 'vitest';
 
-const projectRepository = {
-  create: mock.fn(),
-  update: mock.fn(),
-  delete: mock.fn(),
-};
-const updateTag = mock.fn();
-const redirect = mock.fn();
+const mocks = vi.hoisted(() => ({
+  projectRepository: {
+    create: vi.fn(),
+    update: vi.fn(),
+    delete: vi.fn(),
+  },
+  updateTag: vi.fn(),
+  redirect: vi.fn(),
+}));
 
-mock.module('@/lib/auth', {
-  namedExports: { verifyLoginSession: async () => false },
-});
-mock.module('../repositories/index.ts', {
-  namedExports: { projectRepository },
-});
-mock.module('next/cache', { namedExports: { updateTag } });
-mock.module('next/navigation', { namedExports: { redirect } });
+vi.mock('@/lib/auth', () => ({ verifyLoginSession: async () => false }));
+vi.mock('../repositories/index.ts', () => ({
+  projectRepository: mocks.projectRepository,
+}));
+vi.mock('next/cache', () => ({ updateTag: mocks.updateTag }));
+vi.mock('next/navigation', () => ({ redirect: mocks.redirect }));
 
 let actions: {
   createProjectAction: typeof import('./create-project-action').createProjectAction;
@@ -24,7 +24,7 @@ let actions: {
   deleteProjectAction: typeof import('./delete-project-action').deleteProjectAction;
 };
 
-before(async () => {
+beforeAll(async () => {
   const [createModule, updateModule, deleteModule] = await Promise.all([
     import('./create-project-action'),
     import('./update-project-action'),
@@ -48,11 +48,11 @@ function poisonFormData() {
   ) as FormData;
 }
 function assertNoEffects() {
-  assert.equal(projectRepository.create.mock.callCount(), 0);
-  assert.equal(projectRepository.update.mock.callCount(), 0);
-  assert.equal(projectRepository.delete.mock.callCount(), 0);
-  assert.equal(updateTag.mock.callCount(), 0);
-  assert.equal(redirect.mock.callCount(), 0);
+  assert.equal(mocks.projectRepository.create.mock.calls.length, 0);
+  assert.equal(mocks.projectRepository.update.mock.calls.length, 0);
+  assert.equal(mocks.projectRepository.delete.mock.calls.length, 0);
+  assert.equal(mocks.updateTag.mock.calls.length, 0);
+  assert.equal(mocks.redirect.mock.calls.length, 0);
 }
 
 test('createProjectAction refuses before reading input or causing effects', async () => {

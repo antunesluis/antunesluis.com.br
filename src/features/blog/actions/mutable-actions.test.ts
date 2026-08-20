@@ -1,22 +1,22 @@
 import assert from 'node:assert/strict';
-import { before, mock, test } from 'node:test';
+import { beforeAll, test, vi } from 'vitest';
 
-const postRepository = {
-  create: mock.fn(),
-  update: mock.fn(),
-  delete: mock.fn(),
-};
-const updateTag = mock.fn();
-const redirect = mock.fn();
+const mocks = vi.hoisted(() => ({
+  postRepository: {
+    create: vi.fn(),
+    update: vi.fn(),
+    delete: vi.fn(),
+  },
+  updateTag: vi.fn(),
+  redirect: vi.fn(),
+}));
 
-mock.module('@/lib/auth', {
-  namedExports: { verifyLoginSession: async () => false },
-});
-mock.module('../repositories/index.ts', {
-  namedExports: { postRepository },
-});
-mock.module('next/cache', { namedExports: { updateTag } });
-mock.module('next/navigation', { namedExports: { redirect } });
+vi.mock('@/lib/auth', () => ({ verifyLoginSession: async () => false }));
+vi.mock('../repositories/index.ts', () => ({
+  postRepository: mocks.postRepository,
+}));
+vi.mock('next/cache', () => ({ updateTag: mocks.updateTag }));
+vi.mock('next/navigation', () => ({ redirect: mocks.redirect }));
 
 let actions: {
   createPostAction: typeof import('./create-post-action').createPostAction;
@@ -24,7 +24,7 @@ let actions: {
   deletePostAction: typeof import('./delete-post-action').deletePostAction;
 };
 
-before(async () => {
+beforeAll(async () => {
   const [createModule, updateModule, deleteModule] = await Promise.all([
     import('./create-post-action'),
     import('./update-post-action'),
@@ -48,11 +48,11 @@ function poisonFormData() {
   ) as FormData;
 }
 function assertNoEffects() {
-  assert.equal(postRepository.create.mock.callCount(), 0);
-  assert.equal(postRepository.update.mock.callCount(), 0);
-  assert.equal(postRepository.delete.mock.callCount(), 0);
-  assert.equal(updateTag.mock.callCount(), 0);
-  assert.equal(redirect.mock.callCount(), 0);
+  assert.equal(mocks.postRepository.create.mock.calls.length, 0);
+  assert.equal(mocks.postRepository.update.mock.calls.length, 0);
+  assert.equal(mocks.postRepository.delete.mock.calls.length, 0);
+  assert.equal(mocks.updateTag.mock.calls.length, 0);
+  assert.equal(mocks.redirect.mock.calls.length, 0);
 }
 
 test('createPostAction refuses before reading input or causing effects', async () => {

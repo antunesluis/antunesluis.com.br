@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { after, before, beforeEach, mock, test } from 'node:test';
+import { afterAll, beforeAll, beforeEach, test, vi } from 'vitest';
 
 const validLoginPass =
   'JDJiJDA0JGxNTjBKdGZ4b1kxQ2RYWVA5TWFsUHViQk01b2JlQlgxRExRZjhhdlJLcnFjRTZES0VlaFhL';
@@ -23,30 +23,28 @@ type CookieOptions = {
   maxAge?: number;
 };
 
-let storedCookie: string | undefined;
+const mocks = vi.hoisted(() => ({
+  storedCookie: undefined as string | undefined,
+  redirects: [] as string[],
+}));
 const cookieStore = {
   get: (name: string) =>
-    name === privateEnv.LOGIN_COOKIE_NAME && storedCookie
-      ? { value: storedCookie }
+    name === privateEnv.LOGIN_COOKIE_NAME && mocks.storedCookie
+      ? { value: mocks.storedCookie }
       : undefined,
   set: (name: string, value: string, options: CookieOptions) => {
     if (name !== privateEnv.LOGIN_COOKIE_NAME) return;
-    storedCookie = options.maxAge === 0 ? undefined : value;
+    mocks.storedCookie = options.maxAge === 0 ? undefined : value;
   },
 };
-const redirects: string[] = [];
 
-mock.module('next/headers', {
-  namedExports: { cookies: async () => cookieStore },
-});
-mock.module('next/navigation', {
-  namedExports: {
-    redirect: (url: string): never => {
-      redirects.push(url);
-      throw new Error(`redirect:${url}`);
-    },
+vi.mock('next/headers', () => ({ cookies: async () => cookieStore }));
+vi.mock('next/navigation', () => ({
+  redirect: (url: string): never => {
+    mocks.redirects.push(url);
+    throw new Error(`redirect:${url}`);
   },
-});
+}));
 
 let serverEnv: typeof import('@/config/env/server').serverEnv;
 let createLoginToken: typeof import('@/lib/auth').createLoginToken;
@@ -55,7 +53,7 @@ let verifyLoginSession: typeof import('@/lib/auth').verifyLoginSession;
 let loginAction: typeof import('./actions/login-action').loginAction;
 let proxy: typeof import('@/proxy').proxy;
 
-before(async () => {
+beforeAll(async () => {
   ({ serverEnv } = await import('@/config/env/server'));
   ({ createLoginSession, createLoginToken, verifyLoginSession } =
     await import('@/lib/auth'));
@@ -65,11 +63,11 @@ before(async () => {
 
 beforeEach(() => {
   serverEnv.allowLogin = true;
-  storedCookie = undefined;
-  redirects.length = 0;
+  mocks.storedCookie = undefined;
+  mocks.redirects.length = 0;
 });
 
-after(() => {
+afterAll(() => {
   for (const [key, value] of Object.entries(originalEnv)) {
     if (value === undefined) delete process.env[key];
     else process.env[key] = value;
@@ -83,7 +81,7 @@ function loginForm() {
   return formData;
 }
 
-function adminRequest(cookie = storedCookie) {
+function adminRequest(cookie = mocks.storedCookie) {
   return {
     nextUrl: { pathname: '/admin/blog' },
     method: 'GET',
@@ -102,8 +100,8 @@ test('crosses configuration, login and session before rejecting expiration', asy
     loginAction({ username: '', error: '' }, loginForm()),
     /redirect:\/admin\/blog/,
   );
-  assert(storedCookie);
-  assert.deepEqual(redirects, ['/admin/blog']);
+  assert(mocks.storedCookie);
+  assert.deepEqual(mocks.redirects, ['/admin/blog']);
   assert.equal(await verifyLoginSession(), true);
 
   const authorized = await proxy(adminRequest());
@@ -114,7 +112,7 @@ test('crosses configuration, login and session before rejecting expiration', asy
     privateEnv.LOGIN_USER,
     new Date(0),
   );
-  storedCookie = expiredToken.value;
+  mocks.storedCookie = expiredToken.value;
 
   assert.equal(await verifyLoginSession(), false);
   const expired = await proxy(adminRequest());
@@ -127,17 +125,14 @@ test('crosses configuration, login and session before rejecting expiration', asy
 
 test('blocks a new login without revoking an existing session', async () => {
   await createLoginSession(privateEnv.LOGIN_USER);
-  const existingCookie = storedCookie;
+  const existingCookie = mocks.storedCookie;
   assert(existingCookie);
 
   serverEnv.allowLogin = false;
-  const result = await loginAction(
-    { username: '', error: '' },
-    loginForm(),
-  );
+  const result = await loginAction({ username: '', error: '' }, loginForm());
 
   assert.deepEqual(result, { username: '', error: 'Login not allowed' });
-  assert.equal(storedCookie, existingCookie);
+  assert.equal(mocks.storedCookie, existingCookie);
   assert.equal(await verifyLoginSession(), true);
   assert.equal((await proxy(adminRequest())).status, 200);
 });

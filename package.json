@@ -9,7 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "tsx --conditions=react-server --experimental-test-module-mocks --test --test-concurrency=1 \"src/**/*.test.ts\"",
+    "test": "vitest run",
     "lint": "eslint .",
     "migrate": "drizzle-kit migrate",
     "seed": "tsx src/db/drizzle/seed.ts"
@@ -44,17 +44,24 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.16",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/sanitize-html": "^2.16.0",
+    "@vitejs/plugin-react": "^4.7.0",
     "baseline-browser-mapping": "^2.11.15",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
+    "jsdom": "^26.1.0",
     "tailwindcss": "^4",
     "tsx": "^4.20.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^6.4.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^4.1.11"
   }
 }

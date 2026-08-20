@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { after, before, test } from 'node:test';
+import { afterAll, beforeAll, describe, test } from 'vitest';
 
 const validLoginPass =
   'JDJiJDA0JGxNTjBKdGZ4b1kxQ2RYWVA5TWFsUHViQk01b2JlQlgxRExRZjhhdlJLcnFjRTZES0VlaFhL';
@@ -34,11 +34,11 @@ for (const key of privateEnvKeys) {
 
 let serverModule: typeof import('./server');
 
-before(async () => {
+beforeAll(async () => {
   serverModule = await import('./server');
 });
 
-after(() => {
+afterAll(() => {
   for (const key of privateEnvKeys) {
     const value = originalEnv[key];
 
@@ -106,7 +106,7 @@ test('rejects external whitespace in LOGIN_USER without exposing it', () => {
   );
 });
 
-test('rejects every invalid critical authentication field', async context => {
+describe('rejects every invalid critical authentication field', () => {
   const invalidCases = [
     {
       name: 'JWT_SECRET_KEY placeholder',
@@ -151,7 +151,7 @@ test('rejects every invalid critical authentication field', async context => {
   ] as const;
 
   for (const invalidCase of invalidCases) {
-    await context.test(invalidCase.name, () => {
+    test(invalidCase.name, () => {
       assert.throws(
         () =>
           serverModule.parseServerEnv({
