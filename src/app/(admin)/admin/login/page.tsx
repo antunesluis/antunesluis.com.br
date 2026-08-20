@@ -1,4 +1,5 @@
 import { ErrorMessage } from '@/components/ui';
+import { serverEnv } from '@/config/env/server';
 import { LoginForm } from '@/features/auth';
 import { Metadata } from 'next';
 
@@ -9,8 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminLoginPage() {
-  const allowLogin = Boolean(Number(process.env.ALLOW_LOGIN));
-  if (!allowLogin) {
+  if (!serverEnv.allowLogin) {
     return (
       <ErrorMessage
         statusCode='403'

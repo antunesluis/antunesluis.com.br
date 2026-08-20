@@ -9,6 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "tsx --conditions=react-server --test --test-concurrency=1 \"src/**/*.test.ts\"",
     "lint": "eslint .",
     "migrate": "drizzle-kit migrate",
     "seed": "tsx src/db/drizzle/seed.ts"
@@ -35,6 +36,7 @@
     "remark-gfm": "^4.0.1",
     "sanitize-html": "^2.17.0",
     "schema-dts": "^1.1.5",
+    "server-only": "^0.0.1",
     "slugify": "^1.6.6",
     "uuid": "^11.1.0",
     "zod": "^4.0.17"

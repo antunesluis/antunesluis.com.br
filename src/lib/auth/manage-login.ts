@@ -1,13 +1,9 @@
 import { cookies } from 'next/headers';
 import { SignJWT, jwtVerify } from 'jose';
 import { redirect } from 'next/navigation';
+import { serverEnv } from '@/config/env/server';
 
-const jwtSecretKey = process.env.JWT_SECRET_KEY;
-const jwtEncodedKey = new TextEncoder().encode(jwtSecretKey);
-
-const loginExpSeconds = Number(process.env.LOGIN_EXPIRATION_SECONDS) || 86400;
-const loginExpStr = process.env.LOGIN_EXPIRATION_STRING || '10m';
-const loginCookieName = process.env.LOGIN_COOKIE_NAME || 'loginSession';
+const jwtEncodedKey = new TextEncoder().encode(serverEnv.jwtSecretKey);
 
 type JwtPayload = {
   username: string;
@@ -15,11 +11,13 @@ type JwtPayload = {
 };
 
 export async function createLoginSession(username: string) {
-  const expiresAt = new Date(Date.now() + loginExpSeconds * 1000);
+  const expiresAt = new Date(
+    Date.now() + serverEnv.loginExpirationSeconds * 1000,
+  );
   const loginSession = await signJwt({ username, expiresAt });
   const cookieStore = await cookies();
 
-  cookieStore.set(loginCookieName, loginSession, {
+  cookieStore.set(serverEnv.loginCookieName, loginSession, {
     // read only by the server
     httpOnly: true,
     secure: true,
@@ -30,15 +28,15 @@ export async function createLoginSession(username: string) {
 
 export async function deleteLoginSession() {
   const cookieStore = await cookies();
-  cookieStore.set(loginCookieName, '', {
+  cookieStore.set(serverEnv.loginCookieName, '', {
     expires: new Date(0),
   });
-  cookieStore.delete(loginCookieName);
+  cookieStore.delete(serverEnv.loginCookieName);
 }
 
 export async function getLoginSession() {
   const cookieStore = await cookies();
-  const jwt = cookieStore.get(loginCookieName)?.value;
+  const jwt = cookieStore.get(serverEnv.loginCookieName)?.value;
 
   if (!jwt) return false;
 
@@ -58,14 +56,16 @@ export async function verifyLoginSession() {
 
   if (!jwtPayload) return false;
 
-  return jwtPayload.username === process.env.LOGIN_USER;
+  return jwtPayload.username === serverEnv.loginUser;
 }
 
 export async function signJwt(jwtPayload: JwtPayload) {
   return new SignJWT(jwtPayload)
     .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
     .setIssuedAt()
-    .setExpirationTime(loginExpStr)
+    .setExpirationTime(
+      Math.floor(Date.now() / 1000) + serverEnv.loginExpirationSeconds,
+    )
     .sign(jwtEncodedKey);
 }
 

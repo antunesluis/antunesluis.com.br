@@ -1,6 +1,8 @@
 'use server';
 
 import { verifyLoginSession } from '@/lib/auth';
+import { publicEnv } from '@/config/env/public';
+import { serverEnv } from '@/config/env/server';
 import { mkdir, writeFile } from 'fs/promises';
 import { extname, resolve } from 'path';
 
@@ -32,8 +34,7 @@ export async function uploadImageAction(
     return makeResult({ error: 'Invalid file' });
   }
 
-  const uploadMaxSize =
-    Number(process.env.NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE) || 921600;
+  const uploadMaxSize = publicEnv.imageUploadMaxSize;
   if (file.size > uploadMaxSize) {
     return makeResult({ error: 'File size exceeds limit.' });
   }
@@ -45,7 +46,7 @@ export async function uploadImageAction(
   const imageExtension = extname(file.name);
   const uniqueImageName = `image-${Date.now()}${imageExtension}`;
 
-  const uploadDirectory = process.env.IMAGE_UPLOAD_DIRECTORY || 'uploads';
+  const uploadDirectory = serverEnv.imageUploadDirectory;
   const uploadFullPath = resolve(process.cwd(), 'public', uploadDirectory);
   await mkdir(uploadFullPath, { recursive: true });
 
@@ -55,8 +56,7 @@ export async function uploadImageAction(
   const fileFullPath = resolve(uploadFullPath, uniqueImageName);
   await writeFile(fileFullPath, buffer);
 
-  const imageServerUrl =
-    process.env.IMAGE_SERVER_URL || 'http://localhost:3000/uploads';
+  const imageServerUrl = serverEnv.imageServerUrl;
   console.log(imageServerUrl);
   const url = `${imageServerUrl}/${uniqueImageName}`;
 

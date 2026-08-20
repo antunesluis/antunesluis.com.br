@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { asyncDelay } from '@/lib/utils';
 import { createLoginSession, verifyPassword } from '@/lib/auth';
+import { serverEnv } from '@/config/env/server';
 
 type LoginActionState = {
   username: string;
@@ -10,8 +11,7 @@ type LoginActionState = {
 };
 
 export async function loginAction(state: LoginActionState, formData: FormData) {
-  const allowLogin = Boolean(Number(process.env.ALLOW_LOGIN));
-  if (!allowLogin) {
+  if (!serverEnv.allowLogin) {
     return {
       username: '',
       error: 'Login not allowed',
@@ -37,11 +37,8 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
     };
   }
 
-  const isUserNameValid = username === process.env.LOGIN_USER;
-  const isPasswordValid = await verifyPassword(
-    password,
-    process.env.LOGIN_PASS || '',
-  );
+  const isUserNameValid = username === serverEnv.loginUser;
+  const isPasswordValid = await verifyPassword(password, serverEnv.loginPass);
 
   if (!isUserNameValid || !isPasswordValid) {
     return {

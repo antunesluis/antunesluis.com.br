@@ -4,6 +4,7 @@ import { ImageUpIcon } from 'lucide-react';
 import { useRef, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/ui';
+import { publicEnv } from '@/config/env/public';
 import { uploadImageAction } from '../actions/upload-image-action';
 
 type ImageUploaderProps = {
@@ -36,8 +37,7 @@ export function ImageUploader({ disabled = false }: ImageUploaderProps) {
       return;
     }
 
-    const uploadMaxSize =
-      Number(process.env.NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE) || 921600;
+    const uploadMaxSize = publicEnv.imageUploadMaxSize;
     if (file.size > uploadMaxSize) {
       const readableMaxSize = (uploadMaxSize / 1024).toFixed(2);
       toast.error(`Image too large. Maximum size is ${readableMaxSize}KB.`);

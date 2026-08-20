@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { serverEnv } from './config/env/server';
 import { verifyJwt } from './lib/auth';
 
 export const config = {
@@ -17,9 +18,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const jwt = request.cookies.get(
-    process.env.LOGIN_COOKIE_NAME || 'loginSession',
-  )?.value;
+  const jwt = request.cookies.get(serverEnv.loginCookieName)?.value;
   const isAuthenticated = await verifyJwt(jwt);
 
   if (!isAuthenticated) {
