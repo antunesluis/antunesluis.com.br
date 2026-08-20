@@ -1,16 +1,8 @@
 import 'server-only';
 
 import { z } from 'zod';
-import { parseEnv } from './parse-env.server';
+import { httpUrlSchema, parseEnv } from './parse-env.server';
 import { publicEnv } from './public';
-
-const httpUrlSchema = z.url().refine(
-  value => {
-    const protocol = new URL(value).protocol;
-    return protocol === 'http:' || protocol === 'https:';
-  },
-  { message: 'Must be an HTTP or HTTPS URL' },
-);
 
 export const publicEnvSchema = z.object({
   giscusRepo: z

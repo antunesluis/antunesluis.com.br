@@ -20,13 +20,13 @@ Personal blog/portfolio using Next.js 16, React 19, TypeScript, Tailwind CSS v4,
 
 ```bash
 npm run dev        # Dev server with Turbopack
+npm test           # Node test suite executed through tsx
 npm run build      # Production build
 npm run start      # Production server
 npm run lint       # ESLint (also checks types via next/typescript)
 npm run migrate    # Drizzle Kit migrations (schema: src/db/drizzle/schemas.ts)
 
 # No separate typecheck. Type errors surface during the Next.js build.
-# No test suite configured.
 ```
 
 For seeding: `npm run seed` runs `tsx src/db/drizzle/seed.ts`.
@@ -94,9 +94,13 @@ src/
 - SQLite file: `db.sqlite3` (git-ignored)
 
 ## Environment Variables
-Copy `.env.local-example` to `.env.local`. Required: `JWT_SECRET_KEY`, `LOGIN_USER`, `LOGIN_PASS` (base64-encoded bcrypt hash), `LOGIN_COOKIE_NAME`, Giscus config, and image upload settings.
+Copy `.env.local-example` to `.env.local`. Required authentication variables:
+`JWT_SECRET_KEY`, `LOGIN_USER`, `LOGIN_PASS` (base64-encoded bcrypt hash),
+`LOGIN_EXPIRATION_SECONDS`, `LOGIN_COOKIE_NAME`, and `ALLOW_LOGIN`. The example
+also documents optional Giscus and image upload settings.
 
 ## Notes
 - `drizzle-kit migrate` reads `drizzle.config.js` (not ts); dialect is `sqlite`, db URL is `./db.sqlite3`
 - The image upload server action writes to the configured `uploads/` directory (git-ignored)
-- GitHub Actions CI runs install, lint, schema preparation, and production build from `.github/workflows/ci.yml`
+- GitHub Actions CI runs install, tests, lint, schema preparation, and
+  production build from `.github/workflows/ci.yml`

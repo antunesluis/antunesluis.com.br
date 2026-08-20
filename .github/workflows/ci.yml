@@ -7,6 +7,21 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_UPLOAD_DIRECTORY: ci-uploads
+      IMAGE_SERVER_URL: http://localhost:3000/ci-uploads
+      JWT_SECRET_KEY: ci-only-jwt-secret-with-at-least-32-characters
+      LOGIN_USER: ci-admin
+      LOGIN_PASS: JDJiJDA0JGxNTjBKdGZ4b1kxQ2RYWVA5TWFsUHViQk01b2JlQlgxRExRZjhhdlJLcnFjRTZES0VlaFhL
+      LOGIN_EXPIRATION_SECONDS: 60
+      LOGIN_COOKIE_NAME: ciLoginSession
+      ALLOW_LOGIN: 1
+      NEXT_PUBLIC_GISCUS_REPO: ci-owner/ci-repository
+      NEXT_PUBLIC_GISCUS_REPO_ID: ci-repository-id
+      NEXT_PUBLIC_GISCUS_CATEGORY: CI
+      NEXT_PUBLIC_GISCUS_CATEGORY_ID: ci-category-id
+      NEXT_PUBLIC_SITE_URL: https://ci.example.com
+      NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE: 1024
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -19,6 +34,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Test
+        run: npm test
 
       - name: Lint
         run: npm run lint

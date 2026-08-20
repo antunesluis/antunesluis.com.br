@@ -188,6 +188,29 @@ test('sanitizes configuration errors without exposing received values', () => {
   );
 });
 
+test('sanitizes malformed private URLs without exposing their value', () => {
+  const receivedImageServerUrl = 'sensitive-internal-url';
+
+  assert.throws(
+    () =>
+      serverModule.parseServerEnv({
+        ...validSource,
+        IMAGE_SERVER_URL: receivedImageServerUrl,
+      }),
+    error => {
+      assert(error instanceof Error);
+      assert.equal(error.name, 'EnvironmentValidationError');
+      assert.equal(
+        error.message,
+        'Invalid environment configuration:\n' +
+          '- IMAGE_SERVER_URL: must be an HTTP or HTTPS URL without a trailing slash',
+      );
+      assert.doesNotMatch(error.message, new RegExp(receivedImageServerUrl));
+      return true;
+    },
+  );
+});
+
 test('instrumentation fails with a sanitized critical configuration error', () => {
   const invalidSecret = 'invalid-secret';
   const childEnv = {

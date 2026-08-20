@@ -112,7 +112,8 @@ test('uses secure cookies only in production', () => {
 
 test('rejects malformed, altered, expired and invalid-shape tokens', async () => {
   const validToken = await tokenModule.createLoginToken(privateEnv.LOGIN_USER);
-  const alteredToken = `${validToken.value.slice(0, -1)}x`;
+  const replacement = validToken.value.endsWith('x') ? 'y' : 'x';
+  const alteredToken = `${validToken.value.slice(0, -1)}${replacement}`;
   const expiredToken = await tokenModule.createLoginToken(
     privateEnv.LOGIN_USER,
     new Date(Date.now() - 3_700_000),

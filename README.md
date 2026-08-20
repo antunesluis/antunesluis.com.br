@@ -71,6 +71,11 @@ To create the base64-encoded bcrypt hash used by `LOGIN_PASS`:
 node -e "const bcrypt = require('bcryptjs'); const hash = bcrypt.hashSync('your-password', 10); console.log(Buffer.from(hash).toString('base64'));"
 ```
 
+Replace every critical authentication placeholder before starting the
+application. `JWT_SECRET_KEY` must contain at least 32 characters, and
+`LOGIN_PASS` must be canonical Base64 for a bcrypt hash. The application exits
+before serving requests when critical configuration is missing or invalid.
+
 ## Environment variables
 
 Use `.env.local-example` as the reference and configure these variables in
@@ -88,17 +93,22 @@ Use `.env.local-example` as the reference and configure these variables in
 | `JWT_SECRET_KEY`                    | Secret used to sign login tokens             |
 | `NEXT_PUBLIC_SITE_URL`              | Canonical public URL of the site             |
 | `LOGIN_EXPIRATION_SECONDS`          | Login lifetime in seconds                    |
-| `LOGIN_EXPIRATION_STRING`           | Login lifetime accepted by `jose`            |
 | `LOGIN_COOKIE_NAME`                 | Authentication cookie name                   |
 | `LOGIN_USER`                        | Administrative username                      |
 | `LOGIN_PASS`                        | Base64-encoded bcrypt password hash          |
-| `ALLOW_LOGIN`                       | Enables login when set to `1`                |
+| `ALLOW_LOGIN`                       | Accepts `0` to block or `1` to allow login   |
+
+`LOGIN_EXPIRATION_SECONDS` is the only session duration setting. Setting
+`ALLOW_LOGIN=0` blocks creation of new sessions, but existing valid sessions
+remain authorized until their configured expiration. `LOGIN_PASS` remains
+required and validated while login is disabled.
 
 ## Commands
 
 | Command           | Purpose                       |
 | ----------------- | ----------------------------- |
 | `npm run dev`     | Start the development server  |
+| `npm test`        | Run the automated test suite  |
 | `npm run lint`    | Run ESLint for the repository |
 | `npm run build`   | Create a production build     |
 | `npm run start`   | Start the production server   |

@@ -57,7 +57,6 @@ export async function uploadImageAction(
   await writeFile(fileFullPath, buffer);
 
   const imageServerUrl = serverEnv.imageServerUrl;
-  console.log(imageServerUrl);
   const url = `${imageServerUrl}/${uniqueImageName}`;
 
   return makeResult({

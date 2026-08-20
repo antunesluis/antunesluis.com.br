@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { z } from 'zod';
-import { parseEnv } from './parse-env.server';
+import { httpUrlSchema, parseEnv } from './parse-env.server';
 
 type ServerEnvSource = {
   IMAGE_UPLOAD_DIRECTORY: string | undefined;
@@ -14,11 +14,6 @@ type ServerEnvSource = {
   ALLOW_LOGIN: string | undefined;
   NODE_ENV: string | undefined;
 };
-
-const httpUrlSchema = z.url().refine(value => {
-  const protocol = new URL(value).protocol;
-  return protocol === 'http:' || protocol === 'https:';
-});
 
 function isCanonicalBcryptBase64(value: string) {
   let decoded: string;

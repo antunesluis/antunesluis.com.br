@@ -2,6 +2,18 @@ import 'server-only';
 
 import { z } from 'zod';
 
+export const httpUrlSchema = z.string().refine(
+  value => {
+    try {
+      const protocol = new URL(value).protocol;
+      return protocol === 'http:' || protocol === 'https:';
+    } catch {
+      return false;
+    }
+  },
+  { message: 'Must be an HTTP or HTTPS URL' },
+);
+
 type EnvRule = {
   name: string;
   description: string;

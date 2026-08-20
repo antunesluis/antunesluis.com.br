@@ -96,7 +96,7 @@ test('rejects invalid public formats on the server', () => {
   assert.throws(() =>
     publicServerModule.parsePublicEnv({
       ...baseValue,
-      siteUrl: 'not-a-url',
+      siteUrl: 'ftp://example.com',
     }),
   );
   assert.throws(() =>
@@ -110,6 +110,33 @@ test('rejects invalid public formats on the server', () => {
       ...baseValue,
       imageUploadMaxSize: 0,
     }),
+  );
+});
+
+test('sanitizes malformed public URLs without exposing their value', () => {
+  const receivedSiteUrl = 'sensitive-public-url';
+
+  assert.throws(
+    () =>
+      publicServerModule.parsePublicEnv({
+        giscusRepo: 'owner/repository',
+        giscusRepoId: 'repository-id',
+        giscusCategory: 'Announcements',
+        giscusCategoryId: 'category-id',
+        siteUrl: receivedSiteUrl,
+        imageUploadMaxSize: 1024,
+      }),
+    error => {
+      assert(error instanceof Error);
+      assert.equal(error.name, 'EnvironmentValidationError');
+      assert.equal(
+        error.message,
+        'Invalid environment configuration:\n' +
+          '- NEXT_PUBLIC_SITE_URL: must be an HTTP or HTTPS URL',
+      );
+      assert.doesNotMatch(error.message, new RegExp(receivedSiteUrl));
+      return true;
+    },
   );
 });
 
