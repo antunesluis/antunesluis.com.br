@@ -4,6 +4,7 @@
 
 ```bash
 npm run dev
+npm test
 npm run lint
 npm run build
 npm run start
@@ -12,11 +13,13 @@ npm run seed
 ```
 
 - `npm run lint` runs ESLint for the repository.
+- `npm test` runs the Node test suite through `tsx`.
 - `npm run build` performs the production Next.js build, including TypeScript validation.
-- There is no separate typecheck script or automated test suite.
+- There is no separate typecheck script. Type errors surface during the build.
 - `npm run migrate` applies Drizzle migrations using `drizzle.config.js` and `src/db/drizzle/schemas.ts`.
 - `npm run seed` runs `tsx src/db/drizzle/seed.ts`.
-- CI runs `npm ci`, lint, `npx drizzle-kit push`, and the production build.
+- CI runs `npm ci`, tests, lint, `npx drizzle-kit push`, and the production
+  build.
 
 ## Formatting and naming
 
