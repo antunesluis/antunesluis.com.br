@@ -9,7 +9,7 @@ export async function deleteProjectAction(id: string) {
 
   if (!isAuthenticated) {
     return {
-      errors: ['Log in again before continuing'],
+      error: 'Log in again before continuing',
     };
   }
 

@@ -23,6 +23,13 @@ export async function updatePostAction(
 ): Promise<UpdatePostActionState> {
   const isAuthenticated = await verifyLoginSession();
 
+  if (!isAuthenticated) {
+    return {
+      formState: prevState.formState,
+      errors: ['Log in again before continuing'],
+    };
+  }
+
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
@@ -41,13 +48,6 @@ export async function updatePostAction(
 
   const formDataToObj = Object.fromEntries(formData.entries());
   const zodParsedObj = PostUpdateSchema.safeParse(formDataToObj);
-
-  if (!isAuthenticated) {
-    return {
-      formState: makePartialPublicPost(formDataToObj),
-      errors: ['Log in to another tab before continuing'],
-    };
-  }
 
   if (!zodParsedObj.success) {
     const errors = getZodErrorMessages(zodParsedObj.error);

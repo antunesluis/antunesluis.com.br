@@ -9,7 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "tsx --conditions=react-server --test --test-concurrency=1 \"src/**/*.test.ts\"",
+    "test": "tsx --conditions=react-server --experimental-test-module-mocks --test --test-concurrency=1 \"src/**/*.test.ts\"",
     "lint": "eslint .",
     "migrate": "drizzle-kit migrate",
     "seed": "tsx src/db/drizzle/seed.ts"
