@@ -1,10 +1,11 @@
 # Plano - Remediação de segurança de dependências
 
 - Estado: `approved`
-- Aprovação: aprovada em 2026-08-20 por Luis Antunes
-- Origem da aprovação: mensagem `aprovo o plano e tasks` nesta conversa
+- Aprovação: aprovada em 2026-08-21 por Luis Antunes
+- Origem da aprovação: mensagem `aprovo todos os documentos` nesta conversa,
+  após a ampliação para Node `>=22.13.0` e os achados da revisão final
 - Criado em: 2026-08-20
-- PRD: `PRD.md`, aprovado em 2026-08-20 por Luis Antunes
+- PRD: `PRD.md`, aprovado em 2026-08-21 por Luis Antunes
 - Nível: completo
 - Branch de trabalho: `security/dependency-remediation`
 - Base requerida: `test/essential-behavior`
@@ -20,7 +21,8 @@ integração com a suíte essencial.
 
 ## Pré-condições operacionais
 
-- `PRD.md` está aprovado e não possui decisão de produto pendente.
+- `PRD.md` e este plano foram aprovados explicitamente após a ampliação de
+  escopo.
 - A branch atual é `security/dependency-remediation` e aponta para o mesmo
   commit de `test/essential-behavior` na data deste plano.
 - `AGENTS.md` e `docs/conventions.md` possuem alterações preexistentes da
@@ -77,8 +79,20 @@ material de risco, plataforma ou versão-alvo devolve este plano a `draft`.
   somente se a versão corrigida exigir.
 - Fortalecer testes existentes para os contratos de sanitização, UUID,
   Markdown, blocos de código, repositories, CRUD, autenticação e upload.
+- Corrigir os gates revelados pela `TASK-005` com uma migration SQLite aditiva
+  para `projects`, propagação de falha no seed e uma correção tipada e localizada
+  no teste de configuração que bloqueia o build.
 - Validar Next.js, `next/image`, Proxy, Server Actions, Drizzle ORM, Drizzle
   Kit, migrations, seed, lint, build e testes nos ambientes exigidos.
+- Elevar o mínimo declarado para Node `>=22.13.0`, preservar `.nvmrc` em
+  24.19.0 e validar a instalação limpa e todos os gates no novo mínimo.
+- Executar os smokes de desenvolvimento e produção em estado descartável,
+  corrigir os assets ausentes dos dados controlados e isolar o editor Markdown
+  fora do proxy de preview.
+- Tornar a migration nova compatível com banco vazio e com schema equivalente
+  já materializado por `drizzle-kit push`, sem alterar schema, migration
+  histórica ou dados reais.
+- Atualizar no README as versões técnicas afetadas pela remediação.
 - Registrar os riscos residuais reais e obter decisão explícita antes da
   integração.
 - Executar revisão final read-only na branch de remediação e no estado
@@ -90,8 +104,10 @@ material de risco, plataforma ou versão-alvo devolve este plano a `draft`.
   nova.
 - Migrar Next.js para outra major, React para outra major, ESLint para 10,
   Vite para outra major ou `uuid` para 14.
-- Alterar o mínimo de Node, `.nvmrc`, SQLite, Better SQLite3, schemas,
-  migrations existentes ou contratos de IDs.
+- Alterar o mínimo de Node além de `>=22.13.0`, `.nvmrc`, SQLite, Better
+  SQLite3, schemas, migration histórica ou contratos de IDs. A migration nova
+  pode receber somente a adaptação idempotente necessária para bancos vazios e
+  schemas equivalentes criados por `drizzle-kit push`.
 - Substituir Drizzle Kit, `react-syntax-highlighter`, ORM, framework, banco ou
   gerenciador de pacotes.
 - Introduzir override incompatível, ocultar audit, usar
@@ -140,9 +156,8 @@ audit e pelo registry:
 | `picomatch` | `4.0.4` ou superior compatível nas cópias afetadas | Vite e `tinyglobby` |
 
 ESLint permanece na major 9 e Vite na major 6. As versões diretas atuais já
-aceitam as correções transitivas. ESLint 10 foi rejeitado porque exige Node
-`^20.19.0`, acima do contrato `>=20.9.0`, e não é necessário para corrigir as
-transitivas listadas.
+aceitam as correções transitivas. ESLint 10 continua fora do escopo porque não
+é necessário para corrigir as transitivas listadas.
 
 ### Geração do lockfile
 
@@ -213,6 +228,38 @@ A aprovação deste plano não aceita esse risco. O resultado real deve ser
 apresentado ao usuário para aceite ou rejeição explícita antes de qualquer
 integração.
 
+### Recuperação dos gates operacionais
+
+- Gerar pelo Drizzle Kit uma migration nova e aditiva que crie `projects` e seu
+  índice único de `slug`, exatamente conforme `projectsTable`. Não modificar a
+  migration `0000_groovy_reptil.sql`, nem schema, dados existentes ou contratos
+  de post e projeto.
+- Fazer o seed propagar falhas com código não zero. O comportamento bem-sucedido
+  continua limitado à carga de projetos do repositório JSON existente.
+- Ajustar somente `src/config/env/server.test.ts` para preservar o tipo restrito
+  de `NODE_ENV` ao preparar e restaurar `process.env` e ao montar o ambiente do
+  processo filho. Não alterar o contrato de `src/config/env/server.ts`.
+- Adicionar ou adaptar testes de migration e seed em diretório temporário, sem
+  tocar `db.sqlite3`, `.env.local` ou uploads reais. Eles devem comprovar que
+  migration seguida de seed funciona em banco vazio e que falha do seed encerra
+  com código não zero.
+- Adaptar somente `0001_vengeful_risque.sql` para usar criação idempotente da
+  tabela e do índice, preservando o snapshot gerado e a migration histórica.
+  Acrescentar um teste que materialize o schema atual como `drizzle-kit push` e
+  depois aplique a migration, comprovando preservação dos dados existentes.
+- Alterar `engines.node` para `>=22.13.0`, atualizar a representação raiz no
+  lockfile por comando npm dirigido e alinhar README e `.env.local-example`
+  somente onde documentarem o mínimo. `.nvmrc` permanece em 24.19.0.
+- Instalar e usar Node 22.13.0 somente em workspace temporário para `npm ci`,
+  suíte essencial, lint e build.
+- Executar smokes de desenvolvimento e produção com banco e uploads temporários
+  para páginas públicas, Markdown, código, imagens, proteção administrativa,
+  CRUD e upload. Os registros controlados devem usar assets existentes; as
+  referências inválidas do seed podem ser substituídas por assets públicos já
+  versionados. O editor deve ser verificado em cópia limpa fora da limitação do
+  proxy, com correção localizada somente se a regressão for reproduzida. Não há
+  mudança visual deliberada ou alteração de autenticação.
+
 ## Componentes e arquivos prováveis
 
 ### Alteração esperada
@@ -225,6 +272,12 @@ integração.
 - `src/features/projects/lib/validation.test.ts`
 - `src/features/blog/actions/admin-crud.integration.test.ts`
 - `src/features/projects/actions/admin-crud.integration.test.ts`
+- `src/config/env/server.test.ts`
+- `src/db/drizzle/migrations/<nova-migration>.sql` e os metadados gerados pelo
+  Drizzle Kit
+- `src/db/drizzle/seed.ts` e teste localizado de migration e seed
+- `src/db/seed/projects.json`, somente para substituir assets inexistentes
+- `README.md`
 - `docs/features/dependency-security-remediation/TASKS.md`, para evidências e
   decisões operacionais
 - `docs/features/dependency-security-remediation/reviews/FINAL.md`, somente no
@@ -234,7 +287,9 @@ integração.
 
 - `src/proxy.ts` e arquivos de autenticação
 - repositories e schemas Drizzle
-- migrations e seed
+- migration histórica `0000_groovy_reptil.sql`, schemas, dados reais e
+  contratos persistidos; somente a migration nova pode receber a adaptação
+  idempotente aprovada
 - `next.config.ts`
 - `.nvmrc`
 - `.github/workflows/ci.yml`, salvo necessidade concreta não material
@@ -251,11 +306,16 @@ integração.
    syntax highlighting.
 4. Atualizar Drizzle Kit e somente as transitivas corrigíveis do toolchain,
    provar que não restam correções compatíveis e preparar o registro residual.
-5. Executar validação completa no workspace atual, em instalação limpa
+5. Gerar e testar a migration aditiva, o seed e a correção tipada do teste de
+   ambiente em banco e diretórios temporários.
+6. Corrigir os achados da revisão final: mínimo de Node, compatibilidade da
+   migration com schema criado por push, assets controlados, isolamento do
+   editor e documentação técnica.
+7. Executar validação completa no workspace atual, em instalação limpa
    temporária e no Node mínimo declarado, preservando estado local real.
-6. Executar revisão final read-only, corrigir achados cobertos pelo plano e
+8. Executar revisão final read-only, corrigir achados cobertos pelo plano e
    obter decisão explícita sobre o risco residual.
-7. Somente com autorização específica, integrar a remediação em
+9. Somente com autorização específica, integrar a remediação em
    `test/essential-behavior`, repetir validação e revisão do estado combinado e
    aguardar CI remota verde antes de recomendar integração em `main`.
 
@@ -272,8 +332,10 @@ integração.
 - Next.js e `eslint-config-next` estão ambos em 16.3.1.
 - Drizzle ORM está em 0.45.2 ou patch compatível superior e os repositories
   continuam aprovados sem mudança de schema.
-- `sanitize-html` permanece exatamente em 2.17.5 enquanto o mínimo de Node for
-  `20.9.0`.
+- `sanitize-html` permanece exatamente em 2.17.5 conforme o alvo seguro e
+  compatível já validado.
+- `engines.node` declara `>=22.13.0`, `.nvmrc` permanece em 24.19.0 e a
+  instalação limpa passa no novo mínimo.
 - IDs novos continuam UUID v4 e IDs existentes permanecem estáveis em update e
   delete.
 - Markdown, código inline, blocos destacados, tema e sanitização permanecem
@@ -281,8 +343,13 @@ integração.
 - Proxy, layout autenticado e Server Actions mantêm as verificações de sessão.
 - `next/image`, páginas públicas, CRUD administrativo e upload passam nos
   testes e smokes previstos.
-- Migrations, seed e o comando de preparação do schema continuam executáveis
-  em workspace temporário.
+- Em banco vazio descartável, a migration aditiva torna `projects` disponível,
+  `npm run migrate` seguido de `npm run seed` encerra com código zero e uma
+  falha do seed encerra com código não zero.
+- Em cópia descartável de banco com schema atual materializado por
+  `drizzle-kit push`, a migration preserva tabela, índice e dados existentes.
+- O README representa as versões entregues e os dados usados nos smokes não
+  apontam para assets inexistentes.
 - Todos os critérios de validação abaixo passam sem criar ou alterar estado
   real ignorado.
 - Revisões finais read-only da branch isolada e do estado combinado não possuem
@@ -317,8 +384,7 @@ integração.
   ordem da CI.
 - No mesmo ambiente descartável ou em outro isolado: `npm run migrate` e
   `npm run seed`, sem tocar no banco real.
-- Repetir a instalação limpa e a suíte essencial com Node 20.9.0. Executar
-  lint e build nesse runtime quando todas as dependências declararem suporte.
+- Repetir a instalação limpa, suíte essencial, lint e build com Node 22.13.0.
 - Confirmar que o workspace fonte não ganhou `db.sqlite3`, `.env.local`,
   uploads ou caches rastreados.
 
@@ -331,6 +397,8 @@ integração.
   delete de post e projeto e um upload válido.
 - Conferir ausência de regressão visual deliberada nos blocos destacados e nas
   imagens.
+- Isolar o editor Markdown em uma cópia limpa fora do proxy de preview e
+  registrar se a falha era do harness ou da aplicação.
 
 ### Integração e revisão
 
@@ -354,9 +422,10 @@ integração.
 - **Next.js alterar comportamento de Proxy, Server Actions ou imagens:** pode
   afetar segurança e disponibilidade. Mitigação: manter defesas em camadas,
   executar testes de autenticação e smokes públicos e administrativos.
-- **Drizzle ORM alterar inferência ou SQL gerado:** pode afetar repositories.
-  Mitigação: nenhuma mudança de schema, suíte completa de repositories e CRUD
-  com SQLite isolado.
+- **Migration aditiva divergir do schema atual:** pode falhar em banco vazio ou
+  criar contrato persistido incorreto. Mitigação: gerar pelo Drizzle Kit, revisar
+  SQL e metadados, testar migration e seed em banco vazio e preservar a
+  migration histórica e schemas.
 - **Lockfile atualizar pacote não relacionado:** aumenta superfície e dificulta
   revisão. Mitigação: comandos dirigidos, inspeção do diff e justificativa de
   cada alteração transitiva.
@@ -382,14 +451,13 @@ integração.
   vez de comandos destrutivos sobre o worktree.
 - Regenerar `node_modules` pelo lockfile restaurado com `npm ci`; não editar o
   lockfile manualmente.
-- Nenhum rollback deve tocar schemas, migrations, `db.sqlite3`, `.env.local`
-  ou uploads, pois a implementação não deve alterar esses contratos ou dados.
+- Nenhum rollback deve tocar schemas, a migration histórica, `db.sqlite3`,
+  `.env.local` ou uploads. A única migration nova deve ser revertida por commit
+  explícito antes da integração, nunca por alteração de bancos reais.
 
 ## Gate de aprovação
 
-Este plano e a decomposição atual de sete tasks em `TASKS.md` foram aprovados
-como um único pacote por Luis Antunes em 2026-08-20. A aprovação cobre a
-implementação da decomposição atual, mas não constitui aceite antecipado do
-risco residual nem autorização para merge ou push. Mudança material de produto,
-escopo, arquitetura, contrato, migração ou risco devolve o plano a `draft` e
-exige nova aprovação.
+Este plano e a decomposição atual de nove tasks foram aprovados explicitamente
+por Luis Antunes em 2026-08-21 pela mensagem `aprovo todos os documentos`. A
+aprovação autoriza a execução da `TASK-009`, mas não constitui aceite dos riscos
+residuais nem autorização para merge ou push.

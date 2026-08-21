@@ -1,8 +1,9 @@
 # PRD - Remediação de segurança de dependências
 
 - Estado: `approved`
-- Aprovação: aprovada em 2026-08-20 por Luis Antunes
-- Origem da aprovação: mensagem `sim` nesta conversa
+- Aprovação: aprovada em 2026-08-21 por Luis Antunes
+- Origem da aprovação: mensagem `aprovo todos os documentos` nesta conversa,
+  após a ampliação para Node `>=22.13.0` e os achados da revisão final
 - Criado em: 2026-08-20
 - Origem: solicitação de Luis Antunes nesta conversa
 - Slug: `dependency-security-remediation`
@@ -135,8 +136,9 @@ genérico.
 2. SQLite e Better SQLite3 devem ser preservados.
 3. Schemas e migrations não devem ser alterados sem necessidade comprovada e
    nova decisão explícita sobre a mudança de contrato de dados.
-4. O contrato mínimo de Node `>=20.9.0` deve ser preservado. Uma proposta de
-   alteração exige decisão explícita e deve demonstrar o impacto operacional.
+4. O contrato mínimo de Node passa a ser `>=22.13.0`, conforme solicitação
+   explícita de Luis Antunes. `.nvmrc` permanece em 24.19.0 como runtime padrão
+   de desenvolvimento e CI.
 5. A aplicação deve ser validada no Node mínimo declarado.
 6. Uma atualização major de `react-syntax-highlighter` só pode avançar depois
    da avaliação de mudanças de tipos, APIs e renderização.
@@ -152,6 +154,21 @@ genérico.
 - Regenerar e validar o lockfile como parte da remediação.
 - Preservar e validar os contratos funcionais, de segurança e operacionais
   definidos neste PRD.
+- Corrigir, de forma localizada, os gates operacionais encontrados na
+  `TASK-005`: uma migration aditiva para a tabela `projects`, o sinal de falha
+  do seed, e o teste de configuração que bloqueia o typecheck de produção.
+- Atualizar o manifest e a documentação para Node `>=22.13.0`, validar nesse
+  mínimo e manter `.nvmrc` em 24.19.0.
+- Executar os smokes de desenvolvimento e produção
+  com banco, uploads e dados descartáveis.
+- Corrigir ou substituir referências de imagens inexistentes nos dados
+  descartáveis usados pelos smokes, sem alterar dados reais.
+- Isolar o carregamento do editor Markdown fora do proxy de preview e aplicar
+  correção localizada somente se uma regressão da aplicação for reproduzida.
+- Validar a migration aditiva tanto em banco vazio quanto em cópia descartável
+  de banco cujo schema atual foi materializado por `drizzle-kit push`, adotando
+  uma estratégia idempotente e compatível para esse estado suportado.
+- Atualizar as versões técnicas obsoletas no README.
 - Documentar e submeter à decisão do usuário qualquer risco residual.
 - Validar o estado isolado da remediação e o estado combinado com a suíte
   essencial antes da integração em `main`.
@@ -181,6 +198,12 @@ genérico.
 - Metas percentuais de cobertura.
 - Correção de warnings preexistentes não relacionados.
 - Atualização indiscriminada de todas as dependências.
+- Alteração de schemas existentes, da migration histórica `0000`, de dados reais
+  ou dos contratos persistidos de posts e projetos. A migration nova deve ser
+  somente aditiva, criar a tabela `projects` já declarada no schema e preservar
+  bancos existentes. Esta restrição permite tornar a migration nova idempotente
+  para o schema equivalente criado por `drizzle-kit push`, sem modificar schema
+  ou migration histórica.
 
 ## Critérios de aceite
 
@@ -205,6 +228,19 @@ genérico.
 13. A validação no Node mínimo declarado passa.
 14. A CI remota fica verde no estado candidato à integração.
 15. A revisão final read-only não possui achados bloqueantes.
+16. Em banco vazio descartável, `npm run migrate` seguido de `npm run seed`
+    cria o schema necessário, conclui com código zero e torna os projetos
+    semeados consultáveis.
+17. Uma falha do seed retorna código não zero e não é mascarada por logging.
+18. O manifest, o README e a validação limpa usam Node `>=22.13.0`, enquanto
+    `.nvmrc` permanece em 24.19.0.
+19. A migration passa em banco vazio e em cópia descartável do schema atual já
+    materializado por `drizzle-kit push`, sem modificar dados reais.
+20. Smokes completos de desenvolvimento e produção aprovam conteúdo público,
+    imagens, Markdown, código, autenticação, CRUD de posts e projetos e upload.
+21. Os dados descartáveis dos smokes não referenciam assets públicos
+    inexistentes.
+22. O README representa as versões técnicas entregues.
 
 ## Riscos que exigem decisão do usuário
 
@@ -222,8 +258,10 @@ genérico.
    evidência e decisão explícita. Não há autorização prévia neste PRD, e o
    downgrade proibido do Drizzle Kit não pode ser proposto como solução.
 5. **Mudança de plataforma:** alterar as linhas de Next.js ou React, o mínimo de
-   Node, o banco, o driver, schemas ou migrations é uma mudança material e
-   exige revisão do contrato e nova aprovação.
+   Node além de `>=22.13.0`, o banco, o driver, schemas ou migrations é uma
+   mudança material e exige revisão do contrato e nova aprovação. Esta
+   ampliação autoriza somente o novo mínimo de Node e a compatibilidade da
+   migration aditiva definida acima, depois da aprovação deste draft.
 
 ## Questões abertas
 
@@ -237,8 +275,8 @@ As seguintes questões devem ser respondidas com evidência atual no futuro
    regressão de tipos e renderização?
 4. Quais vulnerabilidades do toolchain, se houver, não possuem correção
    compatível que preserve o Drizzle Kit atual?
-5. Alguma correção exige alterar o mínimo de Node ou outro contrato de
-   plataforma?
+5. O grafo completo instala e executa todos os gates no novo mínimo de Node
+   `22.13.0`?
 
 ## Fronteira entre PRD e PLAN.md
 
@@ -254,6 +292,8 @@ aprovada por este documento.
 
 ## Gate de aprovação
 
-O PRD foi aprovado explicitamente por Luis Antunes em 2026-08-20. A aprovação
-autoriza a elaboração do `PLAN.md`, mas não autoriza `TASKS.md`, implementação
-ou alteração de código antes da aprovação explícita do plano técnico.
+Este PRD foi aprovado explicitamente por Luis Antunes em 2026-08-21 pela
+mensagem `aprovo todos os documentos`, depois da ampliação para Node
+`>=22.13.0` e dos demais achados da revisão final. A aprovação autoriza o plano
+técnico correspondente, mas não constitui aceite dos riscos residuais nem
+autorização para merge ou push.

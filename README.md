@@ -31,18 +31,18 @@
 
 ## Tech stack
 
-- Next.js 16.0.10 with App Router and Turbopack
+- Next.js 16.3.1 with App Router and Turbopack
 - React 19.2
 - TypeScript 5
 - Tailwind CSS 4
-- Drizzle ORM 0.44 with SQLite and better-sqlite3
+- Drizzle ORM 0.45.2 with SQLite and better-sqlite3
 - Zod 4, React Markdown, and Giscus
 
 ## Getting started
 
 ### Requirements
 
-- Node.js 20.9.0 or newer
+- Node.js 22.13.0 or newer
 - npm
 
 The repository includes an `.nvmrc` pinned to Node.js 24.19.0 LTS. With nvm:
@@ -105,12 +105,12 @@ required and validated while login is disabled.
 
 ## Commands
 
-| Command           | Purpose                       |
-| ----------------- | ----------------------------- |
-| `npm run dev`     | Start the development server  |
-| `npm test`        | Run the automated test suite  |
-| `npm run lint`    | Run ESLint for the repository |
-| `npm run build`   | Create a production build     |
-| `npm run start`   | Start the production server   |
-| `npm run migrate` | Apply Drizzle migrations      |
+| Command           | Purpose                        |
+| ----------------- | ------------------------------ |
+| `npm run dev`     | Start the development server   |
+| `npm test`        | Run the automated test suite   |
+| `npm run lint`    | Run ESLint for the repository  |
+| `npm run build`   | Create a production build      |
+| `npm run start`   | Start the production server    |
+| `npm run migrate` | Apply Drizzle migrations       |
 | `npm run seed`    | Seed the local SQLite database |
