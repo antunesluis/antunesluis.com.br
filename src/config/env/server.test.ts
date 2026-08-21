@@ -14,22 +14,24 @@ const validSource = {
   LOGIN_EXPIRATION_SECONDS: '3600',
   LOGIN_COOKIE_NAME: 'loginSession',
   ALLOW_LOGIN: '1',
-  NODE_ENV: 'test',
+  NODE_ENV: 'test' as const,
 };
 
 const privateEnvKeys = Object.keys(validSource) as (keyof typeof validSource)[];
-const originalEnv = Object.fromEntries(
+const originalEnv: Record<string, string | undefined> = Object.fromEntries(
   privateEnvKeys.map(key => [key, process.env[key]]),
 );
 
-for (const key of privateEnvKeys) {
-  const value = validSource[key];
-
+function setEnvironmentValue(key: string, value: string | undefined) {
   if (value === undefined) {
-    delete process.env[key];
+    Reflect.deleteProperty(process.env, key);
   } else {
-    process.env[key] = value;
+    Reflect.set(process.env, key, value);
   }
+}
+
+for (const key of privateEnvKeys) {
+  setEnvironmentValue(key, validSource[key]);
 }
 
 let serverModule: typeof import('./server');
@@ -40,13 +42,7 @@ beforeAll(async () => {
 
 afterAll(() => {
   for (const key of privateEnvKeys) {
-    const value = originalEnv[key];
-
-    if (value === undefined) {
-      delete process.env[key];
-    } else {
-      process.env[key] = value;
-    }
+    setEnvironmentValue(key, originalEnv[key]);
   }
 });
 
@@ -213,7 +209,7 @@ test('sanitizes malformed private URLs without exposing their value', () => {
 
 test('instrumentation fails with a sanitized critical configuration error', () => {
   const invalidSecret = 'invalid-secret';
-  const childEnv = {
+  const childEnv: NodeJS.ProcessEnv = {
     ...process.env,
     IMAGE_UPLOAD_DIRECTORY: 'uploads',
     IMAGE_SERVER_URL: 'http://localhost:3000/uploads',
@@ -222,7 +218,7 @@ test('instrumentation fails with a sanitized critical configuration error', () =
     LOGIN_EXPIRATION_SECONDS: validSource.LOGIN_EXPIRATION_SECONDS,
     LOGIN_COOKIE_NAME: validSource.LOGIN_COOKIE_NAME,
     ALLOW_LOGIN: validSource.ALLOW_LOGIN,
-    NODE_ENV: validSource.NODE_ENV,
+    NODE_ENV: 'test',
     NEXT_RUNTIME: 'nodejs',
     JWT_SECRET_KEY: invalidSecret,
     NEXT_PUBLIC_GISCUS_REPO: 'owner/repository',

@@ -3,6 +3,9 @@ import { afterAll, beforeAll, test, vi } from 'vitest';
 import { createTestDatabase } from '@/db/drizzle/test-database';
 import { DrizzleProjectRepository } from '../repositories/drizzle-project-repository';
 
+const uuidV4Pattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const mocks = vi.hoisted(() => ({
   repository: undefined as DrizzleProjectRepository | undefined,
   redirect: vi.fn(),
@@ -81,6 +84,7 @@ test('runs an authenticated project CRUD cycle through the real actions and repo
   const createdProjects = await repository.findAll();
   assert.equal(createdProjects.length, 1);
   const createdProject = createdProjects[0];
+  assert.match(createdProject.id, uuidV4Pattern);
   assert.equal(createdProject.name, 'Essential Integration Project');
   assert.deepEqual(createdProject.techStack, ['TypeScript', 'SQLite', 'React']);
   assert.equal(createdProject.published, true);
@@ -113,6 +117,7 @@ test('runs an authenticated project CRUD cycle through the real actions and repo
   assert.equal('updatedAt' in updateResult.formState, false);
 
   const updatedProject = await repository.findById(createdProject.id);
+  assert.equal(updatedProject.id, createdProject.id);
   assert.equal(updatedProject.name, 'Updated Essential Integration Project');
   assert.equal(updatedProject.deployUrl, 'https://example.com/updated-project');
   assert.deepEqual(updatedProject.techStack, ['Next.js', 'Drizzle']);
