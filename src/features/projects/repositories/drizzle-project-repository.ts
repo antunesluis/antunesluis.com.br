@@ -1,12 +1,13 @@
 import { eq } from 'drizzle-orm';
-import { drizzleDb } from '@/db/drizzle';
 import { ProjectRepository } from './project-repository';
-import { projectsTable } from '@/db/drizzle/schemas';
+import { DrizzleDatabase, projectsTable } from '@/db/drizzle/schemas';
 import { ProjectModel } from '../models/project-model';
 
 export class DrizzleProjectRepository implements ProjectRepository {
+  constructor(private readonly db: DrizzleDatabase) {}
+
   async findAllPublic(): Promise<ProjectModel[]> {
-    const projects = await drizzleDb.query.projects.findMany({
+    const projects = await this.db.query.projects.findMany({
       orderBy: (projects, { desc }) => desc(projects.createdAt),
       where: (projects, { eq }) => eq(projects.published, true),
     });
@@ -16,7 +17,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
   }
 
   async findBySlugPublic(slug: string): Promise<ProjectModel> {
-    const project = await drizzleDb.query.projects.findFirst({
+    const project = await this.db.query.projects.findFirst({
       where: (projects, { eq, and }) =>
         and(eq(projects.slug, slug), eq(projects.published, true)),
     });
@@ -29,7 +30,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
   }
 
   async findAll(): Promise<ProjectModel[]> {
-    const projects = await drizzleDb.query.projects.findMany({
+    const projects = await this.db.query.projects.findMany({
       orderBy: (projects, { desc }) => desc(projects.createdAt),
     });
 
@@ -38,7 +39,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
   }
 
   async findById(id: string): Promise<ProjectModel> {
-    const project = await drizzleDb.query.projects.findFirst({
+    const project = await this.db.query.projects.findFirst({
       where: (projects, { eq }) => eq(projects.id, id),
     });
 
@@ -50,7 +51,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
   }
 
   async create(project: ProjectModel): Promise<ProjectModel> {
-    const projectExists = await drizzleDb.query.projects.findFirst({
+    const projectExists = await this.db.query.projects.findFirst({
       where: (projects, { or, eq }) =>
         or(
           eq(projects.id, project.id),
@@ -65,12 +66,12 @@ export class DrizzleProjectRepository implements ProjectRepository {
     }
 
     const dbProject = this.transformToDb(project);
-    await drizzleDb.insert(projectsTable).values(dbProject);
+    await this.db.insert(projectsTable).values(dbProject);
     return project;
   }
 
   async delete(id: string): Promise<ProjectModel> {
-    const project = await drizzleDb.query.projects.findFirst({
+    const project = await this.db.query.projects.findFirst({
       where: (projects, { eq }) => eq(projects.id, id),
     });
 
@@ -78,7 +79,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
       throw new Error('Project does not exist');
     }
 
-    await drizzleDb.delete(projectsTable).where(eq(projectsTable.id, id));
+    await this.db.delete(projectsTable).where(eq(projectsTable.id, id));
 
     return this.transformProject(project);
   }
@@ -90,7 +91,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
       'id' | 'slug' | 'createdAt' | 'updatedAt'
     >,
   ): Promise<ProjectModel> {
-    const oldProject = await drizzleDb.query.projects.findFirst({
+    const oldProject = await this.db.query.projects.findFirst({
       where: (projects, { eq }) => eq(projects.id, id),
     });
 
@@ -111,7 +112,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
       updatedAt,
     };
 
-    await drizzleDb
+    await this.db
       .update(projectsTable)
       .set(projectData)
       .where(eq(projectsTable.id, id));
