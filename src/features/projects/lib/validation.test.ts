@@ -68,6 +68,28 @@ describe.each([
       ).toBe(false);
     }
   });
+
+  test.each([
+    '<form action="javascript:alert(1)">Submit</form>',
+    '<button formaction="javascript:alert(1)">Submit</button>',
+    '<object data="javascript:alert(1)">Object</object>',
+    '<video poster="javascript:alert(1)">Video</video>',
+    '<table background="javascript:alert(1)"><tr><td>Cell</td></tr></table>',
+  ])('removes unsafe URI attributes from content: %s', unsafeContent => {
+    const content = [
+      '<p>Safe paragraph</p>',
+      '<a href="https://example.com/docs">Safe link</a>',
+      unsafeContent,
+    ].join('');
+
+    const parsed = schema.parse({ ...validProjectInput, content });
+
+    expect(parsed.content).toContain('<p>Safe paragraph</p>');
+    expect(parsed.content).toContain(
+      '<a href="https://example.com/docs">Safe link</a>',
+    );
+    expect(parsed.content).not.toContain('javascript:');
+  });
 });
 
 test('public project DTO omits updatedAt and preserves techStack', () => {

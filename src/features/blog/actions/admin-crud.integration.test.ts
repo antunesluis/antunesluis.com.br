@@ -3,6 +3,9 @@ import { afterAll, beforeAll, test, vi } from 'vitest';
 import { createTestDatabase } from '@/db/drizzle/test-database';
 import { DrizzlePostRepository } from '../repositories/drizzle-post-repository';
 
+const uuidV4Pattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const mocks = vi.hoisted(() => ({
   repository: undefined as DrizzlePostRepository | undefined,
   redirect: vi.fn(),
@@ -79,6 +82,7 @@ test('runs an authenticated post CRUD cycle through the real actions and reposit
   const createdPosts = await repository.findAll();
   assert.equal(createdPosts.length, 1);
   const createdPost = createdPosts[0];
+  assert.match(createdPost.id, uuidV4Pattern);
   assert.equal(createdPost.title, 'Essential Integration Post');
   assert.equal(createdPost.author, 'Luis Antunes');
   assert.equal(createdPost.published, true);
@@ -109,6 +113,7 @@ test('runs an authenticated post CRUD cycle through the real actions and reposit
   assert.equal('updatedAt' in updateResult.formState, false);
 
   const updatedPost = await repository.findById(createdPost.id);
+  assert.equal(updatedPost.id, createdPost.id);
   assert.equal(updatedPost.title, 'Updated Essential Integration Post');
   assert.equal(updatedPost.published, false);
   assert.equal(updatedPost.slug, createdPost.slug);
