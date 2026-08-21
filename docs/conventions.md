@@ -13,7 +13,8 @@ npm run seed
 ```
 
 - `npm run lint` runs ESLint for the repository.
-- `npm test` runs the Node test suite through `tsx`.
+- `npm test` runs the TypeScript and React suite once through Vitest.
+- Vitest uses Node by default and jsdom only in React tests that opt in.
 - `npm run build` performs the production Next.js build, including TypeScript validation.
 - There is no separate typecheck script. Type errors surface during the build.
 - `npm run migrate` applies Drizzle migrations using `drizzle.config.js` and `src/db/drizzle/schemas.ts`.
