@@ -3,7 +3,7 @@
 - Feature: `dependency-security-remediation`
 - Data: 2026-08-21
 - Tipo: revisão final completa independente do estado combinado
-- Veredito: `changes_requested`
+- Veredito: `approved`
 
 ## Escopo e baseline
 
@@ -58,8 +58,15 @@ Luis Antunes em 2026-08-21: `drizzle-kit@0.31.10`,
 `esbuild@0.18.20`, restritas ao toolchain. A lacuna de smoke não possui aceite
 explícito.
 
+## Revisão de follow-up
+
+O reviewer independente revisou o HEAD `16b78c4` e confirmou que não há
+diferença em `src/`, `package.json` ou `package-lock.json` entre o estado dos
+smokes completos da `TASK-005` e o merge. Os smokes pós-merge em desenvolvimento
+e produção, somados aos testes focados, resolvem o achado `HIGH`. Não foram
+identificados achados `BLOCKER`, `HIGH`, `MEDIUM` ou `LOW`.
+
 ## Próxima ação
 
-Manter a `TASK-007` em `in_progress`. Recuperar um preview responsivo e repetir
-os smokes completos no commit `5550bf8`; somente então uma nova revisão poderá
-recomendar decisão específica sobre integração em `main`.
+A `TASK-007` pode ser concluída. A integração em `main` ainda exige decisão
+explícita do usuário e não ocorre automaticamente.

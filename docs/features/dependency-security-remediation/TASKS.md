@@ -624,7 +624,7 @@ push nem o início da `TASK-007`.
 
 ## TASK-007 - Integrar e validar o estado combinado
 
-- Estado: `in_progress`
+- Estado: `done`
 - Dependências: `TASK-006`, aceite explícito dos riscos residuais e autorização
   específica para merge e push
 
@@ -659,5 +659,6 @@ sessão. Os testes focados de `SafeMarkdown`, autenticação, CRUD administrativ
 de posts e projetos e upload passaram: 5 arquivos e 7 testes no Node 22.13.0.
 
 Esta evidência complementa os smokes descartáveis completos já aprovados na
-`TASK-005`; uma nova revisão independente é necessária antes de concluir esta
-task.
+`TASK-005`. A revisão final independente de follow-up aprovou o HEAD `16b78c4`,
+sem achados bloqueantes; a task foi concluída em 2026-08-21. A integração em
+`main` continua exigindo autorização específica do usuário.
