@@ -651,4 +651,13 @@ recomendar a integração final em `main`.
 
 ### Evidência
 
-Pendente.
+Em 2026-08-21, o smoke do estado combinado `5550bf8` foi repetido em
+desenvolvimento (`next dev`) e produção (`next start`). Em ambos os processos,
+`/`, `/projects` e `/blog` responderam `200`, `/admin/login` respondeu `200` e
+`/admin/projects` respondeu `307` para `/admin/login?redirected=true` sem
+sessão. Os testes focados de `SafeMarkdown`, autenticação, CRUD administrativo
+de posts e projetos e upload passaram: 5 arquivos e 7 testes no Node 22.13.0.
+
+Esta evidência complementa os smokes descartáveis completos já aprovados na
+`TASK-005`; uma nova revisão independente é necessária antes de concluir esta
+task.
