@@ -8,6 +8,13 @@
       "when": 1754274418970,
       "tag": "0000_groovy_reptil",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1787312811367,
+      "tag": "0001_vengeful_risque",
+      "breakpoints": true
     }
   ]
 }
