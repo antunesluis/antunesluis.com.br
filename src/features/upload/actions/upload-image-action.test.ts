@@ -1,27 +1,28 @@
 import assert from 'node:assert/strict';
-import { before, mock, test } from 'node:test';
+import { beforeAll, test, vi } from 'vitest';
 
-const mkdir = mock.fn();
-const writeFile = mock.fn();
+const mocks = vi.hoisted(() => ({
+  mkdir: vi.fn(),
+  writeFile: vi.fn(),
+}));
 
-mock.module('@/lib/auth', {
-  namedExports: { verifyLoginSession: async () => false },
-});
-mock.module('@/config/env/public', {
-  namedExports: { publicEnv: { imageUploadMaxSize: 1024 } },
-});
-mock.module('@/config/env/server', {
-  namedExports: {
-    serverEnv: {
-      imageUploadDirectory: 'uploads',
-      imageServerUrl: 'http://localhost:3000/uploads',
-    },
+vi.mock('@/lib/auth', () => ({ verifyLoginSession: async () => false }));
+vi.mock('@/config/env/public', () => ({
+  publicEnv: { imageUploadMaxSize: 1024 },
+}));
+vi.mock('@/config/env/server', () => ({
+  serverEnv: {
+    imageUploadDirectory: 'uploads',
+    imageServerUrl: 'http://localhost:3000/uploads',
   },
-});
-mock.module('fs/promises', { namedExports: { mkdir, writeFile } });
+}));
+vi.mock('fs/promises', () => ({
+  mkdir: mocks.mkdir,
+  writeFile: mocks.writeFile,
+}));
 
 let uploadImageAction: typeof import('./upload-image-action').uploadImageAction;
-before(async () => {
+beforeAll(async () => {
   ({ uploadImageAction } = await import('./upload-image-action'));
 });
 
@@ -40,6 +41,6 @@ test('uploadImageAction refuses before reading input or touching files', async (
     url: '',
     error: 'Log in to another tab before continuing',
   });
-  assert.equal(mkdir.mock.callCount(), 0);
-  assert.equal(writeFile.mock.callCount(), 0);
+  assert.equal(mocks.mkdir.mock.calls.length, 0);
+  assert.equal(mocks.writeFile.mock.calls.length, 0);
 });

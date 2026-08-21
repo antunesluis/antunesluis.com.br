@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { after, before, test } from 'node:test';
+import { afterAll, beforeAll, test } from 'vitest';
 
 const envKeys = [
   'NEXT_PUBLIC_GISCUS_REPO',
@@ -26,12 +26,12 @@ Object.assign(process.env, {
 let publicModule: typeof import('./public');
 let publicServerModule: typeof import('./public.server');
 
-before(async () => {
+beforeAll(async () => {
   publicModule = await import('./public');
   publicServerModule = await import('./public.server');
 });
 
-after(() => {
+afterAll(() => {
   for (const key of envKeys) {
     const value = originalEnv[key];
 

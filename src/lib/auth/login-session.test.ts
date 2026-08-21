@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { decodeProtectedHeader, SignJWT } from 'jose';
-import { after, before, mock, test } from 'node:test';
+import { afterAll, beforeAll, test, vi } from 'vitest';
 
 const privateEnv = {
   JWT_SECRET_KEY: 'a-secure-test-secret-with-32-characters',
@@ -31,37 +31,29 @@ const cookieStore = {
     name === privateEnv.LOGIN_COOKIE_NAME && storedCookie
       ? { value: storedCookie }
       : undefined,
-  set: (
-    name: string,
-    value: string,
-    options: Record<string, unknown>,
-  ) => {
+  set: (name: string, value: string, options: Record<string, unknown>) => {
     cookieSetCalls.push({ name, value, options });
   },
 };
 const redirects: string[] = [];
 
-mock.module('next/headers', {
-  namedExports: { cookies: async () => cookieStore },
-});
-mock.module('next/navigation', {
-  namedExports: {
-    redirect: (url: string): never => {
-      redirects.push(url);
-      throw new Error(`redirect:${url}`);
-    },
+vi.mock('next/headers', () => ({ cookies: async () => cookieStore }));
+vi.mock('next/navigation', () => ({
+  redirect: (url: string): never => {
+    redirects.push(url);
+    throw new Error(`redirect:${url}`);
   },
-});
+}));
 
 let tokenModule: typeof import('./login-token');
 let sessionModule: typeof import('./login-session');
 
-before(async () => {
+beforeAll(async () => {
   tokenModule = await import('./login-token');
   sessionModule = await import('./login-session');
 });
 
-after(() => {
+afterAll(() => {
   for (const [key, value] of Object.entries(originalEnv)) {
     if (value === undefined) delete process.env[key];
     else process.env[key] = value;
@@ -81,10 +73,7 @@ test('creates HS256 claims and uses their exact expiration on the cookie', async
   assert.deepEqual(Object.keys(payload).sort(), ['exp', 'iat', 'username']);
   assert.equal(payload.username, privateEnv.LOGIN_USER);
   assert.equal(payload.exp - payload.iat, 3600);
-  assert.equal(
-    (cookie.options.expires as Date).getTime(),
-    payload.exp * 1000,
-  );
+  assert.equal((cookie.options.expires as Date).getTime(), payload.exp * 1000);
   assert.deepEqual(cookie.options, {
     httpOnly: true,
     secure: false,
@@ -112,8 +101,10 @@ test('uses secure cookies only in production', () => {
 
 test('rejects malformed, altered, expired and invalid-shape tokens', async () => {
   const validToken = await tokenModule.createLoginToken(privateEnv.LOGIN_USER);
-  const replacement = validToken.value.endsWith('x') ? 'y' : 'x';
-  const alteredToken = `${validToken.value.slice(0, -1)}${replacement}`;
+  const [header, payload, signature] = validToken.value.split('.');
+  assert(header && payload && signature);
+  const replacement = signature.startsWith('a') ? 'b' : 'a';
+  const alteredToken = `${header}.${payload}.${replacement}${signature.slice(1)}`;
   const expiredToken = await tokenModule.createLoginToken(
     privateEnv.LOGIN_USER,
     new Date(Date.now() - 3_700_000),

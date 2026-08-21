@@ -15,22 +15,23 @@ import { projectsTable } from './schemas';
 // 	}
 // })();
 
-(async () => {
+async function seedProjects() {
   const jsonProjectRepository = new JsonProjectRepository();
   const projects = await jsonProjectRepository.findAll();
 
-  try {
-    await drizzleDb.delete(projectsTable);
+  await drizzleDb.delete(projectsTable);
 
-    // Transforma os projetos para o formato do banco de dados
-    const projectsForDb = projects.map(project => ({
-      ...project,
-      techStack: JSON.stringify(project.techStack), // Converte array para JSON string
-    }));
+  // Transforma os projetos para o formato do banco de dados
+  const projectsForDb = projects.map(project => ({
+    ...project,
+    techStack: JSON.stringify(project.techStack), // Converte array para JSON string
+  }));
 
-    await drizzleDb.insert(projectsTable).values(projectsForDb);
-    console.log('Projects inserted successfully');
-  } catch (e) {
-    console.error('Error inserting projects:', e);
-  }
-})();
+  await drizzleDb.insert(projectsTable).values(projectsForDb);
+  console.log('Projects inserted successfully');
+}
+
+seedProjects().catch(error => {
+  console.error('Error inserting projects:', error);
+  process.exitCode = 1;
+});

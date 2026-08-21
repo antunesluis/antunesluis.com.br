@@ -14,6 +14,20 @@
 - `src/config/`: stable application constants and navigation configuration.
 - `src/proxy.ts`: JWT cookie validation and protection for `/admin/*` routes.
 
+## Configuration boundaries
+
+- `src/config/env/public.ts` exposes only statically referenced
+  `NEXT_PUBLIC_*` values and client-safe conversions. It has no Zod or
+  server-only dependency.
+- `src/config/env/public.server.ts` validates the public contract on the server.
+- `src/config/env/server.ts` owns private configuration and starts with the
+  `server-only` guard so secrets cannot enter the client graph.
+- `src/instrumentation.ts` loads both server-side contracts during startup and
+  stops the application when configuration is invalid.
+- Direct environment reads stay inside these configuration boundaries, except
+  for framework integration values that must be read at their integration
+  point.
+
 ## Request and data flow
 
 - Public routes under `src/app/(public)/` use feature-level public queries and components.
@@ -22,6 +36,12 @@
 - Database access is isolated behind repository interfaces and their Drizzle or JSON implementations in `src/features/*/repositories/`.
 - Models represent domain data, DTOs define cross-boundary shapes, and `lib/validation.ts` files hold feature-level Zod schemas.
 - Shared authentication in `src/lib/auth/` handles password hashing, JWT sessions, login state, and cookies.
+
+## Operational security boundary
+
+Application-level rate limiting is intentionally outside this codebase. The
+reverse proxy used by the deployment is responsible for rate limiting login
+attempts before requests reach the application.
 
 ## External and public contracts
 

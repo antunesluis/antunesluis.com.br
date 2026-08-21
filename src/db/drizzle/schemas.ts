@@ -1,4 +1,5 @@
 import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const postsTable = sqliteTable('posts', {
@@ -34,3 +35,10 @@ export const projectsTable = sqliteTable('projects', {
 
 export type ProjectsTableSelectMode = InferSelectModel<typeof projectsTable>;
 export type ProjectsTableInsertMode = InferInsertModel<typeof projectsTable>;
+
+export const drizzleSchema = {
+  posts: postsTable,
+  projects: projectsTable,
+};
+
+export type DrizzleDatabase = BetterSQLite3Database<typeof drizzleSchema>;
