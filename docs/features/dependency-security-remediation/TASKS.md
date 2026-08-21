@@ -624,7 +624,7 @@ push nem o início da `TASK-007`.
 
 ## TASK-007 - Integrar e validar o estado combinado
 
-- Estado: `pending`
+- Estado: `in_progress`
 - Dependências: `TASK-006`, aceite explícito dos riscos residuais e autorização
   específica para merge e push
 
