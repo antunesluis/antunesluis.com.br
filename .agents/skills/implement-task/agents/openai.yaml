@@ -1,6 +1,0 @@
-interface:
-  display_name: "Implement Task"
-  short_description: "Implementa uma task de um plano aprovado"
-  default_prompt: "Use $implement-task para executar a próxima task elegível deste plano aprovado."
-policy:
-  allow_implicit_invocation: false

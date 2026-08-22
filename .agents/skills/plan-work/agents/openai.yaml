@@ -1,6 +1,0 @@
-interface:
-  display_name: "Plan Work"
-  short_description: "Cria um plano técnico persistente e aprovável"
-  default_prompt: "Use $plan-work para criar o plano técnico e as tasks necessárias para esta mudança."
-policy:
-  allow_implicit_invocation: false

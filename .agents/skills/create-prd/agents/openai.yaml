@@ -1,6 +1,0 @@
-interface:
-  display_name: "Create PRD"
-  short_description: "Define produto e registra um PRD aprovável"
-  default_prompt: "Use $create-prd para definir esta demanda de produto e criar um PRD para aprovação."
-policy:
-  allow_implicit_invocation: false

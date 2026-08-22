@@ -1,28 +1,5 @@
 # Agent Guidelines for antunesluis.com.br
 
-## Delivery workflow
-
-- Read `docs/architecture.md` and `docs/conventions.md` before planning or
-  changing code.
-- Keep each work item persistently documented in `docs/features/<slug>/`.
-- Use workflow skills only when explicitly invoked by the user. The main agent
-  owns the conversation, approvals, artifact writes, and code changes.
-- Never implement without an approved `PLAN.md`. For a complete flow, also
-  require an approved `PRD.md`.
-- Treat approval as valid only after an unambiguous user statement and record
-  its source in the artifact. Never infer approval.
-- A material product, scope, architecture, contract, migration, or risk change
-  invalidates the applicable approval. Corrections already covered by the plan
-  do not require a new approval.
-- When present, `TASKS.md` is the only operational task ledger. In a quick flow,
-  keep the single task in `PLAN.md`.
-- Require a final review before recommending merge. Residual risks require an
-  explicit user decision.
-- The `reviewer` agent is read-only. It returns findings to the main agent and
-  never writes code or reports.
-- Do not create parallel status, implementation, test-plan, QA, audit, or
-  merge-description artifacts.
-
 ## Project
 
 Personal blog/portfolio using Next.js 16, React 19, TypeScript, Tailwind CSS v4,

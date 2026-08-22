@@ -1,6 +1,0 @@
-interface:
-  display_name: "Review Work"
-  short_description: "Revisa implementação com um reviewer read-only"
-  default_prompt: "Use $review-work para revisar a implementação final desta feature sem aplicar correções."
-policy:
-  allow_implicit_invocation: false
