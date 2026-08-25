@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { findAllPublicPostsCached } from '../lib/queries/public';
 import { CoverImage, Heading } from '@/components/ui';
 import { PostSummary } from './PostSummary';
 import { PostModel } from '../models/post-model';

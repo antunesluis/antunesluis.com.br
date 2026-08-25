@@ -9,12 +9,10 @@ import { getZodErrorMessages, makeSlugFromText } from '@/lib/utils';
 import { ProjectModel } from '../models/project-model';
 import { projectRepository } from '../repositories';
 import { verifyLoginSession } from '@/lib/auth';
+import type { FormActionState } from '@/lib/action-result';
+import { PROJECTS_CACHE_TAG } from '../lib/cache-tags';
 
-type CreateProjectActionState = {
-  formState: PublicProject;
-  errors: string[];
-  success?: true;
-};
+type CreateProjectActionState = FormActionState<PublicProject>;
 
 export async function createProjectAction(
   prevState: CreateProjectActionState,
@@ -26,13 +24,15 @@ export async function createProjectAction(
     return {
       formState: prevState.formState,
       errors: ['Log in again before continuing'],
+      success: false,
     };
   }
 
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
-      errors: ['Dados inválidos'],
+      errors: ['Invalid data'],
+      success: false,
     };
   }
 
@@ -44,6 +44,7 @@ export async function createProjectAction(
     return {
       errors,
       formState: makePartialPublicProject(formDataToObj),
+      success: false,
     };
   }
 
@@ -63,15 +64,17 @@ export async function createProjectAction(
       return {
         formState: newProject,
         errors: [e.message],
+        success: false,
       };
     }
 
     return {
       formState: newProject,
-      errors: ['Erro desconhecido'],
+      errors: ['Unknown error'],
+      success: false,
     };
   }
 
-  updateTag('projects');
+  updateTag(PROJECTS_CACHE_TAG);
   redirect(`/admin/projects/${newProject.id}?created=1`);
 }

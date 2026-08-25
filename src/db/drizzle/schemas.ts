@@ -27,7 +27,7 @@ export const projectsTable = sqliteTable('projects', {
   coverImageUrl: text('cover_image_url').notNull(),
   repositoryUrl: text('repository_url').notNull(),
   deployUrl: text('deploy_url'),
-  techStack: text('tech_stack').notNull(), // JSON string array
+  techStack: text('tech_stack', { mode: 'json' }).$type<string[]>().notNull(),
   published: integer('published', { mode: 'boolean' }).notNull(),
   createdAt: text('created_at').notNull(),
   updatedAt: text('updated_at').notNull(),

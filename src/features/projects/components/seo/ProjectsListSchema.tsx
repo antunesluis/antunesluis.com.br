@@ -1,13 +1,14 @@
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, MY_NAME, FULL_NAME } from '@/config/constants';
 import { ProjectModel } from '@/features/projects/models/project-model';
+import type { CollectionPage, WithContext } from 'schema-dts';
 
 type ProjectsListSchemaProps = {
   projects: ProjectModel[];
 };
 
 export function ProjectsListSchema({ projects }: ProjectsListSchemaProps) {
-  const schema = {
+  const schema: WithContext<CollectionPage> = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: `${MY_NAME} - Projects`,

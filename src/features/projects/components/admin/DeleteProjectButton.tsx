@@ -27,8 +27,10 @@ export function DeleteProjectButton({ id, title }: DeleteProjectButtonProps) {
       const result = await deleteProjectAction(id);
       setShowDialog(false);
 
-      if (result.error) {
-        toast.error(`Error deleting project: ${result.error}`);
+      if (!result.success) {
+        result.errors.forEach(error =>
+          toast.error(`Error deleting project: ${error}`),
+        );
         return;
       }
 

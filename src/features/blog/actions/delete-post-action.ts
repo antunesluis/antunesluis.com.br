@@ -3,19 +3,23 @@
 import { updateTag } from 'next/cache';
 import { postRepository } from '../repositories';
 import { verifyLoginSession } from '@/lib/auth';
+import type { ActionResult } from '@/lib/action-result';
+import { BLOG_CACHE_TAG, getPostCacheTag } from '../lib/cache-tags';
 
-export async function deletePostAction(id: string) {
+export async function deletePostAction(id: string): Promise<ActionResult> {
   const isAuthenticated = await verifyLoginSession();
 
   if (!isAuthenticated) {
     return {
-      error: 'Log in again before continuing',
+      errors: ['Log in again before continuing'],
+      success: false,
     };
   }
 
   if (!id || typeof id !== 'string') {
     return {
-      error: 'Invalid data',
+      errors: ['Invalid data'],
+      success: false,
     };
   }
 
@@ -25,19 +29,22 @@ export async function deletePostAction(id: string) {
   } catch (e: unknown) {
     if (e instanceof Error) {
       return {
-        error: e.message,
+        errors: [e.message],
+        success: false,
       };
     }
 
     return {
-      error: 'Unknown error',
+      errors: ['Unknown error'],
+      success: false,
     };
   }
 
-  updateTag('blog');
-  updateTag(`blog-${post.slug}`);
+  updateTag(BLOG_CACHE_TAG);
+  updateTag(getPostCacheTag(post.slug));
 
   return {
-    error: '',
+    errors: [],
+    success: true,
   };
 }

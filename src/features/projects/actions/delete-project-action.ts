@@ -3,19 +3,26 @@
 import { updateTag } from 'next/cache';
 import { projectRepository } from '../repositories';
 import { verifyLoginSession } from '@/lib/auth';
+import type { ActionResult } from '@/lib/action-result';
+import {
+  getProjectCacheTag,
+  PROJECTS_CACHE_TAG,
+} from '../lib/cache-tags';
 
-export async function deleteProjectAction(id: string) {
+export async function deleteProjectAction(id: string): Promise<ActionResult> {
   const isAuthenticated = await verifyLoginSession();
 
   if (!isAuthenticated) {
     return {
-      error: 'Log in again before continuing',
+      errors: ['Log in again before continuing'],
+      success: false,
     };
   }
 
   if (!id || typeof id !== 'string') {
     return {
-      error: 'Invalid data',
+      errors: ['Invalid data'],
+      success: false,
     };
   }
 
@@ -25,19 +32,22 @@ export async function deleteProjectAction(id: string) {
   } catch (e: unknown) {
     if (e instanceof Error) {
       return {
-        error: e.message,
+        errors: [e.message],
+        success: false,
       };
     }
 
     return {
-      error: 'Unknown error',
+      errors: ['Unknown error'],
+      success: false,
     };
   }
 
-  updateTag('projects');
-  updateTag(`project-${project.slug}`);
+  updateTag(PROJECTS_CACHE_TAG);
+  updateTag(getProjectCacheTag(project.slug));
 
   return {
-    error: '',
+    errors: [],
+    success: true,
   };
 }

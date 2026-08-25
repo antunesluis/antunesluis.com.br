@@ -6,13 +6,14 @@ import {
   SITE_DESCRIPTION,
 } from '@/config/constants';
 import { PostModel } from '../../models/post-model';
+import type { Blog, WithContext } from 'schema-dts';
 
 type BlogSchemaProps = {
   posts: PostModel[];
 };
 
 export function BlogSchema({ posts }: BlogSchemaProps) {
-  const schema = {
+  const schema: WithContext<Blog> = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     name: `${MY_NAME} - Blog`,
@@ -28,14 +29,7 @@ export function BlogSchema({ posts }: BlogSchemaProps) {
     publisher: {
       '@type': 'Person',
       name: FULL_NAME,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${SITE_URL}/icon-512.png`,
-        width: 512,
-        height: 512,
-      },
     },
-    numberOfItems: posts.length,
     blogPost: posts.map(post => ({
       '@type': 'BlogPosting',
       headline: post.title,

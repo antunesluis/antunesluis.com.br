@@ -10,12 +10,13 @@ import { ProjectUpdateSchema } from '../lib/validation';
 import { getZodErrorMessages } from '@/lib/utils';
 import { projectRepository } from '../repositories';
 import { verifyLoginSession } from '@/lib/auth';
+import type { FormActionState } from '@/lib/action-result';
+import {
+  getProjectCacheTag,
+  PROJECTS_CACHE_TAG,
+} from '../lib/cache-tags';
 
-type UpdateProjectActionState = {
-  formState: PublicProject;
-  errors: string[];
-  success?: true;
-};
+type UpdateProjectActionState = FormActionState<PublicProject>;
 
 export async function updateProjectAction(
   prevState: UpdateProjectActionState,
@@ -27,13 +28,15 @@ export async function updateProjectAction(
     return {
       formState: prevState.formState,
       errors: ['Log in again before continuing'],
+      success: false,
     };
   }
 
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
-      errors: ['Dados inválidos'],
+      errors: ['Invalid data'],
+      success: false,
     };
   }
 
@@ -42,7 +45,8 @@ export async function updateProjectAction(
   if (!id || typeof id !== 'string') {
     return {
       formState: prevState.formState,
-      errors: ['ID inválido'],
+      errors: ['Invalid ID'],
+      success: false,
     };
   }
 
@@ -54,6 +58,7 @@ export async function updateProjectAction(
     return {
       errors,
       formState: makePartialPublicProject(formDataToObj),
+      success: false,
     };
   }
 
@@ -70,17 +75,19 @@ export async function updateProjectAction(
       return {
         formState: makePartialPublicProject(formDataToObj),
         errors: [e.message],
+        success: false,
       };
     }
 
     return {
       formState: makePartialPublicProject(formDataToObj),
-      errors: ['Erro desconhecido'],
+      errors: ['Unknown error'],
+      success: false,
     };
   }
 
-  updateTag('projects');
-  updateTag(`project-${project.slug}`);
+  updateTag(PROJECTS_CACHE_TAG);
+  updateTag(getProjectCacheTag(project.slug));
 
   return {
     formState: makePublicProjectFromDb(project),

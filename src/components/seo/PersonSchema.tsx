@@ -1,8 +1,9 @@
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL, FULL_NAME, MY_NAME, SOCIAL } from '@/config/constants';
+import type { Person, WithContext } from 'schema-dts';
 
 export function PersonSchema() {
-  const schema = {
+  const schema: WithContext<Person> = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: FULL_NAME,
@@ -11,8 +12,6 @@ export function PersonSchema() {
     image: {
       '@type': 'ImageObject',
       url: `${SITE_URL}/og-image.png`,
-      width: 1200,
-      height: 630,
       caption: `${FULL_NAME} Profile Picture`,
     },
     jobTitle: 'Full Stack Developer',

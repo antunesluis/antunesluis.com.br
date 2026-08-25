@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { SearchIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { formatShortDate } from '@/lib/utils';
 
@@ -19,6 +20,7 @@ interface SearchButtonProps {
 }
 
 export function SearchButton({ posts }: SearchButtonProps) {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchPost[]>([]);
@@ -79,7 +81,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
           event.preventDefault();
           if (selectedIndex >= 0 && selectedIndex < results.length) {
             const selectedPost = results[selectedIndex];
-            window.location.href = `/blog/${selectedPost.slug}`;
+            router.push(`/blog/${selectedPost.slug}`);
             handleClose();
           }
           break;
@@ -90,7 +92,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
           break;
       }
     },
-    [isOpen, results, selectedIndex, handleClose],
+    [isOpen, results, selectedIndex, handleClose, router],
   );
 
   useEffect(() => {

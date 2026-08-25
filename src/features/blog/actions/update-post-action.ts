@@ -10,12 +10,10 @@ import {
 import { getZodErrorMessages } from '@/lib/utils';
 import { verifyLoginSession } from '@/lib/auth';
 import { postRepository } from '../repositories';
+import type { FormActionState } from '@/lib/action-result';
+import { BLOG_CACHE_TAG, getPostCacheTag } from '../lib/cache-tags';
 
-type UpdatePostActionState = {
-  formState: PublicPost;
-  errors: string[];
-  success?: true;
-};
+type UpdatePostActionState = FormActionState<PublicPost>;
 
 export async function updatePostAction(
   prevState: UpdatePostActionState,
@@ -27,13 +25,15 @@ export async function updatePostAction(
     return {
       formState: prevState.formState,
       errors: ['Log in again before continuing'],
+      success: false,
     };
   }
 
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
-      errors: ['Dados inválidos'],
+      errors: ['Invalid data'],
+      success: false,
     };
   }
 
@@ -42,7 +42,8 @@ export async function updatePostAction(
   if (!id || typeof id !== 'string') {
     return {
       formState: prevState.formState,
-      errors: ['ID inválido'],
+      errors: ['Invalid ID'],
+      success: false,
     };
   }
 
@@ -54,6 +55,7 @@ export async function updatePostAction(
     return {
       errors,
       formState: makePartialPublicPost(formDataToObj),
+      success: false,
     };
   }
 
@@ -70,17 +72,19 @@ export async function updatePostAction(
       return {
         formState: makePartialPublicPost(formDataToObj),
         errors: [e.message],
+        success: false,
       };
     }
 
     return {
       formState: makePartialPublicPost(formDataToObj),
-      errors: ['Erro desconhecido'],
+      errors: ['Unknown error'],
+      success: false,
     };
   }
 
-  updateTag('blog');
-  updateTag(`blog-${post.slug}`);
+  updateTag(BLOG_CACHE_TAG);
+  updateTag(getPostCacheTag(post.slug));
 
   return {
     formState: makePublicPostFromDb(post),

@@ -77,7 +77,7 @@ test('runs an authenticated project CRUD cycle through the real actions and repo
   });
 
   await actions.createProjectAction(
-    { formState: {}, errors: [] } as never,
+    { formState: {}, errors: [], success: false } as never,
     createFormData,
   );
 
@@ -106,7 +106,7 @@ test('runs an authenticated project CRUD cycle through the real actions and repo
     published: 'false',
   });
   const updateResult = await actions.updateProjectAction(
-    { formState: {}, errors: [] } as never,
+    { formState: {}, errors: [], success: false } as never,
     updateFormData,
   );
 
@@ -126,7 +126,7 @@ test('runs an authenticated project CRUD cycle through the real actions and repo
   assert.equal(updatedProject.createdAt, createdProject.createdAt);
 
   const deleteResult = await actions.deleteProjectAction(createdProject.id);
-  assert.deepEqual(deleteResult, { error: '' });
+  assert.deepEqual(deleteResult, { errors: [], success: true });
   assert.deepEqual(await repository.findAll(), []);
   assert.deepEqual(mocks.updateTag.mock.calls, [
     ['projects'],
@@ -135,4 +135,20 @@ test('runs an authenticated project CRUD cycle through the real actions and repo
     ['projects'],
     [`project-${createdProject.slug}`],
   ]);
+});
+
+test('returns the shared CRUD error contract for invalid project input', async () => {
+  const formState = { marker: 'original' };
+
+  assert.deepEqual(
+    await actions.createProjectAction(
+      { formState, errors: [], success: false } as never,
+      {} as FormData,
+    ),
+    { formState, errors: ['Invalid data'], success: false },
+  );
+  assert.deepEqual(await actions.deleteProjectAction(''), {
+    errors: ['Invalid data'],
+    success: false,
+  });
 });

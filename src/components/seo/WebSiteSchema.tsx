@@ -5,9 +5,10 @@ import {
   MY_NAME,
   SITE_DESCRIPTION,
 } from '@/config/constants';
+import type { WebSite, WithContext } from 'schema-dts';
 
 export function WebSiteSchema() {
-  const schema = {
+  const schema: WithContext<WebSite> = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: MY_NAME,
@@ -24,14 +25,6 @@ export function WebSiteSchema() {
     publisher: {
       '@type': 'Person',
       name: FULL_NAME,
-    },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
     },
   };
 

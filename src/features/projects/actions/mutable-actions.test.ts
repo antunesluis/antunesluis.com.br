@@ -58,12 +58,13 @@ function assertNoEffects() {
 test('createProjectAction refuses before reading input or causing effects', async () => {
   const formState = { marker: 'original' };
   const result = await actions.createProjectAction(
-    { formState, errors: [] } as never,
+    { formState, errors: [], success: false } as never,
     poisonFormData(),
   );
   assert.deepEqual(result, {
     formState,
     errors: ['Log in again before continuing'],
+    success: false,
   });
   assertNoEffects();
 });
@@ -71,18 +72,22 @@ test('createProjectAction refuses before reading input or causing effects', asyn
 test('updateProjectAction refuses before reading input or causing effects', async () => {
   const formState = { marker: 'original' };
   const result = await actions.updateProjectAction(
-    { formState, errors: [] } as never,
+    { formState, errors: [], success: false } as never,
     poisonFormData(),
   );
   assert.deepEqual(result, {
     formState,
     errors: ['Log in again before continuing'],
+    success: false,
   });
   assertNoEffects();
 });
 
-test('deleteProjectAction uses the error field and causes no effects', async () => {
+test('deleteProjectAction returns the shared result and causes no effects', async () => {
   const result = await actions.deleteProjectAction('project-id');
-  assert.deepEqual(result, { error: 'Log in again before continuing' });
+  assert.deepEqual(result, {
+    errors: ['Log in again before continuing'],
+    success: false,
+  });
   assertNoEffects();
 });

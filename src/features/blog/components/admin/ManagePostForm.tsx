@@ -46,6 +46,7 @@ export function ManagePostForm(props: ManagePostFormProps) {
   const initialState = {
     formState: makePartialPublicPost(publicPost),
     errors: [],
+    success: false,
   };
   const [state, action, isPending] = useActionState(
     actionsMap[mode],

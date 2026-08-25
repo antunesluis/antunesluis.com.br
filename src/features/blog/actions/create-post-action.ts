@@ -10,12 +10,10 @@ import { PostModel } from '../models/post-model';
 import { makeSlugFromText } from '@/lib/utils/make-slug-from-text';
 import { postRepository } from '../repositories';
 import { verifyLoginSession } from '@/lib/auth';
+import type { FormActionState } from '@/lib/action-result';
+import { BLOG_CACHE_TAG } from '../lib/cache-tags';
 
-type CreatePostActionState = {
-  formState: PublicPost;
-  errors: string[];
-  success?: true;
-};
+type CreatePostActionState = FormActionState<PublicPost>;
 
 export async function createPostAction(
   prevState: CreatePostActionState,
@@ -27,13 +25,15 @@ export async function createPostAction(
     return {
       formState: prevState.formState,
       errors: ['Log in again before continuing'],
+      success: false,
     };
   }
 
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
-      errors: ['Dados inválidos'],
+      errors: ['Invalid data'],
+      success: false,
     };
   }
 
@@ -45,6 +45,7 @@ export async function createPostAction(
     return {
       errors,
       formState: makePartialPublicPost(formDataToObj),
+      success: false,
     };
   }
 
@@ -64,15 +65,17 @@ export async function createPostAction(
       return {
         formState: newPost,
         errors: [e.message],
+        success: false,
       };
     }
 
     return {
       formState: newPost,
-      errors: ['Erro desconhecido'],
+      errors: ['Unknown error'],
+      success: false,
     };
   }
 
-  updateTag('blog');
+  updateTag(BLOG_CACHE_TAG);
   redirect(`/admin/blog/${newPost.id}?created=1`);
 }

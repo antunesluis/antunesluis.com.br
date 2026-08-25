@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { projectsTable } from '@/db/drizzle/schemas';
 import { createTestDatabase } from '@/db/drizzle/test-database';
 import type { ProjectModel } from '../models/project-model';
@@ -62,13 +62,50 @@ describe('DrizzleProjectRepository', () => {
     const project = makeProject();
 
     await expect(repository.create(project)).resolves.toEqual(project);
-    const storedProjects = await testDatabase.db
-      .select({ techStack: projectsTable.techStack })
-      .from(projectsTable);
+    const storedProject = await testDatabase.db.get<{ techStack: string }>(sql`
+      SELECT tech_stack AS techStack FROM projects
+    `);
 
-    expect(storedProjects).toEqual([
-      { techStack: JSON.stringify(project.techStack) },
-    ]);
+    expect(storedProject).toEqual({
+      techStack: JSON.stringify(project.techStack),
+    });
+  });
+
+  test('reads an existing TEXT JSON techStack as domain values', async () => {
+    const project = makeProject({
+      id: 'legacy-project',
+      slug: 'legacy-project',
+      name: 'Legacy project',
+      techStack: ['TypeScript', 'SQLite'],
+    });
+
+    await testDatabase.db.run(sql`
+      INSERT INTO projects (
+        id, name, slug, description, content, cover_image_url,
+        repository_url, deploy_url, tech_stack, published, created_at,
+        updated_at
+      ) VALUES (
+        ${project.id}, ${project.name}, ${project.slug},
+        ${project.description}, ${project.content}, ${project.coverImageUrl},
+        ${project.repositoryUrl}, ${project.deployUrl},
+        ${JSON.stringify(project.techStack)}, ${project.published ? 1 : 0},
+        ${project.createdAt}, ${project.updatedAt}
+      )
+    `);
+
+    await expect(repository.findById(project.id)).resolves.toEqual(project);
+  });
+
+  test('normalizes a missing deployUrl at the repository boundary', async () => {
+    const project = makeProject({ deployUrl: undefined });
+
+    await repository.create(project);
+
+    await expect(repository.findById(project.id)).resolves.toEqual(project);
+    const storedProject = await testDatabase.db.get<{ deployUrl: null }>(sql`
+      SELECT deploy_url AS deployUrl FROM projects WHERE id = ${project.id}
+    `);
+    expect(storedProject).toEqual({ deployUrl: null });
   });
 
   test('finds and lists administrative projects with domain techStack values', async () => {
@@ -160,8 +197,24 @@ describe('DrizzleProjectRepository', () => {
       .where(eq(projectsTable.id, project.id));
     expect(storedProject).toEqual({
       deployUrl: update.deployUrl,
-      techStack: JSON.stringify(update.techStack),
+      techStack: update.techStack,
     });
+  });
+
+  test('clears deployUrl when an update receives undefined', async () => {
+    const project = makeProject();
+    const update = makeProjectUpdate({ deployUrl: undefined });
+
+    await repository.create(project);
+    await repository.update(project.id, update);
+
+    await expect(repository.findById(project.id)).resolves.toMatchObject({
+      deployUrl: undefined,
+    });
+    const storedProject = await testDatabase.db.get<{ deployUrl: null }>(sql`
+      SELECT deploy_url AS deployUrl FROM projects WHERE id = ${project.id}
+    `);
+    expect(storedProject).toEqual({ deployUrl: null });
   });
 
   test('deletes a project and returns its transformed previous state', async () => {

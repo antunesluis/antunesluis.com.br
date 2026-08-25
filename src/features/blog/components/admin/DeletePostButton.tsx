@@ -27,8 +27,10 @@ export function DeletePostButton({ id, title }: DeletePostButtonProps) {
       const result = await deletePostAction(id);
       setShowDialog(false);
 
-      if (result.error) {
-        toast.error(`Error deleting post: ${result.error}`);
+      if (!result.success) {
+        result.errors.forEach(error =>
+          toast.error(`Error deleting post: ${error}`),
+        );
         return;
       }
 
