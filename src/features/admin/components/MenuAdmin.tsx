@@ -35,9 +35,10 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
   const linkClasses = clsx(
     '[&>svg]:w-[16px] [&>svg]:h-[16px] px-4',
     'flex items-center justify-start gap-2 cursor-pointer',
-    'transition hover:bg-muted',
+    'transition-colors hover:bg-muted',
     'h-10 rounded-lg',
     'shrink-0',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     'disabled:cursor-not-allowed disabled:opacity-50',
   );
   const openCloseBtnClasses = clsx(
@@ -45,6 +46,11 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
     'text-primary italic',
     'sm:hidden',
   );
+  const isCreatingPost = pathName === '/admin/blog/new';
+  const isManagingPosts = pathName.startsWith('/admin/blog') && !isCreatingPost;
+  const isCreatingProject = pathName === '/admin/projects/new';
+  const isManagingProjects =
+    pathName.startsWith('/admin/projects') && !isCreatingProject;
 
   function handleLogout() {
     if (isPending) return;
@@ -80,29 +86,60 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
 
       <div
         id='admin-navigation-items'
-        className={clsx('flex flex-col sm:contents', !isOpen && 'max-sm:hidden')}
+        className={clsx(
+          'flex flex-col sm:contents',
+          !isOpen && 'max-sm:hidden',
+        )}
       >
         <a className={linkClasses} href='/' target='_blank'>
           <HouseIcon />
           Home
         </a>
 
-        <Link className={linkClasses} href='/admin/blog'>
+        <Link
+          className={clsx(
+            linkClasses,
+            isManagingPosts && 'bg-primary/10 text-primary',
+          )}
+          href='/admin/blog'
+          aria-current={isManagingPosts ? 'page' : undefined}
+        >
           <FileTextIcon />
           Blog
         </Link>
 
-        <Link className={linkClasses} href='/admin/blog/new'>
+        <Link
+          className={clsx(
+            linkClasses,
+            isCreatingPost && 'bg-primary/10 text-primary',
+          )}
+          href='/admin/blog/new'
+          aria-current={isCreatingPost ? 'page' : undefined}
+        >
           <PlusIcon />
           Create Post
         </Link>
 
-        <Link className={linkClasses} href='/admin/projects'>
+        <Link
+          className={clsx(
+            linkClasses,
+            isManagingProjects && 'bg-primary/10 text-primary',
+          )}
+          href='/admin/projects'
+          aria-current={isManagingProjects ? 'page' : undefined}
+        >
           <FileTextIcon />
           Projects
         </Link>
 
-        <Link className={linkClasses} href='/admin/projects/new'>
+        <Link
+          className={clsx(
+            linkClasses,
+            isCreatingProject && 'bg-primary/10 text-primary',
+          )}
+          href='/admin/projects/new'
+          aria-current={isCreatingProject ? 'page' : undefined}
+        >
           <PlusIcon />
           Create Project
         </Link>

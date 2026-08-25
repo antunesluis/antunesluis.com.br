@@ -31,9 +31,10 @@ export async function ProjectsList({ projects }: ProjectsListProps) {
                   'hover:shadow-lg hover:bg-card/80',
                   'rounded-xl overflow-hidden',
                   'transition-all duration-300 ease-in-out',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                 )}
               >
-                <div className='w-full h-64 md:h-auto md:w-64 shrink-0'>
+                <div className='w-full aspect-[12/7] md:h-auto md:w-64 shrink-0'>
                   <CoverImage
                     imageProps={{
                       width: 1200,

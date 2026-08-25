@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function AdminProjectPage() {
   return (
     <>
-      <h1 className='sr-only'>Administração de projetos</h1>
+      <h1 className='mb-6 text-2xl font-extrabold text-foreground'>Projetos</h1>
       <Suspense fallback={<SpinLoader className='mb-16' />}>
         <ProjectListAdmin />
       </Suspense>

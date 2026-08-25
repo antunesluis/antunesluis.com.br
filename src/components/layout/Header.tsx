@@ -15,7 +15,7 @@ export function Header() {
       >
         <Link
           href='/'
-          className='flex gap-2 items-center group'
+          className='flex gap-2 items-center rounded-lg group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
           aria-label='Página inicial'
         >
           <BirdIcon className='w-7 h-7 lg:w-8 lg:h-8 text-foreground group-hover:text-primary' />

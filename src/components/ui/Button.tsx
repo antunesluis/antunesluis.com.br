@@ -74,9 +74,9 @@ export function Button({
     buttonVariants[variant],
     sizeClasses[size],
     'flex items-center justify-center cursor-pointer',
-    'transition hover:shadow-sm',
-    'disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400',
-    'dark:disabled:bg-slate-800 dark:disabled:text-slate-600',
+    'transition-[color,background-color,border-color,box-shadow,opacity]',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+    'disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-none',
     props.className,
   );
 

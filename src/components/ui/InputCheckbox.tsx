@@ -18,14 +18,15 @@ export function InputCheckbox({
       <input
         {...props}
         className={clsx(
-          'w-5 h-5 outline-none focus:ring-2 focus:ring-ring',
+          'w-5 h-5 rounded border-input accent-primary',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
           props.className,
         )}
         type={type}
         id={id}
       />
       {labelText && (
-        <label className='text-sm' htmlFor={id}>
+        <label className='text-sm font-medium text-foreground' htmlFor={id}>
           {labelText}
         </label>
       )}

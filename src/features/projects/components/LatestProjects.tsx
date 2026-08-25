@@ -17,7 +17,10 @@ export async function LatestProjects({ latestProjects }: LatestProjectsProps) {
 
         return (
           <article key={project.slug}>
-            <Link href={projectLink} className='flex flex-col gap-4 group'>
+            <Link
+              href={projectLink}
+              className='flex flex-col gap-4 rounded-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+            >
               <CoverImage
                 imageProps={{
                   width: 1200,
@@ -25,8 +28,8 @@ export async function LatestProjects({ latestProjects }: LatestProjectsProps) {
                   src: project.coverImageUrl,
                   alt: project.name,
                   priority: false,
-                  className: 'h-auto md:h-64',
                 }}
+                className='aspect-[12/7] h-auto'
               />
               <ProjectSummary
                 variant='card'

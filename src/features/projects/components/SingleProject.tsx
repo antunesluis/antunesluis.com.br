@@ -19,7 +19,7 @@ export async function SingleProject({ project }: SingleProjectProps) {
   return (
     <div className='mb-24'>
       <article className='flex flex-col gap-12'>
-        <header className='group flex flex-col gap-12'>
+        <header className='flex flex-col gap-12'>
           <Image
             className='rounded-xl w-full h-auto'
             src={project.coverImageUrl}

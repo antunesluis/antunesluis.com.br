@@ -39,7 +39,7 @@ test('confirms a post deletion exactly once through the existing action contract
       name: 'Delete post Typed cache boundaries',
     }),
   );
-  await user.click(screen.getByRole('button', { name: 'Ok' }));
+  await user.click(screen.getByRole('button', { name: 'Excluir' }));
 
   await waitFor(() =>
     expect(mocks.deletePostAction).toHaveBeenCalledWith('post-1'),

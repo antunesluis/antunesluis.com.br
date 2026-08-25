@@ -29,12 +29,12 @@ const safe = true;
     throw new Error('Expected a syntax-highlighted JavaScript code block');
   }
   expect(highlightedCode.textContent).toBe('const safe = true;');
-  expect(highlightedCode.parentElement?.classList.contains('text-base')).toBe(
+  expect(highlightedCode.parentElement?.classList.contains('text-sm')).toBe(
     true,
   );
-  expect(highlightedCode.parentElement?.classList.contains('md:text-lg')).toBe(
-    true,
-  );
+  expect(
+    highlightedCode.parentElement?.classList.contains('md:text-base'),
+  ).toBe(true);
 
   expect(container.querySelector('script')).toBeNull();
   expect(container.innerHTML).not.toContain('globalThis.compromised');
@@ -45,9 +45,7 @@ const safe = true;
 
 test('loads Markdown images lazily while preserving their accessible text', () => {
   render(
-    <SafeMarkdown
-      markdown='![Captura do terminal](https://example.com/terminal.png)'
-    />,
+    <SafeMarkdown markdown='![Captura do terminal](https://example.com/terminal.png)' />,
   );
 
   const image = screen.getByRole('img', { name: 'Captura do terminal' });

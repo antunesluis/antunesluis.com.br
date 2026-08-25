@@ -21,9 +21,11 @@ export default async function AdminLoginPage() {
   }
 
   return (
-    <>
-      <h1 className='sr-only'>Login administrativo</h1>
+    <div className='mx-auto mt-16 mb-32 max-w-sm'>
+      <h1 className='text-2xl font-extrabold text-foreground'>
+        Login administrativo
+      </h1>
       <LoginForm />
-    </>
+    </div>
   );
 }

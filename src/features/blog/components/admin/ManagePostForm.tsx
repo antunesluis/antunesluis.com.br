@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
+import { HourglassIcon } from 'lucide-react';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/Button';
@@ -22,8 +23,7 @@ type ManagePostFormCreateProps = {
 };
 
 type ManagePostFormProps =
-  | ManagePostFormUpdateProps
-  | ManagePostFormCreateProps;
+  ManagePostFormUpdateProps | ManagePostFormCreateProps;
 
 export function ManagePostForm(props: ManagePostFormProps) {
   const { mode } = props;
@@ -79,7 +79,7 @@ export function ManagePostForm(props: ManagePostFormProps) {
   const [contentValue, setContentValue] = useState(publicPost?.content || '');
 
   return (
-    <form action={action} className='mb-16'>
+    <form action={action} className='mb-16' aria-busy={isPending}>
       <div className='flex flex-col gap-6'>
         <InputText
           labelText='ID'
@@ -157,7 +157,8 @@ export function ManagePostForm(props: ManagePostFormProps) {
 
         <div className='mt-4'>
           <Button disabled={isPending} type='submit'>
-            Submit
+            {isPending ? <HourglassIcon /> : null}
+            {isPending ? 'Salvando...' : 'Submit'}
           </Button>
         </div>
       </div>

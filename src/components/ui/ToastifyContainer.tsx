@@ -1,8 +1,11 @@
 'use client';
 
 import { Bounce, ToastContainer } from 'react-toastify';
+import { useTheme } from 'next-themes';
 
 export function ToastifyContainer() {
+  const { resolvedTheme } = useTheme();
+
   return (
     <ToastContainer
       position='top-center'
@@ -13,7 +16,7 @@ export function ToastifyContainer() {
       rtl={false}
       pauseOnFocusLoss
       pauseOnHover
-      theme='light'
+      theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
       transition={Bounce}
     />
   );
