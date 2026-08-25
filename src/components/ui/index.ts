@@ -2,7 +2,7 @@ export * from './Button';
 export * from './ButtonLink';
 export * from './Comments';
 export * from './CoverImage';
-export * from './Dialog';
+export * from './ConfirmationDialog';
 export * from './ErrorMessage';
 export * from './Heading';
 export * from './InputCheckbox';

@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { afterEach, beforeAll, expect, test, vi } from 'vitest';
 import { SearchButton } from './SearchButton';
 
@@ -9,6 +10,24 @@ const mocks = vi.hoisted(() => ({ push: vi.fn() }));
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mocks.push }),
 }));
+vi.mock('next/link', async () => {
+  const { forwardRef } = await import('react');
+
+  return {
+    default: forwardRef<HTMLAnchorElement, React.ComponentProps<'a'>>(
+      ({ onClick, ...props }, ref) => (
+        <a
+          {...props}
+          ref={ref}
+          onClick={event => {
+            event.preventDefault();
+            onClick?.(event);
+          }}
+        />
+      ),
+    ),
+  };
+});
 
 beforeAll(() => {
   Element.prototype.scrollIntoView = vi.fn();
@@ -19,29 +38,53 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-test('navigates to the selected result with Enter', () => {
+const posts = [
+  {
+    slug: 'typed-cache-boundaries',
+    title: 'Typed cache boundaries',
+    excerpt: 'A post about keeping feature boundaries explicit.',
+    author: 'Luis Antunes',
+    createdAt: '2026-08-24T12:00:00.000Z',
+  },
+];
+
+test('navigates to the selected result with Enter', async () => {
+  const user = userEvent.setup();
   render(
-    <SearchButton
-      posts={[
-        {
-          slug: 'typed-cache-boundaries',
-          title: 'Typed cache boundaries',
-          excerpt: 'A post about keeping feature boundaries explicit.',
-          author: 'Luis Antunes',
-          createdAt: '2026-08-24T12:00:00.000Z',
-        },
-      ]}
-    />,
+    <SearchButton posts={posts} />,
   );
 
-  fireEvent.click(screen.getByRole('button', { name: 'Abrir busca' }));
-  fireEvent.change(
-    screen.getByPlaceholderText('Buscar posts por título, resumo ou autor...'),
-    { target: { value: 'cache' } },
-  );
-  fireEvent.keyDown(document, { key: 'ArrowDown' });
-  fireEvent.keyDown(document, { key: 'Enter' });
+  await user.click(screen.getByRole('button', { name: 'Abrir busca' }));
+  const input = await screen.findByRole('combobox');
+  await user.type(input, 'cache');
+  await user.keyboard('{ArrowDown}{Enter}');
 
   expect(mocks.push).toHaveBeenCalledWith('/blog/typed-cache-boundaries');
   expect(screen.queryByRole('dialog')).toBeNull();
+});
+
+test('focuses the input and restores focus when Escape closes an empty search', async () => {
+  const user = userEvent.setup();
+  render(<SearchButton posts={posts} />);
+
+  const trigger = screen.getByRole('button', { name: 'Abrir busca' });
+  await user.click(trigger);
+
+  const input = await screen.findByRole('combobox');
+  await waitFor(() => expect(document.activeElement).toBe(input));
+  await user.keyboard('{Escape}');
+
+  await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+  expect(document.activeElement).toBe(trigger);
+});
+
+test('closes after selecting a result with the mouse', async () => {
+  const user = userEvent.setup();
+  render(<SearchButton posts={posts} />);
+
+  await user.click(screen.getByRole('button', { name: 'Abrir busca' }));
+  await user.type(await screen.findByRole('combobox'), 'cache');
+  await user.click(screen.getByRole('option', { name: /typed cache boundaries/i }));
+
+  await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
 });
