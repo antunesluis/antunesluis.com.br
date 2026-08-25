@@ -11,8 +11,11 @@ export const metadata: Metadata = {
 
 export default async function AdminProjectPage() {
   return (
-    <Suspense fallback={<SpinLoader className='mb-16' />}>
-      <ProjectListAdmin />
-    </Suspense>
+    <>
+      <h1 className='sr-only'>Administração de projetos</h1>
+      <Suspense fallback={<SpinLoader className='mb-16' />}>
+        <ProjectListAdmin />
+      </Suspense>
+    </>
   );
 }

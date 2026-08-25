@@ -36,6 +36,10 @@ test('exposes a disclosure control and disables logout while it is pending', asy
   );
   render(<MenuAdmin onLogout={onLogout} />);
 
+  expect(
+    screen.getByRole('navigation', { name: 'Navegação administrativa' }),
+  ).toBeInstanceOf(HTMLElement);
+
   const toggle = screen.getByRole('button', { name: 'Menu' });
   expect(toggle.getAttribute('aria-expanded')).toBe('false');
 

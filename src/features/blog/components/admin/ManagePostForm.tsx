@@ -3,12 +3,10 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import {
-  Button,
-  InputCheckbox,
-  InputText,
-  MarkdownEditor,
-} from '@/components/ui';
+import { Button } from '@/components/ui/Button';
+import { InputCheckbox } from '@/components/ui/InputCheckbox';
+import { InputText } from '@/components/ui/InputText';
+import { MarkdownEditor } from '@/components/ui/MarkdownEditor';
 import { makePartialPublicPost, PublicPost } from '../../dto/post-dto';
 import { updatePostAction } from '../../actions/update-post-action';
 import { createPostAction } from '../../actions/create-post-action';

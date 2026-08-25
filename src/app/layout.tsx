@@ -2,7 +2,7 @@ import { Bricolage_Grotesque, Inter, JetBrains_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
 import { createMetadata } from '@/lib/metadata';
-import { ThemeProvider, ToastifyContainer } from '@/components/ui';
+import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { Container, Header, Footer } from '@/components/layout';
 
 const inter_font = Inter({
@@ -21,6 +21,7 @@ const jetbrains_mono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-jetbrains-mono',
+  preload: false,
 });
 
 type RootLayoutProps = {
@@ -56,11 +57,16 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           disableTransitionOnChange
         >
           <Container>
+            <a
+              href='#main-content'
+              className='sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:shadow-md'
+            >
+              Pular para o conteúdo principal
+            </a>
             <Header />
             <main id='main-content'>{children}</main>
             <Footer />
           </Container>
-          <ToastifyContainer />
         </ThemeProvider>
       </body>
     </html>

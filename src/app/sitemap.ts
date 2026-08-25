@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { SITE_URL } from '@/config/constants';
-import { findAllPublicPostsCached } from '@/features/blog';
-import { findAllPublicProjectCached } from '@/features/projects';
+import { findAllPublicPostsCached } from '@/features/blog/lib/queries/public';
+import { findAllPublicProjectCached } from '@/features/projects/lib/queries/public';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
@@ -10,25 +10,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/projects`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },

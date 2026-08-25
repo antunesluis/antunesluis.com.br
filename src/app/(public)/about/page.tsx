@@ -1,5 +1,5 @@
 import { BreadcrumbSchema, PersonSchema } from '@/components/seo';
-import { Heading } from '@/components/ui';
+import { Heading } from '@/components/ui/Heading';
 import { AboutHeader, ResumeSection, SocialLinks } from '@/features/about';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
@@ -22,7 +22,7 @@ export default function AboutPage() {
         ]}
       />
 
-      <main>
+      <div>
         <article className='flex flex-col gap-8 mx-auto mb-24'>
           <AboutHeader />
 
@@ -46,7 +46,7 @@ export default function AboutPage() {
             <ResumeSection />
           </section>
         </article>
-      </main>
+      </div>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { Heading } from '@/components/ui';
+import { Heading } from '@/components/ui/Heading';
 import clsx from 'clsx';
 import { ProjectTechBadges } from './ProjectTechBadges';
 

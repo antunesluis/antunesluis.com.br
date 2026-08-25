@@ -2,7 +2,7 @@ import { findAllProjectAdmin } from '@/features/projects';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { DeleteProjectButton } from './DeleteProjectButton';
-import { ErrorMessage } from '@/components/ui';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
 
 export async function ProjectListAdmin() {
   const projects = await findAllProjectAdmin();

@@ -6,12 +6,10 @@ import { toast } from 'react-toastify';
 import { makePartialPublicProject, PublicProject } from '../../dto/project-dto';
 import { updateProjectAction } from '../../actions/update-project-action';
 import { createProjectAction } from '../../actions/create-project-action';
-import {
-  Button,
-  InputCheckbox,
-  InputText,
-  MarkdownEditor,
-} from '@/components/ui';
+import { Button } from '@/components/ui/Button';
+import { InputCheckbox } from '@/components/ui/InputCheckbox';
+import { InputText } from '@/components/ui/InputText';
+import { MarkdownEditor } from '@/components/ui/MarkdownEditor';
 import { ImageUploader } from '@/features/upload';
 
 type ManageProjectFormUpdateProps = {

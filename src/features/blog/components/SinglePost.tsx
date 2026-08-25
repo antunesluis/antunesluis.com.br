@@ -1,10 +1,8 @@
 import Image from 'next/image';
-import {
-  Comments,
-  Heading,
-  SafeMarkdown,
-  ScrollTopAndComment,
-} from '@/components/ui';
+import { Comments } from '@/components/ui/Comments';
+import { Heading } from '@/components/ui/Heading';
+import { SafeMarkdown } from '@/components/ui/SafeMarkdown';
+import { ScrollTopAndComment } from '@/components/ui/ScrollTopAndComment';
 import { PostDate } from './PostDate';
 import { PostModel } from '../models/post-model';
 
@@ -16,7 +14,7 @@ export async function SinglePost({ post }: SinglePostProps) {
   const pathname = `post/${post.slug}`;
 
   return (
-    <main className='mb-24'>
+    <div className='mb-24'>
       <article className='flex flex-col gap-12'>
         <header className='group flex flex-col gap-12'>
           <Image
@@ -57,6 +55,6 @@ export async function SinglePost({ post }: SinglePostProps) {
 
         <ScrollTopAndComment />
       </article>
-    </main>
+    </div>
   );
 }

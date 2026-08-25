@@ -1,10 +1,8 @@
 import { BreadcrumbSchema } from '@/components/seo';
-import { SpinLoader } from '@/components/ui';
-import {
-  BlogPostSchema,
-  findPublicPostBySlugCached,
-  SinglePost,
-} from '@/features/blog';
+import { SpinLoader } from '@/components/ui/SpinLoader';
+import { BlogPostSchema } from '@/features/blog/components/seo/BlogPostSchema';
+import { SinglePost } from '@/features/blog/components/SinglePost';
+import { findPublicPostBySlugCached } from '@/features/blog/lib/queries/public';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 import { Suspense } from 'react';

@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import { CoverImage, Heading } from '@/components/ui';
+import { CoverImage } from '@/components/ui/CoverImage';
+import { Heading } from '@/components/ui/Heading';
 import { getYearFromDate } from '@/lib/utils';
 import { ProjectSummary } from './ProjectSummary';
 import { ProjectModel } from '../models/project-model';

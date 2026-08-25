@@ -55,7 +55,7 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
   }
 
   return (
-    <nav className={navClasses}>
+    <nav className={navClasses} aria-label='Navegação administrativa'>
       <button
         type='button'
         className={openCloseBtnClasses}

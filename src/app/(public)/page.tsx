@@ -2,17 +2,16 @@ import { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
 import { Suspense } from 'react';
 import { createMetadata } from '@/lib/metadata';
-import { ButtonLink, ErrorMessage, Heading, SpinLoader } from '@/components/ui';
-import {
-  BlogSchema,
-  findAllPublicPostsCached,
-  LatestPosts,
-} from '@/features/blog';
-import {
-  findAllPublicProjectCached,
-  LatestProjects,
-  ProjectsListSchema,
-} from '@/features/projects';
+import { ButtonLink } from '@/components/ui/ButtonLink';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { Heading } from '@/components/ui/Heading';
+import { SpinLoader } from '@/components/ui/SpinLoader';
+import { BlogSchema } from '@/features/blog/components/seo/BlogSchema';
+import { LatestPosts } from '@/features/blog/components/LatestPosts';
+import { findAllPublicPostsCached } from '@/features/blog/lib/queries/public';
+import { LatestProjects } from '@/features/projects/components/LatestProjects';
+import { ProjectsListSchema } from '@/features/projects/components/seo/ProjectsListSchema';
+import { findAllPublicProjectCached } from '@/features/projects/lib/queries/public';
 import { PersonSchema, WebSiteSchema } from '@/components/seo';
 import { LATEST_OFFSET } from '@/config/constants';
 
@@ -50,7 +49,7 @@ export default async function HomePage() {
       )}
       {latestPosts.length > 0 && <BlogSchema posts={latestPosts} />}
 
-      <main className='flex flex-col gap-16 mb-24'>
+      <div className='flex flex-col gap-16 mb-24'>
         <header className='space-y-1'>
           <Heading as='h1'>Luis Antunes</Heading>
           <p className='text-lg text-muted-foreground'>
@@ -107,7 +106,7 @@ export default async function HomePage() {
             </ButtonLink>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

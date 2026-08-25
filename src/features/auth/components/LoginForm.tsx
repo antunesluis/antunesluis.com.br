@@ -5,7 +5,8 @@ import { LogInIcon } from 'lucide-react';
 import { useActionState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { loginAction } from '../actions/login-action';
-import { Button, InputText } from '@/components/ui';
+import { Button } from '@/components/ui/Button';
+import { InputText } from '@/components/ui/InputText';
 
 export function LoginForm() {
   const initialState = {

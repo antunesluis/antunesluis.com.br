@@ -1,12 +1,10 @@
 import Image from 'next/image';
 import { ExternalLinkIcon, GithubIcon } from 'lucide-react';
-import {
-  ButtonLink,
-  Comments,
-  Heading,
-  SafeMarkdown,
-  ScrollTopAndComment,
-} from '@/components/ui';
+import { ButtonLink } from '@/components/ui/ButtonLink';
+import { Comments } from '@/components/ui/Comments';
+import { Heading } from '@/components/ui/Heading';
+import { SafeMarkdown } from '@/components/ui/SafeMarkdown';
+import { ScrollTopAndComment } from '@/components/ui/ScrollTopAndComment';
 import { ProjectTechBadges } from './ProjectTechBadges';
 import { ProjectModel } from '../models/project-model';
 
@@ -19,7 +17,7 @@ export async function SingleProject({ project }: SingleProjectProps) {
   const pathname = `projects/${project.slug}`;
 
   return (
-    <main className='mb-24'>
+    <div className='mb-24'>
       <article className='flex flex-col gap-12'>
         <header className='group flex flex-col gap-12'>
           <Image
@@ -96,6 +94,6 @@ export async function SingleProject({ project }: SingleProjectProps) {
 
         <ScrollTopAndComment />
       </article>
-    </main>
+    </div>
   );
 }

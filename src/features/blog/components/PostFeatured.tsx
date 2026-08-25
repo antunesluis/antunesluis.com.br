@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { Heading } from '@/components/ui/Heading';
-import { CoverImage } from '@/components/ui';
+import { CoverImage } from '@/components/ui/CoverImage';
 import { PostSummary } from './PostSummary';
 import { PostModel } from '../models/post-model';
 

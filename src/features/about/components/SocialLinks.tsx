@@ -5,7 +5,7 @@ import {
   MailIcon,
 } from 'lucide-react';
 import clsx from 'clsx';
-import { ButtonLink } from '@/components/ui';
+import { ButtonLink } from '@/components/ui/ButtonLink';
 
 type SocialLink = {
   name: string;

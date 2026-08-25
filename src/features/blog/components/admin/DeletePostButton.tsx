@@ -1,6 +1,6 @@
 'use client';
 
-import { ConfirmationDialog } from '@/components/ui';
+import { ConfirmationDialog } from '@/components/ui/ConfirmationDialog';
 import clsx from 'clsx';
 import { Trash2Icon } from 'lucide-react';
 import { toast } from 'react-toastify';

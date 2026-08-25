@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/Button';
 import { DownloadIcon, ExternalLinkIcon } from 'lucide-react';
 
 export function ResumeSection() {

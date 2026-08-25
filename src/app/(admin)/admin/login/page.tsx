@@ -1,4 +1,4 @@
-import { ErrorMessage } from '@/components/ui';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { serverEnv } from '@/config/env/server';
 import { LoginForm } from '@/features/auth';
 import { Metadata } from 'next';
@@ -20,5 +20,10 @@ export default async function AdminLoginPage() {
     );
   }
 
-  return <LoginForm />;
+  return (
+    <>
+      <h1 className='sr-only'>Login administrativo</h1>
+      <LoginForm />
+    </>
+  );
 }

@@ -3,7 +3,7 @@
 import { ImageUpIcon } from 'lucide-react';
 import { useRef, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/Button';
 import { publicEnv } from '@/config/env/public';
 import { uploadImageAction } from '../actions/upload-image-action';
 

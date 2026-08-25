@@ -42,3 +42,15 @@ const safe = true;
     screen.getByText('unsafe link').getAttribute('href') ?? '',
   ).not.toContain('javascript:');
 });
+
+test('loads Markdown images lazily while preserving their accessible text', () => {
+  render(
+    <SafeMarkdown
+      markdown='![Captura do terminal](https://example.com/terminal.png)'
+    />,
+  );
+
+  const image = screen.getByRole('img', { name: 'Captura do terminal' });
+  expect(image.getAttribute('loading')).toBe('lazy');
+  expect(image.getAttribute('src')).toBe('https://example.com/terminal.png');
+});

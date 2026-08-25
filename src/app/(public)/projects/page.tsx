@@ -1,10 +1,10 @@
 import { BreadcrumbSchema } from '@/components/seo';
-import { ErrorMessage, Heading, SpinLoader } from '@/components/ui';
-import {
-  findAllPublicProjectCached,
-  ProjectsList,
-  ProjectsListSchema,
-} from '@/features/projects';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { Heading } from '@/components/ui/Heading';
+import { SpinLoader } from '@/components/ui/SpinLoader';
+import { ProjectsList } from '@/features/projects/components/ProjectsList';
+import { ProjectsListSchema } from '@/features/projects/components/seo/ProjectsListSchema';
+import { findAllPublicProjectCached } from '@/features/projects/lib/queries/public';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 import { Suspense } from 'react';

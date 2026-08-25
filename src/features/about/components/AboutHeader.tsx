@@ -1,4 +1,4 @@
-import { Heading } from '@/components/ui';
+import { Heading } from '@/components/ui/Heading';
 import Image from 'next/image';
 
 export function AboutHeader() {

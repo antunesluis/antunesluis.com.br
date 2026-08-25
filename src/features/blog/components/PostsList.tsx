@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { CoverImage, Heading } from '@/components/ui';
+import { CoverImage } from '@/components/ui/CoverImage';
+import { Heading } from '@/components/ui/Heading';
 import { PostSummary } from './PostSummary';
 import { PostModel } from '../models/post-model';
 

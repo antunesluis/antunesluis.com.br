@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { createMetadata } from '@/lib/metadata';
-import {
-  BlogSchema,
-  findAllPublicPostsCached,
-  PostFeatured,
-  PostsList,
-} from '@/features/blog';
-import { ErrorMessage, Heading, SpinLoader } from '@/components/ui';
+import { BlogSchema } from '@/features/blog/components/seo/BlogSchema';
+import { PostFeatured } from '@/features/blog/components/PostFeatured';
+import { PostsList } from '@/features/blog/components/PostsList';
+import { findAllPublicPostsCached } from '@/features/blog/lib/queries/public';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { Heading } from '@/components/ui/Heading';
+import { SpinLoader } from '@/components/ui/SpinLoader';
 import { BreadcrumbSchema } from '@/components/seo';
 
 export const dynamic = 'force-dynamic';
@@ -42,7 +42,7 @@ export default async function BlogPage() {
       />
       {posts && posts.length > 0 && <BlogSchema posts={posts} />}
 
-      <main>
+      <div>
         <article className='mb-24'>
           <section className='flex flex-col gap-6 mb-12'>
             <Heading as='h1'>/blog</Heading>
@@ -58,7 +58,7 @@ export default async function BlogPage() {
             <PostsList posts={posts} />
           </Suspense>
         </article>
-      </main>
+      </div>
     </>
   );
 }

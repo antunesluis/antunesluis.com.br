@@ -61,7 +61,17 @@ function ResponsiveTable({
   );
 }
 
+function MarkdownImage({
+  alt = '',
+  ...props
+}: ComponentPropsWithoutRef<'img'>) {
+  // Markdown image sources and dimensions are author-provided.
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img {...props} alt={alt} loading='lazy' />;
+}
+
 export const markdownComponents = {
   code: CodeBlock,
   table: ResponsiveTable,
+  img: MarkdownImage,
 };

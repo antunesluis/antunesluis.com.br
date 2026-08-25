@@ -1,10 +1,8 @@
 import { BreadcrumbSchema } from '@/components/seo';
-import { SpinLoader } from '@/components/ui';
-import {
-  findPublicProjectBySlugCached,
-  ProjectSchema,
-  SingleProject,
-} from '@/features/projects';
+import { SpinLoader } from '@/components/ui/SpinLoader';
+import { ProjectSchema } from '@/features/projects/components/seo/ProjectSchema';
+import { SingleProject } from '@/features/projects/components/SingleProject';
+import { findPublicProjectBySlugCached } from '@/features/projects/lib/queries/public';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
