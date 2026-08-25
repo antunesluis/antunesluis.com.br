@@ -22,7 +22,7 @@ export function HeaderMobileNavigation() {
           render={
             <button
               type='button'
-              className='flex items-center justify-center p-2 rounded-lg hover:bg-muted transition-colors'
+              className='flex items-center justify-center p-2 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
               aria-label='Toggle mobile menu'
             >
               <MenuIcon className='w-6 h-6 text-foreground' />
@@ -62,7 +62,7 @@ export function HeaderMobileNavigation() {
                   render={
                     <button
                       type='button'
-                      className='flex items-center justify-center w-10 h-10 rounded-lg hover:bg-muted transition-colors'
+                      className='flex items-center justify-center w-10 h-10 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
                       aria-label='Close mobile menu'
                     >
                       <X className='w-6 h-6 text-foreground' />
@@ -83,7 +83,9 @@ export function HeaderMobileNavigation() {
                         isActive
                           ? 'bg-primary/10 text-primary border-l-4 border-primary'
                           : 'text-foreground hover:text-primary hover:bg-muted',
+                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring',
                       )}
+                      aria-current={isActive ? 'page' : undefined}
                       onClick={() => setIsOpen(false)}
                     >
                       {link.label}

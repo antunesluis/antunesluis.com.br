@@ -72,6 +72,7 @@ export function ButtonLink({
 
   const linkClasses = clsx(
     'inline-flex items-center justify-center font-medium',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     buttonVariants[variant],
     variant !== 'link' && sizeClasses[size],
     className,

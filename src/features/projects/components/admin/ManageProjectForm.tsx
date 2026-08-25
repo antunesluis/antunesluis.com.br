@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
+import { HourglassIcon } from 'lucide-react';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { makePartialPublicProject, PublicProject } from '../../dto/project-dto';
@@ -22,8 +23,7 @@ type ManageProjectFormCreateProps = {
 };
 
 type ManageProjectFormProps =
-  | ManageProjectFormUpdateProps
-  | ManageProjectFormCreateProps;
+  ManageProjectFormUpdateProps | ManageProjectFormCreateProps;
 
 export function ManageProjectForm(props: ManageProjectFormProps) {
   const { mode } = props;
@@ -82,7 +82,7 @@ export function ManageProjectForm(props: ManageProjectFormProps) {
   );
 
   return (
-    <form action={action} className='mb-16'>
+    <form action={action} className='mb-16' aria-busy={isPending}>
       <div className='flex flex-col gap-6'>
         <InputText
           labelText='ID'
@@ -178,7 +178,8 @@ export function ManageProjectForm(props: ManageProjectFormProps) {
 
         <div className='mt-4'>
           <Button disabled={isPending} type='submit'>
-            Submit
+            {isPending ? <HourglassIcon /> : null}
+            {isPending ? 'Salvando...' : 'Submit'}
           </Button>
         </div>
       </div>

@@ -22,7 +22,7 @@ export function ProjectSummary({
   variant = 'default',
 }: ProjectSummaryProps) {
   const summaryVariants = {
-    default: clsx('p-6'),
+    default: clsx('pt-4 pb-6 md:p-6'),
     card: clsx('p-0'),
   };
 

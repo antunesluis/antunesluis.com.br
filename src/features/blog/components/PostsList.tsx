@@ -21,7 +21,10 @@ export async function PostsList({ posts }: PostsListProps) {
 
           return (
             <article key={post.slug}>
-              <Link href={postLink} className='flex flex-col gap-4 group'>
+              <Link
+                href={postLink}
+                className='flex flex-col gap-4 rounded-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+              >
                 <CoverImage
                   imageProps={{
                     width: 1200,
@@ -30,6 +33,7 @@ export async function PostsList({ posts }: PostsListProps) {
                     alt: post.title,
                     priority: false,
                   }}
+                  className='aspect-[12/7] h-auto'
                 />
                 <PostSummary
                   postHeading='h3'

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function AdminPostPage() {
   return (
     <>
-      <h1 className='sr-only'>Administração de posts</h1>
+      <h1 className='mb-6 text-2xl font-extrabold text-foreground'>Posts</h1>
       <Suspense fallback={<SpinLoader className='mb-24' />}>
         <PostListAdmin />
       </Suspense>

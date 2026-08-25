@@ -42,7 +42,7 @@ export function ThemeToggle({ onThemeChange }: ThemeToggleProps = {}) {
     <button
       type='button'
       onClick={toggleTheme}
-      className='p-2 rounded-lg hover:bg-muted transition-colors duration-200'
+      className='p-2 rounded-lg hover:bg-muted transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
       aria-label={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
       title={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
     >

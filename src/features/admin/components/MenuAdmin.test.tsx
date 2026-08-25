@@ -39,6 +39,9 @@ test('exposes a disclosure control and disables logout while it is pending', asy
   expect(
     screen.getByRole('navigation', { name: 'Navegação administrativa' }),
   ).toBeInstanceOf(HTMLElement);
+  expect(
+    screen.getByRole('link', { name: 'Blog' }).getAttribute('aria-current'),
+  ).toBe('page');
 
   const toggle = screen.getByRole('button', { name: 'Menu' });
   expect(toggle.getAttribute('aria-expanded')).toBe('false');
@@ -51,7 +54,13 @@ test('exposes a disclosure control and disables logout while it is pending', asy
 
   expect(onLogout).toHaveBeenCalledOnce();
   await waitFor(() =>
-    expect((screen.getByRole('button', { name: /logging out/i }) as HTMLButtonElement).disabled).toBe(true),
+    expect(
+      (
+        screen.getByRole('button', {
+          name: /logging out/i,
+        }) as HTMLButtonElement
+      ).disabled,
+    ).toBe(true),
   );
 
   resolveLogout?.();
@@ -68,5 +77,7 @@ test('closes the mobile disclosure after a pathname change', async () => {
   mocks.pathname = '/admin/projects';
   rerender(<MenuAdmin onLogout={vi.fn()} />);
 
-  await waitFor(() => expect(toggle.getAttribute('aria-expanded')).toBe('false'));
+  await waitFor(() =>
+    expect(toggle.getAttribute('aria-expanded')).toBe('false'),
+  );
 });

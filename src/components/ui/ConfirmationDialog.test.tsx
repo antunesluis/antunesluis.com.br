@@ -35,7 +35,7 @@ test('opens, contains focus, closes with Escape, and restores focus to the trigg
 
   const dialog = await screen.findByRole('alertdialog');
   const cancel = screen.getByRole('button', { name: 'Cancelar' });
-  const confirm = screen.getByRole('button', { name: 'Ok' });
+  const confirm = screen.getByRole('button', { name: 'Excluir' });
 
   await waitFor(() => expect(document.activeElement).toBe(cancel));
   await user.tab();
@@ -66,7 +66,7 @@ test('disables interaction and runs the confirmation action only once while pend
   await user.click(trigger);
 
   const dialog = await screen.findByRole('alertdialog');
-  const confirm = screen.getByRole('button', { name: 'Ok' });
+  const confirm = screen.getByRole('button', { name: 'Excluir' });
   await user.click(confirm);
   await user.click(confirm);
 

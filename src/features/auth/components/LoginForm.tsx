@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { LogInIcon } from 'lucide-react';
+import { HourglassIcon, LogInIcon } from 'lucide-react';
 import { useActionState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { loginAction } from '../actions/login-action';
@@ -26,11 +26,15 @@ export function LoginForm() {
     <div
       className={clsx(
         'flex items-center justify-center',
-        'text-center max-w-sm mt-16 mb-32 mx-auto',
+        'mt-8',
         'text-foreground',
       )}
     >
-      <form action={action} className='flex-1 flex flex-col gap-6'>
+      <form
+        action={action}
+        className='flex-1 flex flex-col gap-6'
+        aria-busy={isPending}
+      >
         <InputText
           type='text'
           name='username'
@@ -49,11 +53,15 @@ export function LoginForm() {
         />
 
         <Button disabled={isPending} type='submit' className='mt-4'>
-          <LogInIcon />
-          Entrar
+          {isPending ? <HourglassIcon /> : <LogInIcon />}
+          {isPending ? 'Entrando...' : 'Entrar'}
         </Button>
 
-        {!!state.error && <p className='text-error'>{state.error}</p>}
+        {!!state.error && (
+          <p className='text-error' aria-live='polite'>
+            {state.error}
+          </p>
+        )}
       </form>
     </div>
   );

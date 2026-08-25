@@ -37,7 +37,7 @@ test('confirms a project deletion exactly once through the existing action contr
   await user.click(
     screen.getByRole('button', { name: 'Delete project Personal blog' }),
   );
-  await user.click(screen.getByRole('button', { name: 'Ok' }));
+  await user.click(screen.getByRole('button', { name: 'Excluir' }));
 
   await waitFor(() =>
     expect(mocks.deleteProjectAction).toHaveBeenCalledWith('project-1'),

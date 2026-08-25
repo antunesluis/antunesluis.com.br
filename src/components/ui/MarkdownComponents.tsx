@@ -8,7 +8,7 @@ const syntaxHighlighterStyle = {
     ...oneDark['pre[class*="language-"]'],
     background: 'transparent',
     margin: 0,
-    padding: '1rem',
+    padding: 0,
     borderRadius: '0.5rem',
   },
   'code[class*="language-"]': {
@@ -27,13 +27,13 @@ function CodeBlock({
 
   if (!inline && match) {
     return (
-      <div className='text-lg'>
+      <div>
         <SyntaxHighlighter
           language={match[1]}
           PreTag='div'
           {...props}
           style={syntaxHighlighterStyle}
-          className='text-base md:text-lg'
+          className='text-sm md:text-base'
         >
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>

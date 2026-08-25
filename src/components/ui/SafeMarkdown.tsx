@@ -12,10 +12,9 @@ const containerClasses = clsx(
   'mb-12',
   'prose dark:prose-invert',
   'prose-slate',
-  'w-full max-w-none',
-  'overflow-hidden',
+  'w-full max-w-3xl mx-auto',
   'prose-a:text-primary prose-a:hover:text-primary',
-  'prose-a:transition prose-a:no-underline prose-a:hover:underline',
+  'prose-a:transition',
   'prose-img:mx-auto',
   'lg:prose-lg',
 );

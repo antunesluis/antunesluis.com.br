@@ -119,6 +119,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
               'transition-all duration-200',
               'text-foreground',
               'hover:bg-muted hover:text-primary',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
             )}
             aria-label='Abrir busca'
           >
@@ -164,7 +165,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
                   <button
                     type='button'
                     onClick={() => handleSearch('')}
-                    className='p-1 rounded hover:bg-muted transition-colors'
+                    className='p-1 rounded hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
                     aria-label='Limpar busca'
                   >
                     <XIcon className='w-5 h-5 text-muted-foreground' />
@@ -175,7 +176,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
                   render={
                     <button
                       type='button'
-                      className='p-1 rounded hover:bg-muted transition-colors'
+                      className='p-1 rounded hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
                       aria-label='Fechar busca'
                     >
                       <XIcon className='w-5 h-5 text-muted-foreground hover:text-foreground' />
@@ -222,6 +223,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
                             selectedIndex === index
                               ? 'bg-primary/10 border-l-2 border-l-primary'
                               : 'hover:bg-muted',
+                            'focus-visible:outline-none focus-visible:bg-primary/10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring',
                           )}
                           role='option'
                           aria-selected={selectedIndex === index}

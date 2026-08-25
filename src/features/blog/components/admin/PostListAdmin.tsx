@@ -14,22 +14,26 @@ export async function PostListAdmin() {
   }
 
   return (
-    <div className='mb-16'>
+    <div className='mb-16 overflow-hidden rounded-lg border border-border bg-card divide-y divide-border'>
       {posts.map(post => {
         return (
           <div
             className={clsx(
-              'py-2 px-2 rounded-md text-foreground',
-              !post.published && 'bg-muted',
-              'flex gap-2 items-center justify-between',
+              'flex items-center justify-between gap-3 px-3 py-2 text-foreground transition-colors hover:bg-muted/70',
+              !post.published && 'bg-muted/50',
             )}
             key={post.id}
           >
-            <Link href={`/admin/blog/${post.id}`}>{post.title}</Link>
+            <Link
+              href={`/admin/blog/${post.id}`}
+              className='min-w-0 flex-1 break-words font-medium text-foreground hover:text-primary focus-visible:outline-none focus-visible:text-primary'
+            >
+              {post.title}
+            </Link>
 
             {!post.published && (
-              <span className='text-xs text-muted-foreground italic ml-2'>
-                (Draft)
+              <span className='shrink-0 rounded-full bg-muted px-2 py-1 text-xs font-medium text-muted-foreground'>
+                Draft
               </span>
             )}
 

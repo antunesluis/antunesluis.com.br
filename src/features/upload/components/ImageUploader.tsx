@@ -1,6 +1,6 @@
 'use client';
 
-import { ImageUpIcon } from 'lucide-react';
+import { HourglassIcon, ImageUpIcon } from 'lucide-react';
 import { useRef, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/Button';
@@ -67,7 +67,7 @@ export function ImageUploader({ disabled = false }: ImageUploaderProps) {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4' aria-busy={isUploading}>
       <Button
         onClick={handleChoseFile}
         disabled={isUploading || disabled}
@@ -76,8 +76,8 @@ export function ImageUploader({ disabled = false }: ImageUploaderProps) {
         variant='upload'
         size='md'
       >
-        <ImageUpIcon />
-        Enviar Imagem
+        {isUploading ? <HourglassIcon /> : <ImageUpIcon />}
+        {isUploading ? 'Enviando imagem...' : 'Enviar Imagem'}
       </Button>
 
       {!!imgUrl && (

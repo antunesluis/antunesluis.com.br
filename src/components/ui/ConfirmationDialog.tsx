@@ -54,13 +54,11 @@ export function ConfirmationDialog({
             'data-starting-style:opacity-0 data-ending-style:opacity-0',
           )}
         />
-        <AlertDialog.Viewport
-          className='fixed z-50 inset-0 flex items-center justify-center pointer-events-none'
-        >
+        <AlertDialog.Viewport className='fixed z-50 inset-0 flex items-center justify-center pointer-events-none'>
           <AlertDialog.Popup
             aria-busy={isPending}
             className={clsx(
-              'pointer-events-auto bg-card p-6 mx-6 rounded-lg max-w-2xl',
+              'pointer-events-auto bg-card p-6 mx-6 rounded-lg max-w-2xl border border-border',
               'flex flex-col gap-6',
               'shadow-lg shadow-black/30 text-center',
               'transition-[opacity,transform] duration-200',
@@ -68,13 +66,13 @@ export function ConfirmationDialog({
               'data-ending-style:opacity-0 data-ending-style:scale-95',
             )}
           >
-            <AlertDialog.Title
-              className={clsx('text-2xl font-extrabold')}
-            >
+            <AlertDialog.Title className={clsx('text-2xl font-extrabold')}>
               {title}
             </AlertDialog.Title>
-            <AlertDialog.Description>{content}</AlertDialog.Description>
-            <div className='flex items-center justify-around'>
+            <AlertDialog.Description className='text-muted-foreground'>
+              {content}
+            </AlertDialog.Description>
+            <div className='flex items-center justify-end gap-3'>
               <AlertDialog.Close
                 render={<Button type='button' variant='ghost' />}
                 disabled={isPending}
@@ -83,11 +81,11 @@ export function ConfirmationDialog({
               </AlertDialog.Close>
               <Button
                 type='button'
-                variant='default'
+                variant='danger'
                 onClick={handleConfirm}
                 disabled={isPending}
               >
-                Ok
+                {isPending ? 'Excluindo...' : 'Excluir'}
               </Button>
             </div>
           </AlertDialog.Popup>
