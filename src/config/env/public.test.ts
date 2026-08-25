@@ -111,6 +111,12 @@ test('rejects invalid public formats on the server', () => {
       imageUploadMaxSize: 0,
     }),
   );
+  assert.throws(() =>
+    publicServerModule.parsePublicEnv({
+      ...baseValue,
+      imageUploadMaxSize: 1_000_001,
+    }),
+  );
 });
 
 test('sanitizes malformed public URLs without exposing their value', () => {
