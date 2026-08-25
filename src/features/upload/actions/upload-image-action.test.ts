@@ -13,8 +13,8 @@ const mocks = vi.hoisted(() => ({
 vi.mock('@/lib/auth', () => ({
   verifyLoginSession: async () => mocks.isAuthenticated,
 }));
-vi.mock('@/config/env/public', () => ({
-  publicEnv: { imageUploadMaxSize: 1024 },
+vi.mock('@/config/env/public.server', () => ({
+  validatedPublicEnv: { imageUploadMaxSize: 1024 },
 }));
 vi.mock('@/config/env/server', () => ({
   serverEnv: {

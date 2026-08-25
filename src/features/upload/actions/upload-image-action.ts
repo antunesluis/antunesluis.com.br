@@ -1,7 +1,7 @@
 'use server';
 
 import { verifyLoginSession } from '@/lib/auth';
-import { publicEnv } from '@/config/env/public';
+import { validatedPublicEnv } from '@/config/env/public.server';
 import { serverEnv } from '@/config/env/server';
 import { mkdir, rename, unlink, writeFile } from 'fs/promises';
 import { isAbsolute, resolve } from 'path';
@@ -111,7 +111,7 @@ export async function uploadImageAction(
     return makeResult({ error: 'Invalid file' });
   }
 
-  const uploadMaxSize = publicEnv.imageUploadMaxSize;
+  const uploadMaxSize = validatedPublicEnv.imageUploadMaxSize;
   if (file.size > uploadMaxSize) {
     return makeResult({ error: 'File size exceeds limit.' });
   }

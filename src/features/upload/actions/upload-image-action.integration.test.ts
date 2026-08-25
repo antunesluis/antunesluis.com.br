@@ -16,7 +16,9 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock('@/lib/auth', () => ({ verifyLoginSession: async () => true }));
-vi.mock('@/config/env/public', () => ({ publicEnv: mocks.publicEnv }));
+vi.mock('@/config/env/public.server', () => ({
+  validatedPublicEnv: mocks.publicEnv,
+}));
 vi.mock('@/config/env/server', () => ({ serverEnv: mocks.serverEnv }));
 
 let uploadDirectory: string;
