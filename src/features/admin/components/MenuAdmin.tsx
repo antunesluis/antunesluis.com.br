@@ -31,9 +31,6 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
     'bg-card text-card-foreground rounded-lg shadow-sm',
     'flex flex-col mb-8',
     'sm:flex-row sm:flex-wrap',
-    !isOpen && 'h-10',
-    !isOpen && 'overflow-hidden',
-    'sm:overflow-visible sm:h-auto',
   );
   const linkClasses = clsx(
     '[&>svg]:w-[16px] [&>svg]:h-[16px] px-4',
@@ -41,6 +38,7 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
     'transition hover:bg-muted',
     'h-10 rounded-lg',
     'shrink-0',
+    'disabled:cursor-not-allowed disabled:opacity-50',
   );
   const openCloseBtnClasses = clsx(
     linkClasses,
@@ -48,8 +46,8 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
     'sm:hidden',
   );
 
-  function handleLogout(e: React.MouseEvent<HTMLAnchorElement>) {
-    e.preventDefault();
+  function handleLogout() {
+    if (isPending) return;
 
     startTransition(async () => {
       await onLogout();
@@ -59,8 +57,11 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
   return (
     <nav className={navClasses}>
       <button
+        type='button'
         className={openCloseBtnClasses}
         onClick={() => setIsOpen(s => !s)}
+        aria-controls='admin-navigation-items'
+        aria-expanded={isOpen}
       >
         {!isOpen && (
           <>
@@ -77,45 +78,55 @@ export function MenuAdmin({ onLogout }: MenuAdminProps) {
         )}
       </button>
 
-      <a className={linkClasses} href='/' target='_blank'>
-        <HouseIcon />
-        Home
-      </a>
+      <div
+        id='admin-navigation-items'
+        className={clsx('flex flex-col sm:contents', !isOpen && 'max-sm:hidden')}
+      >
+        <a className={linkClasses} href='/' target='_blank'>
+          <HouseIcon />
+          Home
+        </a>
 
-      <Link className={linkClasses} href='/admin/blog'>
-        <FileTextIcon />
-        Blog
-      </Link>
+        <Link className={linkClasses} href='/admin/blog'>
+          <FileTextIcon />
+          Blog
+        </Link>
 
-      <Link className={linkClasses} href='/admin/blog/new'>
-        <PlusIcon />
-        Create Post
-      </Link>
+        <Link className={linkClasses} href='/admin/blog/new'>
+          <PlusIcon />
+          Create Post
+        </Link>
 
-      <Link className={linkClasses} href='/admin/projects'>
-        <FileTextIcon />
-        Projects
-      </Link>
+        <Link className={linkClasses} href='/admin/projects'>
+          <FileTextIcon />
+          Projects
+        </Link>
 
-      <Link className={linkClasses} href='/admin/projects/new'>
-        <PlusIcon />
-        Create Project
-      </Link>
+        <Link className={linkClasses} href='/admin/projects/new'>
+          <PlusIcon />
+          Create Project
+        </Link>
 
-      <a onClick={handleLogout} href='#' className={linkClasses}>
-        {isPending && (
-          <>
-            Logging out...
-            <HourglassIcon />
-          </>
-        )}
-        {!isPending && (
-          <>
-            <LogOutIcon />
-            Logout
-          </>
-        )}
-      </a>
+        <button
+          type='button'
+          onClick={handleLogout}
+          className={linkClasses}
+          disabled={isPending}
+        >
+          {isPending && (
+            <>
+              Logging out...
+              <HourglassIcon />
+            </>
+          )}
+          {!isPending && (
+            <>
+              <LogOutIcon />
+              Logout
+            </>
+          )}
+        </button>
+      </div>
     </nav>
   );
 }

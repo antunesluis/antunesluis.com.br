@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
+import { Dialog } from '@base-ui/react/dialog';
 import { SearchIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -26,7 +27,6 @@ export function SearchButton({ posts }: SearchButtonProps) {
   const [results, setResults] = useState<SearchPost[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
@@ -61,8 +61,8 @@ export function SearchButton({ posts }: SearchButtonProps) {
   }, []);
 
   const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      if (!isOpen || results.length === 0) return;
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (results.length === 0) return;
 
       switch (event.key) {
         case 'ArrowDown':
@@ -85,15 +85,19 @@ export function SearchButton({ posts }: SearchButtonProps) {
             handleClose();
           }
           break;
-
-        case 'Escape':
-          event.preventDefault();
-          handleClose();
-          break;
       }
     },
-    [isOpen, results, selectedIndex, handleClose, router],
+    [results, selectedIndex, handleClose, router],
   );
+
+  function handleOpenChange(open: boolean) {
+    if (open) {
+      setIsOpen(true);
+      return;
+    }
+
+    handleClose();
+  }
 
   useEffect(() => {
     if (selectedIndex >= 0 && resultRefs.current[selectedIndex]) {
@@ -104,63 +108,33 @@ export function SearchButton({ posts }: SearchButtonProps) {
     }
   }, [selectedIndex]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dialogRef.current &&
-        !dialogRef.current.contains(event.target as Node)
-      ) {
-        handleClose();
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, handleClose]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    inputRef.current?.focus();
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, handleKeyDown]);
-
   return (
-    <>
-      {/* Botão de abrir busca */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className={clsx(
-          'p-2 flex items-center justify-center rounded-lg',
-          'transition-all duration-200',
-          'text-foreground',
-          'hover:bg-muted hover:text-primary',
-        )}
-        aria-label='Abrir busca'
-      >
-        <SearchIcon className='w-6 h-6' />
-      </button>
-
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm'
-            onClick={handleClose}
-            aria-hidden='true'
-          />
-
-          {/* Modal de busca */}
-          <div
-            ref={dialogRef}
-            className='fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl mx-auto px-4'
-            role='dialog'
-            aria-modal='true'
-            aria-labelledby='search-title'
+    <Dialog.Root open={isOpen} onOpenChange={handleOpenChange}>
+      <Dialog.Trigger
+        render={
+          <button
+            type='button'
+            className={clsx(
+              'p-2 flex items-center justify-center rounded-lg',
+              'transition-all duration-200',
+              'text-foreground',
+              'hover:bg-muted hover:text-primary',
+            )}
+            aria-label='Abrir busca'
           >
+            <SearchIcon className='w-6 h-6' />
+          </button>
+        }
+      />
+
+      <Dialog.Portal>
+        <Dialog.Backdrop className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm' />
+        <Dialog.Viewport className='fixed inset-0 z-50 pointer-events-none'>
+          <Dialog.Popup
+            initialFocus={inputRef}
+            className='pointer-events-auto fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl mx-auto px-4'
+          >
+            <Dialog.Title className='sr-only'>Buscar posts</Dialog.Title>
             <div className='bg-card rounded-lg shadow-2xl border border-border overflow-hidden'>
               {/* Search Input */}
               <div className='flex items-center gap-3 p-4 border-b border-border'>
@@ -176,8 +150,11 @@ export function SearchButton({ posts }: SearchButtonProps) {
                     'text-foreground',
                     'placeholder:text-muted-foreground',
                   )}
+                  onKeyDown={handleKeyDown}
+                  role='combobox'
                   aria-autocomplete='list'
                   aria-controls='search-results'
+                  aria-expanded={isOpen}
                   aria-activedescendant={
                     selectedIndex >= 0 ? `result-${selectedIndex}` : undefined
                   }
@@ -185,6 +162,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
 
                 {query && (
                   <button
+                    type='button'
                     onClick={() => handleSearch('')}
                     className='p-1 rounded hover:bg-muted transition-colors'
                     aria-label='Limpar busca'
@@ -193,13 +171,17 @@ export function SearchButton({ posts }: SearchButtonProps) {
                   </button>
                 )}
 
-                <button
-                  onClick={handleClose}
-                  className='p-1 rounded hover:bg-muted transition-colors'
-                  aria-label='Fechar busca'
-                >
-                  <XIcon className='w-5 h-5 text-muted-foreground hover:text-foreground' />
-                </button>
+                <Dialog.Close
+                  render={
+                    <button
+                      type='button'
+                      className='p-1 rounded hover:bg-muted transition-colors'
+                      aria-label='Fechar busca'
+                    >
+                      <XIcon className='w-5 h-5 text-muted-foreground hover:text-foreground' />
+                    </button>
+                  }
+                />
               </div>
 
               {/* Resultados */}
@@ -267,9 +249,9 @@ export function SearchButton({ posts }: SearchButtonProps) {
                 )}
               </div>
             </div>
-          </div>
-        </>
-      )}
-    </>
+          </Dialog.Popup>
+        </Dialog.Viewport>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
