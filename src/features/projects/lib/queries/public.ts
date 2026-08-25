@@ -2,15 +2,16 @@ import { unstable_cache } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { projectRepository } from '../../repositories';
+import { getProjectCacheTag, PROJECTS_CACHE_TAG } from '../cache-tags';
 
 export const findAllPublicProjectCached = cache(
   unstable_cache(
     async () => {
       return await projectRepository.findAllPublic();
     },
-    ['projects'],
+    [PROJECTS_CACHE_TAG],
     {
-      tags: ['projects'],
+      tags: [PROJECTS_CACHE_TAG],
     },
   ),
 );
@@ -26,7 +27,7 @@ export const findPublicProjectBySlugCached = cache((slug: string) => {
 
       return project;
     },
-    [`project-${slug}`],
-    { tags: [`project-${slug}`] },
+    [getProjectCacheTag(slug)],
+    { tags: [getProjectCacheTag(slug)] },
   )(slug);
 });

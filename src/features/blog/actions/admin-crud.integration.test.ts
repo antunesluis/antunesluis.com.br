@@ -75,7 +75,7 @@ test('runs an authenticated post CRUD cycle through the real actions and reposit
   });
 
   await actions.createPostAction(
-    { formState: {}, errors: [] } as never,
+    { formState: {}, errors: [], success: false } as never,
     createFormData,
   );
 
@@ -102,7 +102,7 @@ test('runs an authenticated post CRUD cycle through the real actions and reposit
     published: 'false',
   });
   const updateResult = await actions.updatePostAction(
-    { formState: {}, errors: [] } as never,
+    { formState: {}, errors: [], success: false } as never,
     updateFormData,
   );
 
@@ -120,7 +120,7 @@ test('runs an authenticated post CRUD cycle through the real actions and reposit
   assert.equal(updatedPost.createdAt, createdPost.createdAt);
 
   const deleteResult = await actions.deletePostAction(createdPost.id);
-  assert.deepEqual(deleteResult, { error: '' });
+  assert.deepEqual(deleteResult, { errors: [], success: true });
   assert.deepEqual(await repository.findAll(), []);
   assert.deepEqual(mocks.updateTag.mock.calls, [
     ['blog'],
@@ -129,4 +129,20 @@ test('runs an authenticated post CRUD cycle through the real actions and reposit
     ['blog'],
     [`blog-${createdPost.slug}`],
   ]);
+});
+
+test('returns the shared CRUD error contract for invalid post input', async () => {
+  const formState = { marker: 'original' };
+
+  assert.deepEqual(
+    await actions.createPostAction(
+      { formState, errors: [], success: false } as never,
+      {} as FormData,
+    ),
+    { formState, errors: ['Invalid data'], success: false },
+  );
+  assert.deepEqual(await actions.deletePostAction(''), {
+    errors: ['Invalid data'],
+    success: false,
+  });
 });

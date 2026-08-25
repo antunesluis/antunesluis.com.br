@@ -58,12 +58,13 @@ function assertNoEffects() {
 test('createPostAction refuses before reading input or causing effects', async () => {
   const formState = { marker: 'original' };
   const result = await actions.createPostAction(
-    { formState, errors: [] } as never,
+    { formState, errors: [], success: false } as never,
     poisonFormData(),
   );
   assert.deepEqual(result, {
     formState,
     errors: ['Log in again before continuing'],
+    success: false,
   });
   assertNoEffects();
 });
@@ -71,18 +72,22 @@ test('createPostAction refuses before reading input or causing effects', async (
 test('updatePostAction refuses before reading input or causing effects', async () => {
   const formState = { marker: 'original' };
   const result = await actions.updatePostAction(
-    { formState, errors: [] } as never,
+    { formState, errors: [], success: false } as never,
     poisonFormData(),
   );
   assert.deepEqual(result, {
     formState,
     errors: ['Log in again before continuing'],
+    success: false,
   });
   assertNoEffects();
 });
 
-test('deletePostAction uses the error field and causes no effects', async () => {
+test('deletePostAction returns the shared result and causes no effects', async () => {
   const result = await actions.deletePostAction('post-id');
-  assert.deepEqual(result, { error: 'Log in again before continuing' });
+  assert.deepEqual(result, {
+    errors: ['Log in again before continuing'],
+    success: false,
+  });
   assertNoEffects();
 });

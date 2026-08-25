@@ -1,19 +1,16 @@
 import { JsonLd } from '@/components/seo/JsonLd';
 import { FULL_NAME, SITE_URL } from '@/config/constants';
 import { ProjectModel } from '@/features/projects/models/project-model';
+import type { SoftwareApplication, WithContext } from 'schema-dts';
 
 type ProjectSchemaProps = {
   project: ProjectModel;
 };
 
 export function ProjectSchema({ project }: ProjectSchemaProps) {
-  const techStack = Array.isArray(project.techStack)
-    ? project.techStack
-    : typeof project.techStack === 'string' && project.techStack
-      ? JSON.parse(project.techStack)
-      : [];
+  const { techStack } = project;
 
-  const schema = {
+  const schema: WithContext<SoftwareApplication> = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
     name: project.name,
@@ -47,7 +44,7 @@ export function ProjectSchema({ project }: ProjectSchemaProps) {
     }),
     ...(techStack.length > 0 && {
       keywords: techStack.join(', '),
-      programmingLanguage: techStack.map((tech: string) => ({
+      programmingLanguage: techStack.map(tech => ({
         '@type': 'ComputerLanguage',
         name: tech,
       })),

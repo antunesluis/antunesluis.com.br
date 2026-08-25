@@ -6,12 +6,6 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTypeScript,
   {
-    files: ['src/components/seo/JsonLd.tsx'],
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-    },
-  },
-  {
     files: [
       'src/components/ui/ThemeToggle.tsx',
       'src/features/admin/components/MenuAdmin.tsx',

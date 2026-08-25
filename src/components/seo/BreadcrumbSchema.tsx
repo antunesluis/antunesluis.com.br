@@ -1,5 +1,6 @@
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SITE_URL } from '@/config/constants';
+import type { BreadcrumbList, WithContext } from 'schema-dts';
 
 type BreadcrumbItem = {
   name: string;
@@ -15,7 +16,7 @@ export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
     return null;
   }
 
-  const schema = {
+  const schema: WithContext<BreadcrumbList> = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: items.map((item, index) => ({

@@ -1,37 +1,19 @@
-import { JsonProjectRepository } from '@/features/projects/repositories/json-project-repository';
+import projectsSeed from '../seed/projects.json';
 import { drizzleDb } from '.';
-import { projectsTable } from './schemas';
+import {
+  ProjectsTableInsertMode,
+  projectsTable,
+} from './schemas';
 
-// (async () => {
-// 	const jsonPostRepository = new JsonPostRepository();
-// 	const posts = await jsonPostRepository.findAll();
-//
-// 	try {
-// 		await drizzleDb.delete(postsTable);
-// 		await drizzleDb.insert(postsTable).values(posts);
-// 		console.log("Posts inserted successfully");
-// 	} catch (e) {
-// 		console.error("Error inserting posts:", e);
-// 	}
-// })();
+const projects = projectsSeed.projects satisfies ProjectsTableInsertMode[];
 
-async function seedProjects() {
-  const jsonProjectRepository = new JsonProjectRepository();
-  const projects = await jsonProjectRepository.findAll();
-
-  await drizzleDb.delete(projectsTable);
-
-  // Transforma os projetos para o formato do banco de dados
-  const projectsForDb = projects.map(project => ({
-    ...project,
-    techStack: JSON.stringify(project.techStack), // Converte array para JSON string
-  }));
-
-  await drizzleDb.insert(projectsTable).values(projectsForDb);
+try {
+  drizzleDb.transaction(transaction => {
+    transaction.delete(projectsTable).run();
+    transaction.insert(projectsTable).values(projects).run();
+  });
   console.log('Projects inserted successfully');
-}
-
-seedProjects().catch(error => {
+} catch (error) {
   console.error('Error inserting projects:', error);
   process.exitCode = 1;
-});
+}

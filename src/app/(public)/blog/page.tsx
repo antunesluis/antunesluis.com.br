@@ -8,7 +8,7 @@ import {
   PostsList,
 } from '@/features/blog';
 import { ErrorMessage, Heading, SpinLoader } from '@/components/ui';
-import { BreadcrumbSchema, WebSiteSchema } from '@/components/seo';
+import { BreadcrumbSchema } from '@/components/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,8 +52,6 @@ export default async function BlogPage() {
               English and Portuguese.
             </p>
           </section>
-
-          {posts && posts.length > 0 && <BlogSchema posts={posts} />}
 
           <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
             <PostFeatured post={firstPost} />

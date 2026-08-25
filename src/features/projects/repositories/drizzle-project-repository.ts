@@ -1,9 +1,13 @@
 import { eq } from 'drizzle-orm';
-import { ProjectRepository } from './project-repository';
-import { DrizzleDatabase, projectsTable } from '@/db/drizzle/schemas';
+import {
+  DrizzleDatabase,
+  ProjectsTableInsertMode,
+  ProjectsTableSelectMode,
+  projectsTable,
+} from '@/db/drizzle/schemas';
 import { ProjectModel } from '../models/project-model';
 
-export class DrizzleProjectRepository implements ProjectRepository {
+export class DrizzleProjectRepository {
   constructor(private readonly db: DrizzleDatabase) {}
 
   async findAllPublic(): Promise<ProjectModel[]> {
@@ -12,8 +16,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
       where: (projects, { eq }) => eq(projects.published, true),
     });
 
-    const projectsWithTechStack = projects.map(this.transformProject);
-    return projectsWithTechStack;
+    return projects.map(this.transformProject);
   }
 
   async findBySlugPublic(slug: string): Promise<ProjectModel> {
@@ -34,8 +37,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
       orderBy: (projects, { desc }) => desc(projects.createdAt),
     });
 
-    const projectsWithTechStack = projects.map(this.transformProject);
-    return projectsWithTechStack;
+    return projects.map(this.transformProject);
   }
 
   async findById(id: string): Promise<ProjectModel> {
@@ -107,7 +109,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
       coverImageUrl: newProjectData.coverImageUrl,
       repositoryUrl: newProjectData.repositoryUrl,
       deployUrl: newProjectData.deployUrl,
-      techStack: JSON.stringify(newProjectData.techStack),
+      techStack: newProjectData.techStack,
       published: newProjectData.published,
       updatedAt,
     };
@@ -125,19 +127,17 @@ export class DrizzleProjectRepository implements ProjectRepository {
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private transformProject(dbProject: any): ProjectModel {
+  private transformProject(dbProject: ProjectsTableSelectMode): ProjectModel {
     return {
       ...dbProject,
-      techStack: JSON.parse(dbProject.techStack || '[]'),
+      deployUrl: dbProject.deployUrl ?? undefined,
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private transformToDb(project: ProjectModel): any {
+  private transformToDb(project: ProjectModel): ProjectsTableInsertMode {
     return {
       ...project,
-      techStack: JSON.stringify(project.techStack),
+      deployUrl: project.deployUrl ?? null,
     };
   }
 }

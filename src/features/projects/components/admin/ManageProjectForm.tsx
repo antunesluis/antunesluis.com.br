@@ -46,6 +46,7 @@ export function ManageProjectForm(props: ManageProjectFormProps) {
   const initialState = {
     formState: makePartialPublicProject(publicProject),
     errors: [],
+    success: false,
   };
 
   const [state, action, isPending] = useActionState(
@@ -63,14 +64,14 @@ export function ManageProjectForm(props: ManageProjectFormProps) {
   useEffect(() => {
     if (state.success) {
       toast.dismiss();
-      toast.success('Post updated successfully!');
+      toast.success('Project updated successfully!');
     }
   }, [state]);
 
   useEffect(() => {
     if (created === '1') {
       toast.dismiss();
-      toast.success('Post created successfully!');
+      toast.success('Project created successfully!');
       const url = new URL(window.location.href);
       url.searchParams.delete('created');
       router.replace(url.toString());

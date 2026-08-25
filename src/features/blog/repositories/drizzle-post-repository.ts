@@ -1,9 +1,8 @@
 import { eq } from 'drizzle-orm';
 import { DrizzleDatabase, postsTable } from '@/db/drizzle/schemas';
-import type { PostRepository } from './post-repository';
 import { PostModel } from '../models/post-model';
 
-export class DrizzlePostRepository implements PostRepository {
+export class DrizzlePostRepository {
   constructor(private readonly db: DrizzleDatabase) {}
 
   async findAllPublic(): Promise<PostModel[]> {

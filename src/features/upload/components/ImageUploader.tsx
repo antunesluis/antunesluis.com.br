@@ -63,8 +63,6 @@ export function ImageUploader({ disabled = false }: ImageUploaderProps) {
       toast.success('Image uploaded successfully!');
     });
 
-    // TODO: Implement the upload logic here
-
     fileInput.value = '';
   }
 
