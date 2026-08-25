@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plano da Fase 4 | Sistema local de imagens</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f3f1ea;
+        --surface: #fffdf8;
+        --surface-strong: #ffffff;
+        --text: #1d2925;
+        --muted: #5d6a64;
+        --line: #d7ddd8;
+        --green: #176b52;
+        --green-soft: #e1f2ea;
+        --amber: #945a0d;
+        --amber-soft: #fff1d4;
+        --blue: #255f85;
+        --blue-soft: #e6f2f9;
+        --red: #9c4038;
+        --red-soft: #fae9e6;
+        --shadow: 0 18px 45px rgb(32 48 42 / 9%);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #101713;
+          --surface: #17201c;
+          --surface-strong: #1d2823;
+          --text: #e9f0ec;
+          --muted: #a7b5ad;
+          --line: #34443c;
+          --green: #73d0ac;
+          --green-soft: #193d31;
+          --amber: #f0bc68;
+          --amber-soft: #3e2e17;
+          --blue: #84c4e9;
+          --blue-soft: #183447;
+          --red: #ee9d95;
+          --red-soft: #472824;
+          --shadow: 0 18px 45px rgb(0 0 0 / 24%);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 12% 0%, rgb(30 125 91 / 10%), transparent 30rem),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.58;
+      }
+
+      code {
+        border: 1px solid var(--line);
+        border-radius: 0.35rem;
+        background: var(--surface-strong);
+        padding: 0.08rem 0.32rem;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        font-size: 0.9em;
+        overflow-wrap: anywhere;
+      }
+
+      .page {
+        width: min(1160px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 2.5rem 0 5rem;
+      }
+
+      .hero,
+      .card,
+      .stage-card,
+      .table-wrap {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        border-radius: 1.4rem;
+        padding: clamp(1.5rem, 5vw, 3.5rem);
+      }
+
+      .eyebrow {
+        margin: 0 0 0.65rem;
+        color: var(--green);
+        font-size: 0.77rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.18;
+      }
+
+      h1 {
+        max-width: 900px;
+        margin: 0;
+        font-size: clamp(2.1rem, 6vw, 4.4rem);
+        letter-spacing: -0.045em;
+      }
+
+      h2 {
+        margin: 0 0 1rem;
+        font-size: clamp(1.45rem, 3vw, 2rem);
+        letter-spacing: -0.025em;
+      }
+
+      h3 {
+        margin: 0 0 0.55rem;
+        font-size: 1.05rem;
+      }
+
+      p {
+        margin: 0.5rem 0 0;
+      }
+
+      .lede,
+      .section-intro,
+      .card p,
+      .card li,
+      .stage-card p,
+      .stage-card li,
+      td {
+        color: var(--muted);
+      }
+
+      .lede {
+        max-width: 830px;
+        margin-top: 1.2rem;
+        font-size: 1.08rem;
+      }
+
+      .meta,
+      .metrics,
+      .grid,
+      .stage-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .meta {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 2rem;
+      }
+
+      .meta-item,
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 0.85rem;
+        background: var(--surface-strong);
+        padding: 0.85rem 1rem;
+      }
+
+      .meta-item span,
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .meta-item strong,
+      .metric strong {
+        display: block;
+        margin-top: 0.24rem;
+      }
+
+      nav {
+        position: sticky;
+        z-index: 10;
+        top: 0.75rem;
+        display: flex;
+        gap: 0.4rem;
+        margin: 1rem 0 2.5rem;
+        padding: 0.7rem;
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 0.9rem;
+        background: color-mix(in srgb, var(--surface) 91%, transparent);
+        box-shadow: 0 10px 28px rgb(0 0 0 / 7%);
+        backdrop-filter: blur(14px);
+      }
+
+      nav a {
+        flex: 0 0 auto;
+        border-radius: 999px;
+        color: var(--text);
+        padding: 0.42rem 0.72rem;
+        font-size: 0.83rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      nav a:hover {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      section {
+        scroll-margin-top: 5.8rem;
+        margin-top: 3.2rem;
+      }
+
+      .section-intro {
+        max-width: 870px;
+      }
+
+      .metrics {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-top: 1.15rem;
+      }
+
+      .metric strong {
+        color: var(--green);
+        font-size: 1.35rem;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 1.1rem;
+      }
+
+      .card,
+      .stage-card {
+        border-radius: 0.9rem;
+        padding: 1.15rem;
+      }
+
+      ul {
+        margin: 0.6rem 0 0;
+        padding-left: 1.25rem;
+      }
+
+      li + li {
+        margin-top: 0.34rem;
+      }
+
+      .callout {
+        margin-top: 1rem;
+        border-left: 0.32rem solid var(--green);
+        border-radius: 0.65rem;
+        background: var(--green-soft);
+        padding: 1rem 1.1rem;
+      }
+
+      .callout strong {
+        color: var(--green);
+      }
+
+      .callout.warn {
+        border-color: var(--amber);
+        background: var(--amber-soft);
+      }
+
+      .callout.warn strong {
+        color: var(--amber);
+      }
+
+      .table-wrap {
+        margin-top: 1.1rem;
+        overflow-x: auto;
+        border-radius: 0.85rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.92rem;
+      }
+
+      th,
+      td {
+        padding: 0.85rem;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--surface-strong);
+        color: var(--muted);
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .status {
+        display: inline-flex;
+        border-radius: 999px;
+        padding: 0.18rem 0.55rem;
+        font-size: 0.74rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .status.change {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .status.keep {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .status.limit {
+        background: var(--blue-soft);
+        color: var(--blue);
+      }
+
+      .stage {
+        position: relative;
+        margin-top: 1.15rem;
+        padding-left: 3.4rem;
+      }
+
+      .stage::before {
+        position: absolute;
+        top: 2.8rem;
+        bottom: -1.2rem;
+        left: 1.25rem;
+        width: 1px;
+        background: var(--line);
+        content: "";
+      }
+
+      .stage:last-child::before {
+        display: none;
+      }
+
+      .stage-number {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: grid;
+        width: 2.5rem;
+        height: 2.5rem;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--green);
+        color: var(--surface);
+        font-weight: 900;
+      }
+
+      .stage-card > header p {
+        margin: 0;
+        color: var(--green);
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .stage-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 1rem;
+      }
+
+      .stage-grid > div {
+        border-top: 1px solid var(--line);
+        padding-top: 0.85rem;
+      }
+
+      .stage-grid h3 {
+        font-size: 0.82rem;
+        letter-spacing: 0.035em;
+        text-transform: uppercase;
+      }
+
+      .stage-grid .wide {
+        grid-column: 1 / -1;
+      }
+
+      .checklist {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.7rem;
+        margin-top: 1rem;
+        padding: 0;
+        list-style: none;
+      }
+
+      .checklist li {
+        position: relative;
+        margin: 0;
+        border: 1px solid var(--line);
+        border-radius: 0.7rem;
+        background: var(--surface);
+        padding: 0.75rem 0.85rem 0.75rem 2.3rem;
+      }
+
+      .checklist li::before {
+        position: absolute;
+        top: 0.78rem;
+        left: 0.8rem;
+        width: 0.95rem;
+        height: 0.95rem;
+        border: 2px solid var(--green);
+        border-radius: 0.2rem;
+        content: "";
+      }
+
+      footer {
+        margin-top: 3.5rem;
+        border-top: 1px solid var(--line);
+        padding-top: 1rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 820px) {
+        .meta,
+        .metrics,
+        .grid,
+        .stage-grid,
+        .checklist {
+          grid-template-columns: 1fr;
+        }
+
+        .stage-grid .wide {
+          grid-column: auto;
+        }
+
+        .stage {
+          padding-left: 0;
+          padding-top: 3.2rem;
+        }
+
+        .stage::before {
+          display: none;
+        }
+      }
+
+      @media print {
+        body {
+          background: #fff;
+          color: #111;
+        }
+
+        .page {
+          width: 100%;
+          padding: 0;
+        }
+
+        nav {
+          display: none;
+        }
+
+        .hero,
+        .card,
+        .stage-card,
+        .table-wrap {
+          box-shadow: none;
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">Plano de implementação para aprovação</p>
+        <h1>Fase 4: sistema local de imagens</h1>
+        <p class="lede">
+          Plano baseado no fluxo real de upload, nos consumidores atuais, nos
+          arquivos locais, no banco de desenvolvimento e na linha de base da CI.
+          O objetivo é endurecer a entrada e tornar o armazenamento configurável
+          sem substituir a feature existente ou antecipar infraestrutura.
+        </p>
+        <div class="meta">
+          <div class="meta-item">
+            <span>Estado analisado</span>
+            <strong><code>refactor/selective-cleanup</code> em <code>b0a2618</code></strong>
+          </div>
+          <div class="meta-item">
+            <span>Branch sugerida</span>
+            <strong><code>feat/local-images</code></strong>
+          </div>
+          <div class="meta-item">
+            <span>Data da análise</span>
+            <strong>24 de agosto de 2026</strong>
+          </div>
+        </div>
+      </header>
+
+      <nav aria-label="Seções do plano">
+        <a href="#resumo">Resumo</a>
+        <a href="#diagnostico">Diagnóstico</a>
+        <a href="#decisoes">Decisões</a>
+        <a href="#escopo">Escopo</a>
+        <a href="#etapas">Etapas</a>
+        <a href="#areas">Áreas</a>
+        <a href="#riscos">Riscos</a>
+        <a href="#testes">Testes</a>
+        <a href="#conclusao">Conclusão</a>
+        <a href="#checklist">Checklist</a>
+      </nav>
+
+      <section id="resumo">
+        <p class="eyebrow">Resumo do diagnóstico</p>
+        <h2>A feature é pequena e preservável, mas hoje confia na declaração do cliente</h2>
+        <p class="section-intro">
+          A ação autentica cedo, limita bytes, gera um nome controlado, cria o
+          diretório e só retorna a URL depois da escrita. Porém, qualquer conteúdo
+          com MIME iniciado por <code>image/</code> é salvo sem decodificação, com
+          extensão derivada do nome enviado e dentro do release quando o caminho é
+          relativo. O endurecimento cabe na própria feature com <code>sharp</code>,
+          escrita atômica e contratos de configuração explícitos.
+        </p>
+
+        <div class="metrics" aria-label="Linha de base">
+          <div class="metric">
+            <span>Arquivos de teste</span>
+            <strong>22</strong>
+            <p>Suíte Vitest determinística.</p>
+          </div>
+          <div class="metric">
+            <span>Testes aprovados</span>
+            <strong>111</strong>
+            <p>Incluem ação, integração e componente de upload.</p>
+          </div>
+          <div class="metric">
+            <span>Limite atual</span>
+            <strong>900 KiB</strong>
+            <p>Abaixo do limite padrão de 1 MiB das Server Actions.</p>
+          </div>
+          <div class="metric">
+            <span>Linha de base</span>
+            <strong>Verde</strong>
+            <p>Testes, lint e build aprovados.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Problemas concretos</h3>
+            <ul>
+              <li><code>file.type</code> e o nome do cliente determinam aceitação e extensão.</li>
+              <li>SVG, GIF e bytes arbitrários podem ser gravados como arquivos públicos.</li>
+              <li>Não há decodificação, limite de pixels ou normalização de orientação.</li>
+              <li>Bytes originais, inclusive metadados, são persistidos sem tratamento.</li>
+              <li>Nomes por milissegundo podem colidir e não são imutáveis por construção.</li>
+              <li>Falhas de I/O escapam da ação e uma escrita interrompida pode deixar arquivo parcial.</li>
+              <li>A documentação local aponta a URL de mídia para a porta 3001 sem servidor correspondente.</li>
+              <li>O limite configurável pode exceder 1 MiB e falhar antes da validação da feature.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Pontos já adequados</h3>
+            <ul>
+              <li>A autenticação ocorre antes de ler a entrada ou tocar no disco.</li>
+              <li>O tamanho é verificado novamente no servidor.</li>
+              <li>O nome base enviado não é reutilizado e não há caminho vindo do cliente.</li>
+              <li><code>mkdir</code> e a escrita são aguardados antes de retornar sucesso.</li>
+              <li><code>IMAGE_UPLOAD_DIRECTORY</code> e <code>IMAGE_SERVER_URL</code> já representam conceitos distintos.</li>
+              <li>Caminhos absolutos externos já funcionam e o teste de integração usa um diretório temporário absoluto.</li>
+              <li>A ação não cria registro no banco, portanto não há transação banco-arquivo a introduzir.</li>
+              <li>URLs absolutas e caminhos relativos existentes continuam válidos nos schemas de blog e projetos.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="callout">
+          <strong>Decisão central:</strong> preservar <code>uploadImageAction</code>,
+          <code>ImageUploader</code>, o resultado <code>{ url, error }</code> e as
+          duas variáveis existentes. A mudança será interna ao pipeline de imagem,
+          sem repository, service de storage, tabela de mídia ou API separada.
+        </div>
+      </section>
+
+      <section id="diagnostico">
+        <p class="eyebrow">Confronto com a Fase 4</p>
+        <h2>Cada item foi classificado pelo estado real do código</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Estado</th>
+                <th>Evidência</th>
+                <th>Tratamento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Manter dentro da feature de upload</td>
+                <td><span class="status keep">Adequado</span></td>
+                <td>A feature possui uma ação, um componente e testes próprios.</td>
+                <td>Manter a fronteira e extrair apenas funções puras locais se reduzirem a ação.</td>
+              </tr>
+              <tr>
+                <td>Diretório físico absoluto fora do release</td>
+                <td><span class="status keep">Parcialmente adequado</span></td>
+                <td><code>path.resolve</code> já preserva um caminho absoluto, mas o contrato é implícito e caminhos relativos são anexados a <code>public/</code>.</td>
+                <td>Tornar a resolução explícita, testar e documentar. Preservar o comportamento relativo atual.</td>
+              </tr>
+              <tr>
+                <td>Separar caminho físico e URL pública</td>
+                <td><span class="status keep">Adequado</span></td>
+                <td><code>IMAGE_UPLOAD_DIRECTORY</code> controla o disco e <code>IMAGE_SERVER_URL</code> compõe a URL.</td>
+                <td>Manter nomes e contratos para evitar migração sem benefício.</td>
+              </tr>
+              <tr>
+                <td>Validar conteúdo, tamanho, dimensões e formato</td>
+                <td><span class="status change">Alterar</span></td>
+                <td>Há apenas limite de <code>file.size</code> e teste de prefixo no MIME declarado.</td>
+                <td>Decodificar com <code>sharp</code>, impor allowlist, limite de pixels e dimensões de saída.</td>
+              </tr>
+              <tr>
+                <td>Recusar SVG e formatos não suportados</td>
+                <td><span class="status change">Alterar</span></td>
+                <td><code>image/svg+xml</code> passa e a extensão enviada é preservada.</td>
+                <td>Aceitar somente JPEG, PNG, WebP e AVIF reais e rejeitar SVG. Nome, extensão e MIME do cliente não decidem a aceitação.</td>
+              </tr>
+              <tr>
+                <td>Remover metadados e limitar dimensões</td>
+                <td><span class="status change">Alterar</span></td>
+                <td>O buffer original é gravado sem transformação.</td>
+                <td>Aplicar orientação, redimensionar sem ampliar e gerar WebP sem retenção de metadados.</td>
+              </tr>
+              <tr>
+                <td>Saída padronizada e nome imutável</td>
+                <td><span class="status change">Alterar</span></td>
+                <td>Formato e extensão variam; o nome usa <code>Date.now()</code>.</td>
+                <td>Gerar <code>image-&lt;uuid-v4&gt;.webp</code>.</td>
+              </tr>
+              <tr>
+                <td>Erros e arquivos parciais</td>
+                <td><span class="status change">Alterar</span></td>
+                <td>Erros de processamento ou escrita rejeitam a Promise e a escrita vai direto ao destino final.</td>
+                <td>Escrever arquivo temporário exclusivo, renomear no mesmo diretório e remover o temporário em falhas.</td>
+              </tr>
+              <tr>
+                <td>Arquivos órfãos</td>
+                <td><span class="status limit">Definir, não automatizar</span></td>
+                <td>Upload e formulário são independentes. O banco local e o diretório local têm conjuntos totalmente divergentes de nomes.</td>
+                <td>Manter arquivos imutáveis e nenhuma exclusão automática. Exigir inventário completo e backup antes de qualquer limpeza futura.</td>
+              </tr>
+              <tr>
+                <td>Desenvolvimento sem proxy reverso</td>
+                <td><span class="status keep">Adequado com correção documental</span></td>
+                <td>O padrão <code>uploads</code> grava em <code>public/uploads</code>, servido pelo Next.js local; a URL de exemplo usa porta 3001 indevidamente.</td>
+                <td>Usar <code>http://localhost:3000/uploads</code> no exemplo e não criar uma rota ou servidor de mídia local.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="decisoes">
+        <p class="eyebrow">Decisões técnicas recomendadas</p>
+        <h2>Limites explícitos e poucos componentes móveis</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Entrada</h3>
+            <ul>
+              <li>Máximo de 900 KiB, validado no cliente e no servidor.</li>
+              <li>JPEG, PNG, WebP e AVIF como únicos formatos aceitos.</li>
+              <li>A saída usa extensão <code>.webp</code>; a extensão da entrada não é usada para validar ou nomear arquivos.</li>
+              <li>MIME e nome não são confiáveis; a decisão final vem da decodificação e do formato detectado.</li>
+              <li>Limite de 25 milhões de pixels na entrada para conter imagens comprimidas desproporcionais.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Processamento</h3>
+            <ul>
+              <li><code>sharp</code> como dependência direta, sem biblioteca adicional de magic bytes.</li>
+              <li>Aplicar orientação EXIF antes do redimensionamento.</li>
+              <li>Conter em 1920 x 1920, preservar proporção e nunca ampliar.</li>
+              <li>Saída WebP com qualidade 80 e suporte a transparência.</li>
+              <li>Não chamar APIs de retenção de EXIF, ICC ou XMP, preservando a remoção padrão de metadados do <code>sharp</code>.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Persistência e URL</h3>
+            <ul>
+              <li>Nome <code>image-&lt;uuid-v4&gt;.webp</code>, independente do cliente.</li>
+              <li>Processar em memória, gravar temporário com criação exclusiva e renomear atomicamente no mesmo diretório.</li>
+              <li>Retornar URL somente depois do rename bem-sucedido.</li>
+              <li>Caminho absoluto é usado diretamente; caminho relativo continua resolvido sob <code>public/</code>.</li>
+              <li><code>IMAGE_SERVER_URL</code> permanece como base pública sem barra final.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Erros e órfãos</h3>
+            <ul>
+              <li>Preservar o contrato <code>{ url, error }</code> e mensagens estáveis para entrada inválida e falha de armazenamento.</li>
+              <li>Remover temporário em melhor esforço quando processamento, escrita ou rename falhar.</li>
+              <li>Não excluir arquivo ao atualizar ou remover post/projeto.</li>
+              <li>Não criar tabela de mídia, referência reversa ou coletor automático.</li>
+              <li>Tratar limpeza de órfãos apenas como operação futura, precedida de backup e varredura de banco, Markdown e disco.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="escopo">
+        <p class="eyebrow">Escopo e fora de escopo</p>
+        <h2>Somente o necessário para um pipeline local seguro</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Incluído</h3>
+            <ul>
+              <li>Configuração explícita de caminho absoluto e compatibilidade relativa.</li>
+              <li>Allowlist e validação real de formato, extensão, bytes e dimensões.</li>
+              <li>Transformação WebP, orientação, resize e remoção de metadados.</li>
+              <li>UUID, escrita atômica, limpeza de temporário e retorno controlado de erros.</li>
+              <li>Ajustes mínimos no <code>accept</code> do input e na documentação.</li>
+              <li>Testes focados no pipeline, configuração e regressão do componente.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Fora de escopo</h3>
+            <ul>
+              <li>S3, R2, MinIO, CDN, fila ou processamento assíncrono.</li>
+              <li>Proxy reverso, rota de mídia, alterações de deploy ou provisionamento da VM.</li>
+              <li>Migração, renomeação ou recompressão de arquivos já existentes.</li>
+              <li>Mudança dos valores já persistidos em <code>cover_image_url</code>.</li>
+              <li>Upload múltiplo, biblioteca de mídia, edição, crop ou progresso.</li>
+              <li>Exclusão automática, garbage collector ou tabela de arquivos.</li>
+              <li>Refatoração dos formulários de blog e projetos fora do necessário para preservar o upload.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="etapas">
+        <p class="eyebrow">Etapas de implementação</p>
+        <h2>Ordem curta, reversível e validável</h2>
+
+        <div class="stage">
+          <span class="stage-number">1</span>
+          <article class="stage-card">
+            <header><p>Preparação</p><h3>Isolar a fase e confirmar a linha de base</h3></header>
+            <div class="stage-grid">
+              <div><h3>Objetivo</h3><p>Iniciar a implementação sobre <code>main</code> atualizado e distinguir regressões de falhas preexistentes.</p></div>
+              <div><h3>Alteração proposta</h3><p>Criar <code>feat/local-images</code> após aprovação e registrar o estado inicial de testes, lint e build.</p></div>
+              <div><h3>Áreas afetadas</h3><p>Git e comandos de validação, sem mudança funcional.</p></div>
+              <div><h3>Riscos</h3><p>Implementar sobre uma base diferente da analisada.</p></div>
+              <div class="wide"><h3>Validação necessária</h3><p><code>git status --short</code>, <code>npm test</code>, <code>npm run lint</code> e <code>npm run build</code>.</p></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="stage">
+          <span class="stage-number">2</span>
+          <article class="stage-card">
+            <header><p>Configuração</p><h3>Formalizar caminho físico e limite de upload</h3></header>
+            <div class="stage-grid">
+              <div><h3>Objetivo</h3><p>Tornar o armazenamento externo um contrato explícito sem quebrar o modo local atual.</p></div>
+              <div><h3>Alteração proposta</h3><p>Resolver caminho absoluto diretamente e caminho relativo sob <code>public/</code>; manter as variáveis existentes; limitar a configuração pública a 900 KiB; corrigir os exemplos locais.</p></div>
+              <div><h3>Áreas afetadas</h3><p><code>src/config/env/</code>, ação de upload, <code>.env.local-example</code> e <code>README.md</code>.</p></div>
+              <div><h3>Riscos</h3><p>Alterar sem intenção o significado de caminhos relativos ou aceitar configuração acima do limite do framework.</p></div>
+              <div class="wide"><h3>Validação necessária</h3><p>Testes de defaults, caminho absoluto, caminho relativo, valor vazio e teto de tamanho; validação sanitizada de erros de ambiente.</p></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="stage">
+          <span class="stage-number">3</span>
+          <article class="stage-card">
+            <header><p>Pipeline</p><h3>Validar e normalizar a imagem com sharp</h3></header>
+            <div class="stage-grid">
+              <div><h3>Objetivo</h3><p>Garantir que somente imagens reais e suportadas cheguem ao disco em formato previsível.</p></div>
+              <div><h3>Alteração proposta</h3><p>Declarar <code>sharp</code> diretamente; validar o formato detectado; rejeitar SVG e demais formatos; impor 25 MP; orientar, conter em 1920 x 1920 e gerar WebP qualidade 80 sem metadados.</p></div>
+              <div><h3>Áreas afetadas</h3><p><code>package.json</code>, <code>package-lock.json</code> e <code>src/features/upload/</code>.</p></div>
+              <div><h3>Riscos</h3><p>Falso positivo em arquivo válido, consumo de memória por imagem malformada, perda de orientação ou transparência e diferença entre codecs locais e da CI.</p></div>
+              <div class="wide"><h3>Validação necessária</h3><p>Casos reais para JPEG, PNG, WebP e AVIF, inclusive com filename e MIME divergentes; bytes falsos, SVG, limite de pixels, resize, orientação, transparência e ausência de metadados.</p></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="stage">
+          <span class="stage-number">4</span>
+          <article class="stage-card">
+            <header><p>Persistência</p><h3>Gravar com nome imutável e promoção atômica</h3></header>
+            <div class="stage-grid">
+              <div><h3>Objetivo</h3><p>Não expor URL para arquivo incompleto e evitar colisões práticas.</p></div>
+              <div><h3>Alteração proposta</h3><p>Usar UUID v4 e extensão fixa <code>.webp</code>; gravar temporário exclusivo no diretório final; renomear após sucesso; limpar temporário em falhas e converter exceções em resultado controlado.</p></div>
+              <div><h3>Áreas afetadas</h3><p>Ação e testes da feature de upload.</p></div>
+              <div><h3>Riscos</h3><p>Falha entre escrita e rename, erro de permissão, diretório indisponível ou temporário residual após encerramento abrupto do processo.</p></div>
+              <div class="wide"><h3>Validação necessária</h3><p>Sucesso em diretório temporário externo; falhas simuladas de escrita e rename; confirmação de ausência de URL, arquivo final e temporário após erro tratável.</p></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="stage">
+          <span class="stage-number">5</span>
+          <article class="stage-card">
+            <header><p>Consumidor e compatibilidade</p><h3>Preservar a experiência atual e registrar a política de órfãos</h3></header>
+            <div class="stage-grid">
+              <div><h3>Objetivo</h3><p>Manter o upload administrativo utilizável sem expandir o produto ou apagar conteúdo existente.</p></div>
+              <div><h3>Alteração proposta</h3><p>Restringir <code>accept</code> aos quatro formatos, manter retorno e preview atuais, documentar URL e diretório, e registrar que não haverá exclusão automática nem migração de arquivos antigos.</p></div>
+              <div><h3>Áreas afetadas</h3><p><code>ImageUploader</code>, seus testes, README e exemplo de ambiente.</p></div>
+              <div><h3>Riscos</h3><p>Quebra de seleção no navegador, preview inválido por base URL incorreta ou interpretação da nova saída como obrigação de migrar PNG/JPEG antigos.</p></div>
+              <div class="wide"><h3>Validação necessária</h3><p>Teste do atributo <code>accept</code>, erro de tamanho no cliente, sucesso e erro da ação, preview da URL retornada e leitura inalterada de URLs antigas.</p></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="stage">
+          <span class="stage-number">6</span>
+          <article class="stage-card">
+            <header><p>Fechamento</p><h3>Executar a validação completa e confirmar a CI</h3></header>
+            <div class="stage-grid">
+              <div><h3>Objetivo</h3><p>Concluir a fase sem regressão funcional, de tipos ou de pipeline.</p></div>
+              <div><h3>Alteração proposta</h3><p>Revisar o diff, executar a mesma sequência da CI e fazer smoke local autenticado do upload e do uso da URL em uma capa.</p></div>
+              <div><h3>Áreas afetadas</h3><p>Suíte completa, lint, build, painel administrativo e workflow existente.</p></div>
+              <div><h3>Riscos</h3><p>Teste unitário verde com falha nativa do <code>sharp</code>, erro apenas no build ou divergência entre upload e renderização pelo Next Image.</p></div>
+              <div class="wide"><h3>Validação necessária</h3><p><code>npm test</code>, <code>npm run lint</code>, preparação do schema e <code>npm run build</code>; CI existente verde sem mudança estrutural no workflow.</p></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="areas">
+        <p class="eyebrow">Principais arquivos e áreas</p>
+        <h2>Impacto concentrado</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Área</th><th>Papel na fase</th><th>Impacto esperado</th></tr></thead>
+            <tbody>
+              <tr><td><code>src/features/upload/actions/upload-image-action.ts</code></td><td>Orquestra validação, processamento, persistência e URL.</td><td>Alteração principal, mantendo assinatura e resultado.</td></tr>
+              <tr><td><code>src/features/upload/actions/*.test.ts</code></td><td>Cobrem autenticação, pipeline real, I/O e falhas.</td><td>Atualizar o caso válido e adicionar matriz focada.</td></tr>
+              <tr><td><code>src/features/upload/components/ImageUploader.tsx</code></td><td>Pré-validação e seletor do navegador.</td><td>Apenas <code>accept</code> explícito e manutenção do limite.</td></tr>
+              <tr><td><code>src/features/upload/components/ImageUploader.test.tsx</code></td><td>Regressão do consumidor.</td><td>Confirmar formatos anunciados e fluxo existente.</td></tr>
+              <tr><td><code>src/config/env/public.server.ts</code> e <code>server.ts</code></td><td>Validam limite, diretório e base pública.</td><td>Contratos mais explícitos, sem novas variáveis.</td></tr>
+              <tr><td><code>package.json</code> e <code>package-lock.json</code></td><td>Declaram o processador usado pela aplicação.</td><td><code>sharp</code> passa de transitivo do Next.js a dependência direta.</td></tr>
+              <tr><td><code>.env.local-example</code> e <code>README.md</code></td><td>Documentam modo local e caminho externo.</td><td>Corrigir porta e esclarecer sem detalhar deploy.</td></tr>
+              <tr><td><code>.github/workflows/ci.yml</code></td><td>Executa testes, lint, schema e build.</td><td>Nenhuma mudança prevista.</td></tr>
+              <tr><td>Blog, projetos, schema SQLite e migrations</td><td>Consomem apenas a URL retornada.</td><td>Nenhuma mudança prevista.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="riscos">
+        <p class="eyebrow">Riscos e compatibilidade</p>
+        <h2>Novos arquivos mudam; arquivos e URLs antigos não</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Compatibilidade preservada</h3>
+            <ul>
+              <li>PNG e JPEG já existentes continuam no disco com os mesmos nomes.</li>
+              <li>URLs absolutas já gravadas no SQLite não serão reescritas.</li>
+              <li>O prefixo público configurado permanece igual.</li>
+              <li>A ação continua retornando <code>{ url, error }</code>.</li>
+              <li>Blog e projetos continuam aceitando URL absoluta ou caminho iniciado por barra.</li>
+              <li>O modo local relativo continua usando <code>public/uploads</code>.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Riscos residuais aceitos</h3>
+            <ul>
+              <li>Upload concluído e não usado continuará criando órfão.</li>
+              <li>Encerramento abrupto do processo pode deixar temporário sem URL.</li>
+              <li>Diretório absoluto exige permissão do processo e, em produção, exposição pelo proxy futuro.</li>
+              <li>WebP qualidade 80 é uma decisão com perda controlada e deve receber smoke visual.</li>
+              <li>AVIF depende dos binários nativos fornecidos pelo pacote <code>sharp</code> na plataforma da CI e da futura VM.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="callout warn">
+          <strong>Política de órfãos:</strong> nenhuma exclusão nesta fase. Uma
+          limpeza futura só será segura depois de inventariar nomes referenciados
+          em <code>cover_image_url</code>, conteúdo Markdown e arquivos estáticos,
+          comparar com o disco e confirmar backup restaurável. A divergência já
+          observada no ambiente local torna uma exclusão baseada apenas no banco
+          insegura.
+        </div>
+      </section>
+
+      <section id="testes">
+        <p class="eyebrow">Estratégia de testes e validação</p>
+        <h2>Cobertura dirigida aos riscos novos</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Risco</th><th>Teste recomendado</th><th>Critério</th></tr></thead>
+            <tbody>
+              <tr><td>Conteúdo falso ou formato proibido</td><td>Bytes arbitrários com MIME de imagem, SVG válido e formato fora da allowlist.</td><td>Erro controlado e diretório sem arquivo final.</td></tr>
+              <tr><td>Nome e MIME não confiáveis</td><td>Imagem válida suportada com filename e MIME divergentes.</td><td>Sucesso baseado somente no conteúdo detectado e saída WebP controlada.</td></tr>
+              <tr><td>Contrato dos quatro formatos</td><td>Matriz pequena de JPEG, PNG, WebP e AVIF reais.</td><td>Todos geram WebP válido com nome UUID.</td></tr>
+              <tr><td>Dimensões e metadados</td><td>Imagem acima da caixa de saída, imagem acima do limite de pixels e fixture com orientação/metadados.</td><td>Proporção preservada, sem ampliação, orientação aplicada e metadados ausentes.</td></tr>
+              <tr><td>Arquivos parciais</td><td>Falhas simuladas de escrita e rename.</td><td>Sem URL e sem temporário ou final após a limpeza possível.</td></tr>
+              <tr><td>Caminho externo e URL pública</td><td>Integração com diretório temporário absoluto e base HTTPS distinta.</td><td>Arquivo no caminho físico correto e URL composta apenas pela base pública.</td></tr>
+              <tr><td>Regressão de autenticação e tamanho</td><td>Preservar casos atuais de sessão inválida, payload inválido e bytes acima do limite.</td><td>Nenhuma leitura ou escrita antes da autorização e da validação barata.</td></tr>
+              <tr><td>Consumidor</td><td>Verificar <code>accept</code>, pré-validação de tamanho, erro e preview de sucesso.</td><td>Componente preserva a experiência atual.</td></tr>
+              <tr><td>Projeto completo</td><td>Suíte, lint, schema, build e smoke autenticado.</td><td>Mesma sequência do workflow existente aprovada.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-intro">
+          Não há justificativa para cobertura global, E2E de deploy, teste de CDN,
+          benchmark extensivo ou matriz de todos os formatos que o
+          <code>sharp</code> sabe ler. A suíte deve caracterizar apenas o contrato
+          aceito e as falhas que podem produzir conteúdo público inválido ou
+          arquivos inconsistentes.
+        </p>
+      </section>
+
+      <section id="conclusao">
+        <p class="eyebrow">Critérios de conclusão</p>
+        <h2>A fase termina quando o novo pipeline é previsível e reversível</h2>
+        <ul class="checklist">
+          <li>Autenticação continua precedendo leitura e efeitos.</li>
+          <li>O servidor aceita somente JPEG, PNG, WebP e AVIF reais.</li>
+          <li>SVG, conteúdo falso e formatos não previstos são recusados com base na decodificação.</li>
+          <li>Entrada respeita 900 KiB e 25 MP.</li>
+          <li>Saída é WebP, no máximo 1920 x 1920, orientada e sem metadados.</li>
+          <li>Nome usa UUID e não depende do cliente.</li>
+          <li>Sucesso só é retornado depois da promoção atômica do arquivo.</li>
+          <li>Falhas esperadas retornam erro controlado e limpam temporários quando possível.</li>
+          <li>Caminho absoluto externo e modo relativo local estão cobertos.</li>
+          <li>Arquivos e URLs existentes permanecem intactos.</li>
+          <li>Nenhuma exclusão automática ou infraestrutura remota foi adicionada.</li>
+          <li>Testes, lint, schema, build e CI estão verdes.</li>
+        </ul>
+      </section>
+
+      <section id="checklist">
+        <p class="eyebrow">Checklist final de revisão</p>
+        <h2>Antes de considerar a implementação pronta</h2>
+        <ul class="checklist">
+          <li>Diff restrito à Fase 4 e sem mudanças de deploy.</li>
+          <li><code>sharp</code> declarado diretamente e lockfile coerente.</li>
+          <li>Nenhum nome, extensão, MIME ou caminho do cliente usado como verdade.</li>
+          <li>Allowlist do servidor e <code>accept</code> do cliente alinhados.</li>
+          <li>Temporário criado no mesmo filesystem do destino final.</li>
+          <li>Mensagens de erro não expõem caminho físico ou detalhes internos.</li>
+          <li>Exemplos de ambiente descrevem desenvolvimento na porta 3000.</li>
+          <li>Documentação distingue disco físico de URL pública.</li>
+          <li>Smoke visual confirma qualidade, orientação e transparência.</li>
+          <li>Smoke confirma uma capa nova sem alterar capas antigas.</li>
+          <li><code>git status --short</code> contém somente mudanças intencionais.</li>
+          <li>Workflow atual conclui sem alteração estrutural.</li>
+        </ul>
+      </section>
+
+      <footer>
+        Documento de planejamento. Nenhum código, dependência, configuração,
+        branch, arquivo de mídia ou registro de banco foi alterado durante a análise.
+      </footer>
+    </main>
+  </body>
+</html>

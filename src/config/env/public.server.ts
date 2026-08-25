@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { httpUrlSchema, parseEnv } from './parse-env.server';
 import { publicEnv } from './public';
 
+const MAX_IMAGE_UPLOAD_SIZE = 1_000_000;
+
 export const publicEnvSchema = z.object({
   giscusRepo: z
     .string()
@@ -13,7 +15,12 @@ export const publicEnvSchema = z.object({
   giscusCategory: z.string().min(1).optional(),
   giscusCategoryId: z.string().min(1).optional(),
   siteUrl: httpUrlSchema,
-  imageUploadMaxSize: z.number().int().positive().safe(),
+  imageUploadMaxSize: z
+    .number()
+    .int()
+    .positive()
+    .safe()
+    .max(MAX_IMAGE_UPLOAD_SIZE),
 });
 
 const publicEnvRules = {
@@ -39,7 +46,8 @@ const publicEnvRules = {
   },
   imageUploadMaxSize: {
     name: 'NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE',
-    description: 'must be a positive safe integer',
+    description:
+      'must be a positive safe integer no greater than 1000000 bytes',
   },
 };
 

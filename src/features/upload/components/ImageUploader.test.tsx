@@ -68,3 +68,14 @@ test('rejects an oversized image before invoking the upload action', () => {
   expect(mocks.uploadImageAction).not.toHaveBeenCalled();
   expect(screen.queryByRole('img')).toBeNull();
 });
+
+test('announces only the formats supported by the upload pipeline', () => {
+  const { container } = render(<ImageUploader />);
+  const input = container.querySelector('input[type="file"]');
+
+  if (!(input instanceof HTMLInputElement)) {
+    throw new Error('Expected the image file input to be rendered');
+  }
+
+  expect(input.accept).toBe('image/jpeg,image/png,image/webp,image/avif');
+});

@@ -98,7 +98,7 @@ export function ImageUploader({ disabled = false }: ImageUploaderProps) {
         className='hidden'
         name='file'
         type='file'
-        accept='image/*'
+        accept='image/jpeg,image/png,image/webp,image/avif'
       />
     </div>
   );

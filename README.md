@@ -87,8 +87,8 @@ Use `.env.local-example` as the reference and configure these variables in
 | `NEXT_PUBLIC_GISCUS_REPO_ID`        | Giscus repository ID                         |
 | `NEXT_PUBLIC_GISCUS_CATEGORY`       | Giscus discussion category                   |
 | `NEXT_PUBLIC_GISCUS_CATEGORY_ID`    | Giscus category ID                           |
-| `NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE` | Maximum upload size in bytes                 |
-| `IMAGE_UPLOAD_DIRECTORY`            | Local directory used to store uploads        |
+| `NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE` | Maximum upload size in bytes, up to 1000000 |
+| `IMAGE_UPLOAD_DIRECTORY`            | Physical upload directory; absolute paths are supported |
 | `IMAGE_SERVER_URL`                  | Public base URL for uploaded images          |
 | `JWT_SECRET_KEY`                    | Secret used to sign login tokens             |
 | `NEXT_PUBLIC_SITE_URL`              | Canonical public URL of the site             |
@@ -102,6 +102,17 @@ Use `.env.local-example` as the reference and configure these variables in
 `ALLOW_LOGIN=0` blocks creation of new sessions, but existing valid sessions
 remain authorized until their configured expiration. `LOGIN_PASS` remains
 required and validated while login is disabled.
+
+For local development, the default `IMAGE_UPLOAD_DIRECTORY=uploads` resolves to
+`public/uploads`, and `IMAGE_SERVER_URL=http://localhost:3000/uploads` is
+served by Next.js. Absolute upload directories are supported for persistent
+storage outside the application release; the production web-server mapping for
+such a directory is intentionally outside this project phase.
+
+New uploads are normalized to WebP with a server-controlled name. Existing
+image files and persisted URLs are preserved. The application does not delete
+uploaded files automatically because an uploaded URL can remain unused or be
+referenced outside the cover-image columns.
 
 ## Commands
 
