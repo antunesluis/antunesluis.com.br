@@ -108,7 +108,7 @@ export class DrizzleProjectRepository {
       content: newProjectData.content,
       coverImageUrl: newProjectData.coverImageUrl,
       repositoryUrl: newProjectData.repositoryUrl,
-      deployUrl: newProjectData.deployUrl,
+      deployUrl: newProjectData.deployUrl ?? null,
       techStack: newProjectData.techStack,
       published: newProjectData.published,
       updatedAt,

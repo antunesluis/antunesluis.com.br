@@ -201,6 +201,22 @@ describe('DrizzleProjectRepository', () => {
     });
   });
 
+  test('clears deployUrl when an update receives undefined', async () => {
+    const project = makeProject();
+    const update = makeProjectUpdate({ deployUrl: undefined });
+
+    await repository.create(project);
+    await repository.update(project.id, update);
+
+    await expect(repository.findById(project.id)).resolves.toMatchObject({
+      deployUrl: undefined,
+    });
+    const storedProject = await testDatabase.db.get<{ deployUrl: null }>(sql`
+      SELECT deploy_url AS deployUrl FROM projects WHERE id = ${project.id}
+    `);
+    expect(storedProject).toEqual({ deployUrl: null });
+  });
+
   test('deletes a project and returns its transformed previous state', async () => {
     const project = makeProject();
     await repository.create(project);
