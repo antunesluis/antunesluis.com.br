@@ -10,7 +10,9 @@ export function Header() {
   return (
     <header>
       <nav
-        className={clsx('flex items-center justify-between mx-auto pt-6 pb-12')}
+        className={clsx(
+          'flex items-center justify-between mx-auto pt-5 pb-9 sm:pb-10',
+        )}
         aria-label='Navegação principal'
       >
         <Link
@@ -18,7 +20,7 @@ export function Header() {
           className='flex gap-2 items-center rounded-lg group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
           aria-label='Página inicial'
         >
-          <BirdIcon className='w-7 h-7 lg:w-8 lg:h-8 text-foreground group-hover:text-primary' />
+          <BirdIcon className='size-6 text-foreground group-hover:text-primary sm:size-7' />
 
           {/* <h1 className='text-2xl font-extrabold tracking-tight text-foreground'> */}
           {/*   antunesluis */}

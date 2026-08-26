@@ -1,44 +1,38 @@
 import Link from 'next/link';
-import { CoverImage } from '@/components/ui/CoverImage';
-import { PostSummary } from './PostSummary';
+import { formatCompactDate } from '@/lib/utils';
 import { PostModel } from '../models/post-model';
 
 type LatestPostsProps = {
   latestPosts: PostModel[];
 };
 
-export async function LatestPosts({ latestPosts }: LatestPostsProps) {
+export function LatestPosts({ latestPosts }: LatestPostsProps) {
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
+    <ul className='divide-y divide-border/80'>
       {latestPosts.map(post => {
         const postLink = `/blog/${post.slug}`;
 
         return (
-          <article key={post.slug}>
-            <Link
-              href={postLink}
-              className='flex flex-col gap-4 rounded-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
-            >
-              <CoverImage
-                imageProps={{
-                  width: 1200,
-                  height: 700,
-                  src: post.coverImageUrl,
-                  alt: post.title,
-                  priority: false,
-                }}
-                className='aspect-[12/7] h-auto'
-              />
-              <PostSummary
-                postHeading='h3'
-                createdAt={post.createdAt}
-                title={post.title}
-                excerpt={post.excerpt}
-              />
-            </Link>
-          </article>
+          <li key={post.slug}>
+            <article>
+              <Link
+                href={postLink}
+                className='group -mx-3 flex items-baseline justify-between gap-4 rounded-lg px-3 py-3.5 transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+              >
+                <h3 className='min-w-0 text-[15px] font-medium leading-snug text-foreground transition-colors group-hover:text-primary sm:text-base'>
+                  {post.title}
+                </h3>
+                <time
+                  dateTime={post.createdAt}
+                  className='shrink-0 font-mono text-xs tracking-tight text-muted-foreground tabular-nums'
+                >
+                  {formatCompactDate(post.createdAt)}
+                </time>
+              </Link>
+            </article>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

@@ -25,7 +25,7 @@ export function HeaderMobileNavigation() {
               className='flex items-center justify-center p-2 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
               aria-label='Toggle mobile menu'
             >
-              <MenuIcon className='w-6 h-6 text-foreground' />
+              <MenuIcon className='size-5 text-foreground' />
             </button>
           }
         />
@@ -53,7 +53,7 @@ export function HeaderMobileNavigation() {
                   className={clsx(
                     'text-2xl/tight sm:text-3xl/tight md:text-3xl/tight',
                     'font-semibold underline decoration-4 underline-offset-8',
-                    'decoration-border text-foreground tracking-tight font-serif',
+                    'decoration-border text-foreground tracking-tight font-sans',
                   )}
                 >
                   Menu

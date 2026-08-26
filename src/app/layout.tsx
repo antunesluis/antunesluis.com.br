@@ -1,26 +1,20 @@
-import { Bricolage_Grotesque, Inter, JetBrains_Mono } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
 import { createMetadata } from '@/lib/metadata';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { Container, Header, Footer } from '@/components/layout';
 
-const inter_font = Inter({
+const geistSans = Geist({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-geist-sans',
 });
 
-const bricolage_grotesque_font = Bricolage_Grotesque({
+const geistMono = Geist_Mono({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-bricolage-grotesque',
-});
-
-const jetbrains_mono = JetBrains_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-jetbrains-mono',
+  variable: '--font-geist-mono',
   preload: false,
 });
 
@@ -39,7 +33,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html
       lang='pt-BR'
-      className={`${inter_font.variable} ${jetbrains_mono.variable} ${bricolage_grotesque_font.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -64,7 +58,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
               Pular para o conteúdo principal
             </a>
             <Header />
-            <main id='main-content'>{children}</main>
+            <main id='main-content' className='flex-1'>
+              {children}
+            </main>
             <Footer />
           </Container>
         </ThemeProvider>

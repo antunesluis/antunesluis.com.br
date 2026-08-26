@@ -33,7 +33,7 @@ export function Heading({ children, as: Tag = 'h2', className }: HeadingProps) {
         headingClassesMap[Tag],
         'text-foreground group-hover:text-primary',
         'tracking-tight',
-        'font-serif',
+        'font-sans',
         className,
       )}
     >
