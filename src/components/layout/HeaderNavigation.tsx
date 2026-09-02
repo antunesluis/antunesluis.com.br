@@ -9,7 +9,7 @@ export function HeaderNavigation() {
   const pathname = usePathname();
   const navItemClasses = clsx(
     // Estilos base
-    'relative text-foreground hover:text-primary font-medium transition-colors duration-200',
+    'relative text-sm text-foreground hover:text-primary font-medium transition-colors duration-200',
 
     // Pseudo-elemento para o underline animado
     'before:bg-primary before:absolute before:-bottom-1 before:left-0',
@@ -22,7 +22,7 @@ export function HeaderNavigation() {
   );
 
   return (
-    <div className='hidden md:flex items-center space-x-6 px-2'>
+    <div className='hidden md:flex items-center space-x-5 px-2'>
       {navigationLinks.map(link => {
         const isActive = pathname === link.href;
 

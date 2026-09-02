@@ -1,6 +1,5 @@
 import { BreadcrumbSchema } from '@/components/seo';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
-import { Heading } from '@/components/ui/Heading';
 import { SpinLoader } from '@/components/ui/SpinLoader';
 import { ProjectsList } from '@/features/projects/components/ProjectsList';
 import { ProjectsListSchema } from '@/features/projects/components/seo/ProjectsListSchema';
@@ -43,10 +42,7 @@ export default async function ProjectsPage() {
       />
 
       <section className='mb-24'>
-        <div className='flex flex-col gap-6 mb-12'>
-          <Heading as='h1'>/projects</Heading>
-          <p>A collection of my projects, crafted with dedication.</p>
-        </div>
+        <h1 className='sr-only'>Projects</h1>
 
         <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
           <ProjectsList projects={projects} />

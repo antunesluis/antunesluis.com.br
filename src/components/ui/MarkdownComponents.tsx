@@ -7,6 +7,7 @@ const syntaxHighlighterStyle = {
   'pre[class*="language-"]': {
     ...oneDark['pre[class*="language-"]'],
     background: 'transparent',
+    fontFamily: 'var(--font-mono)',
     margin: 0,
     padding: 0,
     borderRadius: '0.5rem',
@@ -14,6 +15,7 @@ const syntaxHighlighterStyle = {
   'code[class*="language-"]': {
     ...oneDark['code[class*="language-"]'],
     background: 'transparent',
+    fontFamily: 'var(--font-mono)',
   },
 };
 

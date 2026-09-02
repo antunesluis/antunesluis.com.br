@@ -14,6 +14,7 @@ export const SOCIAL = {
   github: 'antunesluis',
   email: 'antunesluisbr@gmail.com',
   linkedin: 'luisantuness',
+  instagram: 'aantunesluis',
 } as const;
 
 export const OG_IMAGE_WIDTH = 1200;
@@ -37,4 +38,4 @@ export const SITE_KEYWORDS = [
   'linux',
 ];
 
-export const LATEST_OFFSET = 2;
+export const LATEST_OFFSET = 3;
