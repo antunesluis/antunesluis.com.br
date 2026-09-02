@@ -11,6 +11,7 @@ import { ProjectsListSchema } from '@/features/projects/components/seo/ProjectsL
 import { findAllPublicProjectCached } from '@/features/projects/lib/queries/public';
 import { PersonSchema, WebSiteSchema } from '@/components/seo';
 import { LATEST_OFFSET } from '@/config/constants';
+import { Heading } from '@/components/ui/Heading';
 
 export const dynamic = 'force-dynamic';
 
@@ -54,9 +55,7 @@ export default async function HomePage() {
           </div>
 
           <div className='min-w-0 pt-0.5 sm:pt-1'>
-            <h1 className='font-sans text-[2rem] font-bold leading-none tracking-[-0.03em] text-foreground sm:text-4xl'>
-              Luis Antunes
-            </h1>
+            <Heading as='h1'>Luis Antunes</Heading>
 
             <p className='mt-3 max-w-lg text-[15px] leading-6 text-muted-foreground sm:text-base sm:leading-7'>
               I build clear, reliable software and share projects and technical
@@ -71,12 +70,12 @@ export default async function HomePage() {
             aria-labelledby='latest-posts-heading'
           >
             <div className='flex min-h-7 items-center justify-between gap-4'>
-              <h2
+              <Heading
+                as='h2'
                 id='latest-posts-heading'
-                className='font-sans text-lg font-semibold tracking-tight text-foreground underline decoration-4 decoration-border underline-offset-8'
               >
                 Latest posts
-              </h2>
+              </Heading>
 
               <ButtonLink
                 href='/blog'
@@ -106,12 +105,12 @@ export default async function HomePage() {
             aria-labelledby='latest-projects-heading'
           >
             <div className='flex min-h-7 items-center justify-between gap-4'>
-              <h2
+              <Heading
+                as='h2'
                 id='latest-projects-heading'
-                className='font-sans text-lg font-semibold tracking-tight text-foreground underline decoration-4 decoration-border underline-offset-8'
               >
                 Latest projects
-              </h2>
+              </Heading>
 
               <ButtonLink
                 href='/projects'

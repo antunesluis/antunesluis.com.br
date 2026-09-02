@@ -6,7 +6,6 @@ import { PostFeatured } from '@/features/blog/components/PostFeatured';
 import { PostsList } from '@/features/blog/components/PostsList';
 import { findAllPublicPostsCached } from '@/features/blog/lib/queries/public';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
-import { Heading } from '@/components/ui/Heading';
 import { SpinLoader } from '@/components/ui/SpinLoader';
 import { BreadcrumbSchema } from '@/components/seo';
 
@@ -44,14 +43,7 @@ export default async function BlogPage() {
 
       <div>
         <article className='mb-24'>
-          <section className='flex flex-col gap-6 mb-12'>
-            <Heading as='h1'>/blog</Heading>
-            <p>
-              This is where you’ll find all {posts.length} articles I’ve
-              written. I share thoughts on web development and tech in both
-              English and Portuguese.
-            </p>
-          </section>
+          <h1 className='sr-only'>Blog</h1>
 
           <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
             <PostFeatured post={firstPost} />
