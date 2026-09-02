@@ -1,6 +1,6 @@
 import { BreadcrumbSchema, PersonSchema } from '@/components/seo';
 import { Heading } from '@/components/ui/Heading';
-import { AboutHeader, ResumeSection, SocialLinks } from '@/features/about';
+import { AboutHeader, ResumeSection, Timeline } from '@/features/about';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 
@@ -36,9 +36,9 @@ export default function AboutPage() {
             </p>
           </section>
 
-          <section className='space-y-4'>
-            <Heading as='h2'>Let’s connect!</Heading>
-            <SocialLinks />
+          <section className='space-y-5'>
+            <Heading as='h2'>Timeline</Heading>
+            <Timeline />
           </section>
 
           <section className='space-y-4'>
