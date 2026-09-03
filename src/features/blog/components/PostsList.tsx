@@ -23,7 +23,7 @@ export async function PostsList({ posts }: PostsListProps) {
             <article key={post.slug}>
               <Link
                 href={postLink}
-                className='flex flex-col gap-4 rounded-xl group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+                className='group -m-3 flex flex-col gap-4 rounded-xl p-3 transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
               >
                 <CoverImage
                   imageProps={{

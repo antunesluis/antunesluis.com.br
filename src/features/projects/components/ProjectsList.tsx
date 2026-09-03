@@ -14,7 +14,7 @@ export async function ProjectsList({ projects }: ProjectsListProps) {
         <article key={project.slug}>
           <Link
             href={`/projects/${project.slug}`}
-            className='group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background'
+            className='group -m-3 block rounded-xl p-3 transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
           >
             <CoverImage
               imageProps={{

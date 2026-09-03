@@ -1,39 +1,30 @@
-'use client';
-
-import { Button } from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/ButtonLink';
 import { DownloadIcon, ExternalLinkIcon } from 'lucide-react';
 
 export function ResumeSection() {
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/files/CV-Luis-Antunes.pdf';
-    link.download = 'CV-Luis-Antunes.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const handleView = () => {
-    window.open('/files/CV-Luis-Antunes.pdf', '_blank');
-  };
-
   return (
-    <div className='space-y-4'>
-      <p className='text-md'>
-        If you’re interested, you can view or download my resume.
-      </p>
+    <div className='flex flex-wrap items-center gap-3'>
+      <ButtonLink
+        href='/files/CV-Luis-Antunes.pdf'
+        target='_blank'
+        variant='default'
+        size='sm'
+        className='min-h-11'
+      >
+        <ExternalLinkIcon aria-hidden='true' />
+        Open PDF
+      </ButtonLink>
 
-      <div className='flex gap-3 justify-center sm:justify-start'>
-        <Button onClick={handleView} variant='default' size='md'>
-          <ExternalLinkIcon />
-          View
-        </Button>
-
-        <Button onClick={handleDownload} variant='ghost' size='md'>
-          <DownloadIcon />
-          Download
-        </Button>
-      </div>
+      <ButtonLink
+        href='/files/CV-Luis-Antunes.pdf'
+        download='CV-Luis-Antunes.pdf'
+        variant='ghost'
+        size='sm'
+        className='min-h-11'
+      >
+        <DownloadIcon aria-hidden='true' />
+        Download
+      </ButtonLink>
     </div>
   );
 }

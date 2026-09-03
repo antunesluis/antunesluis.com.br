@@ -14,7 +14,7 @@ export function ProjectSummary({
 }: ProjectSummaryProps) {
   return (
     <div className={clsx('min-w-0', className)}>
-      <Heading as='h2' className='no-underline transition-colors'>
+      <Heading as='h2' withUnderline={false} className='transition-colors'>
         {name}
       </Heading>
 

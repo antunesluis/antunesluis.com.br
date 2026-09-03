@@ -42,7 +42,7 @@ export default async function BlogPage() {
       />
       {posts && posts.length > 0 && <BlogSchema posts={posts} />}
 
-      <div className='mb-24'>
+      <div className='mb-16 sm:mb-20'>
         <header className='mb-12 max-w-2xl'>
           <Heading as='h1'>Blog</Heading>
           <p className='mt-3 leading-relaxed text-muted-foreground'>

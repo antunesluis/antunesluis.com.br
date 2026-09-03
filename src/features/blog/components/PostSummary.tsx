@@ -15,9 +15,11 @@ export function PostSummary({
   excerpt,
 }: PostSummaryProps) {
   return (
-    <section className='flex flex-col gap-4 sm:justify-center'>
+    <section className='flex flex-col gap-3 sm:justify-center'>
       <PostDate dateTime={createdAt} />
-      <Heading as={postHeading}>{title}</Heading>
+      <Heading as={postHeading} withUnderline={false}>
+        {title}
+      </Heading>
       <p className='line-clamp-3 leading-relaxed text-muted-foreground'>
         {excerpt}
       </p>

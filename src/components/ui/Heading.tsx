@@ -10,22 +10,20 @@ type HeadingProps = Omit<
   children: React.ReactNode;
   as?: HeadingTag;
   className?: string;
+  withUnderline?: boolean;
 };
 
 export function Heading({
   children,
   as: Tag = 'h2',
   className,
+  withUnderline = true,
   ...props
 }: HeadingProps) {
   const headingClassesMap: Record<HeadingTag, string> = {
     h1: 'text-3xl/tight font-bold sm:text-4xl/tight',
 
-    h2: clsx(
-      'text-xl/tight font-semibold sm:text-2xl/tight',
-      'underline decoration-2 underline-offset-8',
-      'decoration-border',
-    ),
+    h2: 'text-xl/tight font-semibold sm:text-2xl/tight',
 
     h3: 'text-lg/tight font-semibold sm:text-xl/tight',
 
@@ -41,6 +39,9 @@ export function Heading({
       {...props}
       className={clsx(
         headingClassesMap[Tag],
+        Tag === 'h2' &&
+          withUnderline &&
+          'underline decoration-2 underline-offset-8 decoration-border',
         'text-foreground group-hover:text-primary',
         'tracking-tight',
         'font-sans',

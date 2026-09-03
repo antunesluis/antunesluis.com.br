@@ -16,9 +16,9 @@ export async function SingleProject({ project }: SingleProjectProps) {
   const pathname = `projects/${project.slug}`;
 
   return (
-    <div className='mb-24'>
-      <article className='flex flex-col gap-12'>
-        <header className='flex flex-col gap-10 sm:gap-12'>
+    <div className='mb-16 sm:mb-20'>
+      <article className='flex flex-col gap-8'>
+        <header className='flex flex-col gap-8'>
           <div className='flex max-w-3xl flex-col gap-4'>
             <div className='flex items-start justify-between gap-4 sm:gap-8'>
               <Heading as='h1' className='min-w-0'>
@@ -71,14 +71,17 @@ export async function SingleProject({ project }: SingleProjectProps) {
             )}
           </div>
 
-          <Image
-            className='h-auto w-full rounded-xl'
-            src={project.coverImageUrl}
-            width={1200}
-            height={720}
-            alt={project.name}
-            priority
-          />
+          <div className='aspect-[16/9] overflow-hidden rounded-xl'>
+            <Image
+              className='h-full w-full object-cover'
+              src={project.coverImageUrl}
+              width={1200}
+              height={720}
+              sizes='(max-width: 848px) calc(100vw - 3rem), 50rem'
+              alt={project.name}
+              priority
+            />
+          </div>
         </header>
 
         <hr className='border-border' />

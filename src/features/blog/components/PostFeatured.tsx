@@ -9,10 +9,10 @@ type PostFeaturedProps = {
 
 export async function PostFeatured({ post }: PostFeaturedProps) {
   return (
-    <article className='mb-16'>
+    <article className='mb-12'>
       <Link
         href={`/blog/${post.slug}`}
-        className='group grid grid-cols-1 gap-8 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-2'
+        className='group -m-3 grid grid-cols-1 gap-5 rounded-xl p-3 transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none sm:grid-cols-2 sm:gap-8'
       >
         <CoverImage
           imageProps={{

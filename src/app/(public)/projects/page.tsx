@@ -42,7 +42,7 @@ export default async function ProjectsPage() {
         ]}
       />
 
-      <div className='mb-24'>
+      <div className='mb-16 sm:mb-20'>
         <header className='mb-12 max-w-2xl'>
           <Heading as='h1'>Projects</Heading>
           <p className='mt-3 leading-relaxed text-muted-foreground'>
