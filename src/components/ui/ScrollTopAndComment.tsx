@@ -21,15 +21,23 @@ export function ScrollTopAndComment() {
   }, []);
 
   const handleScrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
   };
 
   const handleScrollToComment = () => {
-    document.getElementById('comments')?.scrollIntoView({ behavior: 'smooth' });
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    document
+      .getElementById('comments')
+      ?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
   };
 
   const scrollAndTopClases = clsx(
-    'rounded-full bg-muted p-2 text-card-foreground transition-all hover:bg-primary/50',
+    'inline-flex size-11 items-center justify-center rounded-full bg-muted text-card-foreground transition-colors hover:bg-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none',
   );
 
   return (

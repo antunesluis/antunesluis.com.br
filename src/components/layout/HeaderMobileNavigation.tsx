@@ -22,7 +22,7 @@ export function HeaderMobileNavigation() {
           render={
             <button
               type='button'
-              className='flex items-center justify-center p-2 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+              className='flex size-11 items-center justify-center rounded-lg transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
               aria-label='Toggle mobile menu'
             >
               <MenuIcon className='size-5 text-foreground' />
@@ -35,6 +35,7 @@ export function HeaderMobileNavigation() {
             className={clsx(
               'fixed inset-0 z-40 backdrop-blur-sm bg-black/30',
               'transition-opacity duration-300',
+              'motion-reduce:transition-none',
               'data-starting-style:opacity-0 data-ending-style:opacity-0',
             )}
           />
@@ -44,6 +45,7 @@ export function HeaderMobileNavigation() {
                 'pointer-events-auto fixed top-0 right-0 w-64 h-full',
                 'bg-card shadow-xl border-l border-border',
                 'transform transition-transform duration-300 ease-in-out',
+                'motion-reduce:transition-none',
                 'data-starting-style:translate-x-full',
                 'data-ending-style:translate-x-full',
               )}
@@ -52,7 +54,7 @@ export function HeaderMobileNavigation() {
                 <Dialog.Title
                   className={clsx(
                     'text-2xl/tight sm:text-3xl/tight md:text-3xl/tight',
-                    'font-semibold underline decoration-4 underline-offset-8',
+                    'font-semibold underline decoration-2 underline-offset-8',
                     'decoration-border text-foreground tracking-tight font-sans',
                   )}
                 >
@@ -62,7 +64,7 @@ export function HeaderMobileNavigation() {
                   render={
                     <button
                       type='button'
-                      className='flex items-center justify-center w-10 h-10 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+                      className='flex size-11 items-center justify-center rounded-lg transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
                       aria-label='Close mobile menu'
                     >
                       <X className='w-6 h-6 text-foreground' />

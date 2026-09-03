@@ -23,7 +23,7 @@ export function Heading({
 
     h2: clsx(
       'text-xl/tight font-semibold sm:text-2xl/tight',
-      'underline decoration-4 underline-offset-8',
+      'underline decoration-2 underline-offset-8',
       'decoration-border',
     ),
 

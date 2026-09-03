@@ -3,11 +3,11 @@ import { Heading } from '@/components/ui/Heading';
 export function AboutHeader() {
   return (
     <header className='space-y-6'>
-      <Heading as='h1' className='text-center'>
+      <Heading as='h1'>
         Hey, I&apos;m Luis! 👋
       </Heading>
 
-      <div className='max-w-3xl space-y-4 leading-relaxed text-muted-foreground'>
+      <div className='max-w-3xl space-y-4 leading-relaxed'>
         <p>
           I am 21 years old and currently in my 6th semester of Computer Science
           at UFSM. I started programming in 2022 and, since then, I have been

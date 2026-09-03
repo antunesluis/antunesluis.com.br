@@ -9,13 +9,13 @@ export function HeaderNavigation() {
   const pathname = usePathname();
   const navItemClasses = clsx(
     // Estilos base
-    'relative text-sm text-foreground hover:text-primary font-medium transition-colors duration-200',
+    'relative inline-flex min-h-11 items-center text-sm text-foreground hover:text-primary font-medium transition-colors duration-200 motion-reduce:transition-none',
 
     // Pseudo-elemento para o underline animado
     'before:bg-primary before:absolute before:-bottom-1 before:left-0',
     'before:block before:h-[2px] before:w-full',
     'before:origin-bottom-right before:scale-x-0',
-    'before:transition-transform before:duration-300 before:ease-in-out',
+    'before:transition-transform before:duration-300 before:ease-in-out motion-reduce:before:transition-none',
     'hover:before:origin-bottom-left hover:before:scale-x-100',
     'focus-visible:outline-none focus-visible:text-primary',
     'focus-visible:before:origin-bottom-left focus-visible:before:scale-x-100',

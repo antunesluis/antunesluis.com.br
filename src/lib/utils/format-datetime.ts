@@ -2,7 +2,7 @@ import {
   format,
   formatDistanceToNow as dateFnsFormatDistanceToNow,
 } from 'date-fns';
-import { enUS, ptBR } from 'date-fns/locale';
+import { ptBR } from 'date-fns/locale';
 
 export function formatFullDateTime(rawDate: string): string {
   const date = new Date(rawDate);
@@ -16,7 +16,7 @@ export function formatShortDate(rawDate: string): string {
 
 export function formatCompactDate(rawDate: string): string {
   const date = new Date(rawDate);
-  return format(date, 'MMM d, yyyy', { locale: enUS });
+  return format(date, 'dd/MM/yyyy', { locale: ptBR });
 }
 
 export function formatDistanceToNow(rawDate: string): string {

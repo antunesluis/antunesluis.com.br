@@ -2,55 +2,41 @@
 
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 type ThemeToggleProps = {
   onThemeChange?: (theme: 'dark' | 'light') => void;
 };
 
 export function ThemeToggle({ onThemeChange }: ThemeToggleProps = {}) {
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme, systemTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const currentTheme = theme === 'system' ? systemTheme : theme;
-  const isDark = currentTheme === 'dark';
+    const themeColor = document.querySelector<HTMLMetaElement>(
+      'meta[name="theme-color"]',
+    );
+    themeColor?.setAttribute(
+      'content',
+      resolvedTheme === 'dark' ? '#08070b' : '#f5f9ff',
+    );
+  }, [resolvedTheme]);
 
   const toggleTheme = () => {
-    const newTheme = isDark ? 'light' : 'dark';
+    const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     onThemeChange?.(newTheme);
   };
-
-  if (!mounted) {
-    return (
-      <button
-        type='button'
-        className='p-2 rounded-lg'
-        aria-label='Toggle theme'
-        disabled
-      >
-        <div className='w-6 h-6' />
-      </button>
-    );
-  }
 
   return (
     <button
       type='button'
       onClick={toggleTheme}
-      className='p-2 rounded-lg hover:bg-muted transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
-      aria-label={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
-      title={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
+      className='inline-flex size-11 items-center justify-center rounded-lg transition-colors duration-200 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
+      aria-label='Alternar tema'
+      title='Alternar tema'
     >
-      {isDark ? (
-        <Moon className='w-6 h-6 text-foreground hover:text-primary transition-colors' />
-      ) : (
-        <Sun className='w-6 h-6 text-foreground hover:text-primary transition-colors' />
-      )}
+      <Moon className='hidden size-6 text-foreground transition-colors hover:text-primary motion-reduce:transition-none dark:block' />
+      <Sun className='size-6 text-foreground transition-colors hover:text-primary motion-reduce:transition-none dark:hidden' />
     </button>
   );
 }

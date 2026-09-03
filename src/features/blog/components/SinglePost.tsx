@@ -16,16 +16,7 @@ export async function SinglePost({ post }: SinglePostProps) {
   return (
     <div className='mb-24'>
       <article className='flex flex-col gap-12'>
-        <header className='flex flex-col gap-12'>
-          <Image
-            className='rounded-xl w-full h-auto'
-            src={post.coverImageUrl}
-            width={1200}
-            height={720}
-            alt={post.title}
-            priority
-          />
-
+        <header className='flex flex-col gap-10 sm:gap-12'>
           <div className='flex flex-col gap-4'>
             <Heading as='h1'>{post.title}</Heading>
 
@@ -39,6 +30,15 @@ export async function SinglePost({ post }: SinglePostProps) {
               {post.excerpt}
             </p>
           </div>
+
+          <Image
+            className='h-auto w-full rounded-xl'
+            src={post.coverImageUrl}
+            width={1200}
+            height={720}
+            alt={post.title}
+            priority
+          />
         </header>
 
         <hr className='border-border' />

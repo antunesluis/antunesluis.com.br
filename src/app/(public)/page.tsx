@@ -81,12 +81,12 @@ export default async function HomePage() {
                 href='/blog'
                 variant='link'
                 size='sm'
-                className='group shrink-0 text-[13px] text-muted-foreground hover:text-primary'
+                className='group -my-2 min-h-11 shrink-0 text-[13px] text-muted-foreground hover:text-primary'
               >
                 View Blog
                 <ArrowRight
                   aria-hidden='true'
-                  className='size-3.5 transition-transform group-hover:translate-x-1'
+                  className='size-3.5 transition-transform group-hover:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none'
                 />
               </ButtonLink>
             </div>
@@ -116,12 +116,12 @@ export default async function HomePage() {
                 href='/projects'
                 variant='link'
                 size='sm'
-                className='group shrink-0 text-[13px] text-muted-foreground hover:text-primary'
+                className='group -my-2 min-h-11 shrink-0 text-[13px] text-muted-foreground hover:text-primary'
               >
                 View Projects
                 <ArrowRight
                   aria-hidden='true'
-                  className='size-3.5 transition-transform group-hover:translate-x-1'
+                  className='size-3.5 transition-transform group-hover:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none'
                 />
               </ButtonLink>
             </div>

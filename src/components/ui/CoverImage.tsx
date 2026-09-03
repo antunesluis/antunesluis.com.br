@@ -14,7 +14,7 @@ export function CoverImage({ imageProps, className }: CoverImageProps) {
       <Image
         {...imageProps}
         className={clsx(
-          'w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300',
+          'h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none',
           imageProps.className,
         )}
         alt={imageProps.alt || 'Post cover image'}

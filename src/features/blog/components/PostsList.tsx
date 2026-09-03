@@ -30,7 +30,7 @@ export async function PostsList({ posts }: PostsListProps) {
                     width: 1200,
                     height: 700,
                     src: post.coverImageUrl,
-                    alt: post.title,
+                    alt: '',
                     priority: false,
                   }}
                   className='aspect-[12/7] h-auto'

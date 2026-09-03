@@ -115,8 +115,9 @@ export function SearchButton({ posts }: SearchButtonProps) {
           <button
             type='button'
             className={clsx(
-              'p-2 flex items-center justify-center rounded-lg',
+              'flex size-11 items-center justify-center rounded-lg',
               'transition-all duration-200',
+              'motion-reduce:transition-none',
               'text-foreground',
               'hover:bg-muted hover:text-primary',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
