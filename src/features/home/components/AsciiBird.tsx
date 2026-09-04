@@ -1,328 +1,142 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import {
+  ARRIVAL,
+  CHOREOGRAPHIES,
+  drawPose,
+  getNextChoreographyIndex,
+  isAirborne,
+  type PoseName,
+} from './ascii-bird-animation';
 
-const COLS = 21;
-const ROWS = 8;
+type PlaybackStatus =
+  'arriving' | 'dancing' | 'switching' | 'paused' | 'reduced';
 
-function put(grid: string[][], row: number, column: number, value: string) {
-  [...value].forEach((character, index) => {
-    const target = column + index;
-
-    if (row >= 0 && row < ROWS && target >= 0 && target < COLS) {
-      grid[row][target] = character;
-    }
-  });
-}
-
-function createFrame(lines: string[], verticalOffset = 0) {
-  const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(' '));
-  const firstRow =
-    Math.max(0, Math.floor((ROWS - lines.length) / 2)) + verticalOffset;
-
-  lines.forEach((line, index) => {
-    if (line.length > COLS) {
-      throw new Error('ASCII frame line exceeds the available columns.');
-    }
-
-    const column = Math.floor((COLS - line.length) / 2);
-    put(grid, firstRow + index, column, line);
-  });
-
-  return grid.map(line => line.join('')).join('\n');
-}
-
-const POSES = {
-  idleA: createFrame([
-    ',_,',
-    '(o,o)',
-    '/v\\',
-    '/( : )\\',
-    '/_\\',
-    '^ ^',
-  ]),
-  idleB: createFrame([
-    ',_,',
-    '(o,o)',
-    '/v\\',
-    '/( . )\\',
-    '/_\\',
-    '^ ^',
-  ]),
-  blink: createFrame([
-    ',_,',
-    '(-,-)',
-    '/v\\',
-    '/( : )\\',
-    '/_\\',
-    '^ ^',
-  ]),
-  lookL: createFrame([
-    '_,',
-    '<( o)',
-    '/v\\',
-    '/( : )\\',
-    '/_\\',
-    '^ ^',
-  ]),
-  lookR: createFrame([
-    ',_',
-    '(o )>',
-    '/v\\',
-    '/( : )\\',
-    '/_\\',
-    '^ ^',
-  ]),
-  tiltL: createFrame([
-    ',_,  ',
-    '(o,o)  ',
-    '/v\\',
-    '/( : )\\',
-    '/_\\',
-    '^ ^',
-  ]),
-  tiltR: createFrame([
-    '  ,_,',
-    '  (o,o)',
-    '/v\\',
-    '/( : )\\',
-    '/_\\',
-    '^ ^',
-  ]),
-  chirp: createFrame([
-    ',_',
-    '(O )> *',
-    '/v\\',
-    '/( : )\\',
-    '/_\\',
-    '^ ^',
-  ]),
-  flapUp: createFrame(
-    [
-      '\\     ,_,     /',
-      ' \\   (o,o)   /',
-      '/v\\',
-      '( : )',
-      '/_\\',
-      '> <',
-    ],
-    -1,
-  ),
-  flapDown: createFrame(
-    [
-      ',_,',
-      '(o,o)',
-      '/v\\',
-      '/( : )\\',
-      '/  /_\\  \\',
-      '> <',
-    ],
-    -1,
-  ),
-  crouch: createFrame([
-    ',_,',
-    '(o,o)',
-    '/v\\',
-    '/(___)\\',
-    '/_\\',
-    'v v',
-  ]),
-  hop: createFrame(
-    [',_,', '(o,o)', '/v\\', '/( : )\\', '/_\\', '> <'],
-    -1,
-  ),
-  danceL: createFrame([
-    ',_,',
-    '(o,o)',
-    '/v\\',
-    '/( : )',
-    '/_\\',
-    '^  >',
-  ]),
-  danceR: createFrame([
-    ',_,',
-    '(o,o)',
-    '/v\\',
-    '( : )\\',
-    '/_\\',
-    '<  ^',
-  ]),
-  wings: createFrame([
-    ',_,',
-    '(^,^)',
-    '/v\\',
-    '\\( : )/',
-    '/_\\',
-    '^ ^',
-  ]),
-  bounce: createFrame(
-    [',_,', '(o,o)', '/v\\', '<( : )>', '/_\\', '> <'],
-    -1,
-  ),
-} as const;
-
-type PoseName = keyof typeof POSES;
-
-type Step = {
-  pose: PoseName;
-  ms: number;
-};
-
-const ARRIVAL: Step[] = [
-  { pose: 'flapUp', ms: 130 },
-  { pose: 'flapDown', ms: 130 },
-  { pose: 'flapUp', ms: 130 },
-  { pose: 'flapDown', ms: 130 },
-  { pose: 'flapUp', ms: 140 },
-  { pose: 'crouch', ms: 210 },
-  { pose: 'idleA', ms: 320 },
-  { pose: 'blink', ms: 120 },
-  { pose: 'idleA', ms: 380 },
-];
-
-const ENCORE: Step[] = [
-  { pose: 'wings', ms: 130 },
-  { pose: 'danceL', ms: 140 },
-  { pose: 'danceR', ms: 140 },
-  { pose: 'danceL', ms: 140 },
-  { pose: 'danceR', ms: 140 },
-  { pose: 'crouch', ms: 100 },
-  { pose: 'bounce', ms: 210 },
-  { pose: 'crouch', ms: 100 },
-  { pose: 'flapUp', ms: 130 },
-  { pose: 'flapDown', ms: 130 },
-  { pose: 'chirp', ms: 300 },
-  { pose: 'wings', ms: 220 },
-  { pose: 'idleA', ms: 420 },
-];
-
-function drawPose(name: PoseName) {
-  return POSES[name];
-}
-
-function isAirborne(name: PoseName) {
-  return ['flapUp', 'flapDown', 'hop', 'bounce'].includes(name);
-}
-
-function danceCycle(): Step[] {
-  const beat = 175;
-  const steps: Step[] = [
-    { pose: 'danceL', ms: beat },
-    { pose: 'idleB', ms: beat },
-    { pose: 'danceR', ms: beat },
-    { pose: 'idleB', ms: beat },
-    { pose: 'danceL', ms: beat },
-    { pose: 'wings', ms: beat },
-    { pose: 'danceR', ms: beat },
-    { pose: 'wings', ms: beat },
-  ];
-
-  const variation = Math.random();
-
-  if (variation < 0.3) {
-    steps.push(
-      { pose: 'crouch', ms: 110 },
-      { pose: 'hop', ms: 190 },
-      { pose: 'crouch', ms: 110 },
-      { pose: 'bounce', ms: 210 },
-      { pose: 'idleA', ms: 360 },
-    );
-  } else if (variation < 0.6) {
-    steps.push(
-      { pose: 'flapUp', ms: 130 },
-      { pose: 'flapDown', ms: 130 },
-      { pose: 'flapUp', ms: 130 },
-      { pose: 'chirp', ms: 280 },
-      { pose: 'idleA', ms: 420 },
-    );
-  } else {
-    steps.push(
-      { pose: 'lookL', ms: 220 },
-      { pose: 'lookR', ms: 220 },
-      { pose: 'tiltL', ms: 210 },
-      { pose: 'tiltR', ms: 210 },
-      { pose: 'blink', ms: 120 },
-      { pose: 'idleA', ms: 460 },
-    );
-  }
-
-  return steps;
+function choreographyCaption(index: number) {
+  return `${CHOREOGRAPHIES[index].label} - click for next`;
 }
 
 export function AsciiBird() {
   const [pose, setPose] = useState<PoseName>('idleA');
-  const [caption, setCaption] = useState('click for another move');
+  const [caption, setCaption] = useState('warming up...');
+  const [activeChoreographyIndex, setActiveChoreographyIndex] = useState(0);
   const [motionReduced, setMotionReduced] = useState(false);
-  const birdRef = useRef<HTMLButtonElement>(null);
-  const playEncoreRef = useRef<(() => void) | null>(null);
+  const [playbackStatus, setPlaybackStatus] =
+    useState<PlaybackStatus>('arriving');
+  const artRef = useRef<HTMLPreElement>(null);
+  const nextChoreographyRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    const bird = birdRef.current;
+    const art = artRef.current;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let timer: ReturnType<typeof setTimeout> | undefined;
     let arrivalAnimation: Animation | undefined;
-    let queue: Step[] = [];
-    let interacting = false;
+    let status: PlaybackStatus = 'arriving';
+    let choreographyIndex = -1;
+    let currentPose: PoseName = 'idleA';
     let disposed = false;
 
     function clearTimer() {
       if (timer) {
         clearTimeout(timer);
+        timer = undefined;
+      }
+    }
+
+    function updateStatus(nextStatus: PlaybackStatus) {
+      if (status === nextStatus) {
+        return;
+      }
+
+      status = nextStatus;
+
+      if (!disposed) {
+        setPlaybackStatus(nextStatus);
       }
     }
 
     function draw(name: PoseName) {
+      currentPose = name;
+
       if (!disposed) {
         setPose(name);
       }
     }
 
-    function tick() {
+    function startChoreography(index: number) {
       clearTimer();
+      choreographyIndex = index;
 
-      if (document.hidden || reducedMotion.matches || interacting) {
+      if (document.hidden) {
+        updateStatus('paused');
         return;
       }
 
-      if (queue.length === 0) {
-        queue = danceCycle();
-      }
-
-      const current = queue.shift();
-
-      if (!current) {
+      if (reducedMotion.matches) {
+        updateStatus('reduced');
         return;
       }
 
-      draw(current.pose);
-      timer = setTimeout(tick, current.ms);
-    }
+      const choreography = CHOREOGRAPHIES[index];
+      let stepIndex = 0;
 
-    function play(sequence: Step[], done?: () => void) {
-      interacting = true;
-      clearTimer();
-      const steps = [...sequence];
+      setActiveChoreographyIndex(index);
+      setCaption(choreographyCaption(index));
+      updateStatus('dancing');
 
-      function next() {
-        const current = steps.shift();
+      function tick() {
+        clearTimer();
 
-        if (!current) {
-          interacting = false;
-          done?.();
-          tick();
+        if (document.hidden || reducedMotion.matches || status !== 'dancing') {
           return;
         }
 
+        const current = choreography.steps[stepIndex];
+
         draw(current.pose);
-        timer = setTimeout(next, current.ms);
+        stepIndex = (stepIndex + 1) % choreography.steps.length;
+        timer = setTimeout(tick, current.ms);
       }
 
-      next();
+      tick();
+    }
+
+    function switchChoreography(index: number) {
+      clearTimer();
+      choreographyIndex = index;
+
+      setActiveChoreographyIndex(index);
+      setCaption(choreographyCaption(index));
+
+      if (document.hidden) {
+        updateStatus('paused');
+        draw('idleA');
+        return;
+      }
+
+      if (reducedMotion.matches) {
+        updateStatus('reduced');
+        draw('idleA');
+        return;
+      }
+
+      if (isAirborne(currentPose)) {
+        updateStatus('switching');
+        draw('crouch');
+        timer = setTimeout(() => startChoreography(index), 140);
+        return;
+      }
+
+      startChoreography(index);
     }
 
     function arrive() {
-      if (bird) {
-        arrivalAnimation = bird.animate(
+      clearTimer();
+      updateStatus('arriving');
+
+      if (art) {
+        arrivalAnimation = art.animate(
           [
             {
               transform: 'translate3d(10rem, -6rem, 0) rotate(8deg)',
@@ -348,49 +162,64 @@ export function AsciiBird() {
         );
       }
 
-      play(ARRIVAL);
-    }
+      let stepIndex = 0;
 
-    function handleVisibilityChange() {
-      clearTimer();
+      function tick() {
+        clearTimer();
 
-      if (document.hidden) {
-        arrivalAnimation?.cancel();
-        queue = [];
-        interacting = false;
-        draw('idleA');
-        setCaption('click for another move');
-        return;
+        const current = ARRIVAL[stepIndex];
+
+        if (!current) {
+          startChoreography(0);
+          return;
+        }
+
+        draw(current.pose);
+        stepIndex += 1;
+        timer = setTimeout(tick, current.ms);
       }
 
       tick();
     }
 
+    function handleVisibilityChange() {
+      clearTimer();
+      arrivalAnimation?.cancel();
+
+      if (document.hidden) {
+        updateStatus('paused');
+        draw('idleA');
+        return;
+      }
+
+      startChoreography(choreographyIndex < 0 ? 0 : choreographyIndex);
+    }
+
     function handleMotionPreference() {
       clearTimer();
       arrivalAnimation?.cancel();
-      queue = [];
-      interacting = false;
       setMotionReduced(reducedMotion.matches);
       setCaption(
         reducedMotion.matches
           ? 'motion reduced by system'
-          : 'click for another move',
+          : choreographyCaption(choreographyIndex < 0 ? 0 : choreographyIndex),
       );
       draw('idleA');
 
-      if (!reducedMotion.matches) {
-        tick();
+      if (reducedMotion.matches) {
+        updateStatus('reduced');
+      } else {
+        startChoreography(choreographyIndex < 0 ? 0 : choreographyIndex);
       }
     }
 
-    playEncoreRef.current = () => {
-      if (reducedMotion.matches || interacting) {
+    nextChoreographyRef.current = () => {
+      if (reducedMotion.matches) {
         return;
       }
 
-      setCaption('encore!');
-      play(ENCORE, () => setCaption('click for another move'));
+      arrivalAnimation?.cancel();
+      switchChoreography(getNextChoreographyIndex(choreographyIndex));
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -399,7 +228,9 @@ export function AsciiBird() {
     if (reducedMotion.matches) {
       timer = setTimeout(() => {
         setMotionReduced(true);
+        updateStatus('reduced');
         setCaption('motion reduced by system');
+        draw('idleA');
       }, 0);
     } else {
       arrive();
@@ -409,42 +240,45 @@ export function AsciiBird() {
       disposed = true;
       clearTimer();
       arrivalAnimation?.cancel();
-      playEncoreRef.current = null;
+      nextChoreographyRef.current = null;
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       reducedMotion.removeEventListener('change', handleMotionPreference);
     };
   }, []);
 
   return (
-    <div className='group/stage relative grid min-h-64 w-full place-items-center overflow-hidden sm:min-h-72 md:min-h-80'>
+    <div className='relative grid min-h-64 w-full place-items-center overflow-hidden sm:min-h-72 md:min-h-80'>
       <button
-        ref={birdRef}
         type='button'
-        className='group grid cursor-pointer place-items-center rounded-xl border-0 bg-transparent p-5 font-mono text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background motion-reduce:transition-none'
+        className='peer group grid touch-manipulation cursor-pointer place-items-center rounded-xl border-0 bg-transparent p-5 font-mono text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:cursor-default disabled:hover:text-foreground motion-reduce:transition-none'
         aria-label={
           motionReduced
             ? 'Dancing ASCII bird. Motion is reduced by your system setting.'
-            : 'Dancing ASCII bird. Click for another move.'
+            : `Dancing ASCII bird. Current choreography: ${CHOREOGRAPHIES[activeChoreographyIndex].label}. Click for the next choreography.`
         }
-        aria-disabled={motionReduced}
+        aria-busy={playbackStatus === 'arriving'}
         data-airborne={isAirborne(pose)}
-        onClick={() => playEncoreRef.current?.()}
+        data-choreography={CHOREOGRAPHIES[activeChoreographyIndex].id}
+        data-status={playbackStatus}
+        disabled={motionReduced}
+        onClick={() => nextChoreographyRef.current?.()}
       >
         <pre
-          className='h-[9.6em] w-[21ch] select-none overflow-hidden whitespace-pre text-[clamp(1rem,4.8vw,1.65rem)] leading-[1.2] tracking-[0.02em] sm:text-[1.65rem]'
+          ref={artRef}
+          className='h-[9.6em] w-[21ch] select-none overflow-hidden whitespace-pre text-[clamp(1.1rem,5.5vw,1.65rem)] leading-[1.2] tracking-[0.02em] sm:text-[1.65rem]'
           aria-hidden='true'
         >
           {drawPose(pose)}
         </pre>
 
         <span
-          className='-mt-8 h-1.5 w-20 rounded-[50%] bg-current opacity-10 blur-[3px] transition-[opacity,transform] duration-150 group-data-[airborne=true]:scale-x-75 group-data-[airborne=true]:opacity-5 motion-reduce:transition-none'
+          className='-mt-8 h-1.5 w-20 rounded-[50%] bg-current opacity-10 blur-[3px] transition-[opacity,transform] duration-100 group-data-[airborne=true]:scale-x-75 group-data-[airborne=true]:opacity-5 motion-reduce:transition-none'
           aria-hidden='true'
         />
       </button>
 
       <p
-        className='absolute bottom-5 m-0 font-mono text-[11px] tracking-[0.04em] text-muted-foreground opacity-0 transition-opacity duration-200 group-hover/stage:opacity-100 group-focus-within/stage:opacity-100 motion-reduce:transition-none'
+        className='pointer-events-none absolute bottom-5 m-0 font-mono text-[11px] tracking-[0.04em] text-muted-foreground opacity-0 transition-opacity duration-200 peer-hover:opacity-100 peer-focus:opacity-100 motion-reduce:transition-none'
         aria-live='polite'
       >
         {caption}
