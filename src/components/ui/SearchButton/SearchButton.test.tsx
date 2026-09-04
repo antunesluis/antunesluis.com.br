@@ -50,17 +50,57 @@ const posts = [
 
 test('navigates to the selected result with Enter', async () => {
   const user = userEvent.setup();
-  render(
-    <SearchButton posts={posts} />,
-  );
+  render(<SearchButton posts={posts} />);
 
   await user.click(screen.getByRole('button', { name: 'Abrir busca' }));
-  const input = await screen.findByRole('combobox');
+  const input = await screen.findByRole('combobox', { name: 'Buscar posts' });
   await user.type(input, 'cache');
-  await user.keyboard('{ArrowDown}{Enter}');
+  await user.keyboard('{Enter}');
 
   expect(mocks.push).toHaveBeenCalledWith('/blog/typed-cache-boundaries');
   expect(screen.queryByRole('dialog')).toBeNull();
+});
+
+test('shows a single close action while typing', async () => {
+  const user = userEvent.setup();
+  render(<SearchButton posts={posts} />);
+
+  await user.click(screen.getByRole('button', { name: 'Abrir busca' }));
+  await user.type(
+    await screen.findByRole('combobox', { name: 'Buscar posts' }),
+    'cache',
+  );
+
+  expect(screen.getByRole('button', { name: 'Fechar busca' })).toBeDefined();
+  expect(screen.queryByRole('button', { name: 'Limpar busca' })).toBeNull();
+});
+
+test('ignores accents, case and surrounding whitespace', async () => {
+  const user = userEvent.setup();
+  render(
+    <SearchButton
+      posts={[
+        ...posts,
+        {
+          slug: 'configuracao-do-terminal',
+          title: 'Configuração do terminal',
+          excerpt: 'Uma introdução prática.',
+          author: 'Luís Antunes',
+          createdAt: '2026-08-25T12:00:00.000Z',
+        },
+      ]}
+    />,
+  );
+
+  await user.click(screen.getByRole('button', { name: 'Abrir busca' }));
+  await user.type(
+    await screen.findByRole('combobox', { name: 'Buscar posts' }),
+    '  CONFIGURACAO  ',
+  );
+
+  expect(
+    screen.getByRole('option', { name: /configuração do terminal/i }),
+  ).toBeDefined();
 });
 
 test('focuses the input and restores focus when Escape closes an empty search', async () => {
@@ -70,7 +110,7 @@ test('focuses the input and restores focus when Escape closes an empty search', 
   const trigger = screen.getByRole('button', { name: 'Abrir busca' });
   await user.click(trigger);
 
-  const input = await screen.findByRole('combobox');
+  const input = await screen.findByRole('combobox', { name: 'Buscar posts' });
   await waitFor(() => expect(document.activeElement).toBe(input));
   await user.keyboard('{Escape}');
 
@@ -83,8 +123,13 @@ test('closes after selecting a result with the mouse', async () => {
   render(<SearchButton posts={posts} />);
 
   await user.click(screen.getByRole('button', { name: 'Abrir busca' }));
-  await user.type(await screen.findByRole('combobox'), 'cache');
-  await user.click(screen.getByRole('option', { name: /typed cache boundaries/i }));
+  await user.type(
+    await screen.findByRole('combobox', { name: 'Buscar posts' }),
+    'cache',
+  );
+  await user.click(
+    screen.getByRole('option', { name: /typed cache boundaries/i }),
+  );
 
   await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
 });

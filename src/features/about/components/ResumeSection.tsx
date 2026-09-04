@@ -13,6 +13,7 @@ export function ResumeSection() {
       >
         <ExternalLinkIcon aria-hidden='true' />
         Open PDF
+        <span className='sr-only'> (opens in a new tab)</span>
       </ButtonLink>
 
       <ButtonLink

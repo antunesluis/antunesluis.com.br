@@ -48,6 +48,7 @@ export async function SingleProject({ project }: SingleProjectProps) {
                       className='group min-h-11 text-primary hover:underline hover:decoration-2 hover:underline-offset-4'
                     >
                       Live Demo
+                      <span className='sr-only'> (opens in a new tab)</span>
                       <ExternalLinkIcon
                         aria-hidden='true'
                         className='transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none'
@@ -63,6 +64,7 @@ export async function SingleProject({ project }: SingleProjectProps) {
                       className='group min-h-11 text-muted-foreground hover:text-foreground hover:underline hover:underline-offset-4'
                     >
                       Repository
+                      <span className='sr-only'> (opens in a new tab)</span>
                       <GithubIcon aria-hidden='true' />
                     </ButtonLink>
                   )}

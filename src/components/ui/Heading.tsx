@@ -42,7 +42,7 @@ export function Heading({
         Tag === 'h2' &&
           withUnderline &&
           'underline decoration-2 underline-offset-8 decoration-border',
-        'text-foreground group-hover:text-primary',
+        'text-foreground group-hover:text-primary group-focus-visible:text-primary',
         'tracking-tight',
         'font-sans',
         className,

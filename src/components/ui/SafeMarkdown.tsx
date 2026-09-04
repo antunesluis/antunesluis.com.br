@@ -11,7 +11,7 @@ type SafeMarkdownProps = {
 const containerClasses = clsx(
   'prose dark:prose-invert',
   'prose-slate',
-  'w-full mx-auto',
+  'w-full mx-auto break-words',
   'prose-a:text-primary prose-a:hover:text-primary',
   'prose-a:transition',
   'prose-img:mx-auto',

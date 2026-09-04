@@ -31,12 +31,12 @@ export function ThemeToggle({ onThemeChange }: ThemeToggleProps = {}) {
     <button
       type='button'
       onClick={toggleTheme}
-      className='inline-flex size-11 items-center justify-center rounded-lg transition-colors duration-200 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
+      className='group inline-flex size-11 items-center justify-center rounded-lg transition-colors duration-200 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
       aria-label='Alternar tema'
       title='Alternar tema'
     >
-      <Moon className='hidden size-6 text-foreground transition-colors hover:text-primary motion-reduce:transition-none dark:block' />
-      <Sun className='size-6 text-foreground transition-colors hover:text-primary motion-reduce:transition-none dark:hidden' />
+      <Moon className='hidden size-6 text-foreground transition-colors group-hover:text-primary group-focus-visible:text-primary motion-reduce:transition-none dark:block' />
+      <Sun className='size-6 text-foreground transition-colors group-hover:text-primary group-focus-visible:text-primary motion-reduce:transition-none dark:hidden' />
     </button>
   );
 }

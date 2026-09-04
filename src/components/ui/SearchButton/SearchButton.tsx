@@ -16,6 +16,14 @@ type SearchPost = {
   createdAt: string;
 };
 
+function normalizeSearchText(value: string) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('pt-BR')
+    .trim();
+}
+
 interface SearchButtonProps {
   posts: SearchPost[];
 }
@@ -40,15 +48,16 @@ export function SearchButton({ posts }: SearchButtonProps) {
         return;
       }
 
-      const lowerQuery = searchQuery.toLowerCase();
+      const normalizedQuery = normalizeSearchText(searchQuery);
       const filtered = posts.filter(
         post =>
-          post.title.toLowerCase().includes(lowerQuery) ||
-          post.excerpt.toLowerCase().includes(lowerQuery) ||
-          post.author.toLowerCase().includes(lowerQuery),
+          normalizeSearchText(post.title).includes(normalizedQuery) ||
+          normalizeSearchText(post.excerpt).includes(normalizedQuery) ||
+          normalizeSearchText(post.author).includes(normalizedQuery),
       );
 
       setResults(filtered);
+      setSelectedIndex(filtered.length > 0 ? 0 : -1);
     },
     [posts],
   );
@@ -101,9 +110,13 @@ export function SearchButton({ posts }: SearchButtonProps) {
 
   useEffect(() => {
     if (selectedIndex >= 0 && resultRefs.current[selectedIndex]) {
+      const prefersReducedMotion =
+        typeof window.matchMedia === 'function' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       resultRefs.current[selectedIndex]?.scrollIntoView({
         block: 'nearest',
-        behavior: 'smooth',
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
       });
     }
   }, [selectedIndex]);
@@ -130,17 +143,26 @@ export function SearchButton({ posts }: SearchButtonProps) {
       />
 
       <Dialog.Portal>
-        <Dialog.Backdrop className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm' />
+        <Dialog.Backdrop
+          className={clsx(
+            'fixed inset-0 z-40 bg-black/40 backdrop-blur-sm',
+            'transition-opacity duration-200 motion-reduce:transition-none',
+            'data-starting-style:opacity-0 data-ending-style:opacity-0',
+          )}
+        />
         <Dialog.Viewport className='fixed inset-0 z-50 pointer-events-none'>
           <Dialog.Popup
             initialFocus={inputRef}
-            className='pointer-events-auto fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl mx-auto px-4'
+            className={clsx(
+              'pointer-events-auto fixed top-4 left-1/2 w-full max-w-2xl -translate-x-1/2 px-3 sm:top-20 sm:px-4',
+              'transition-opacity duration-200 motion-reduce:transition-none',
+              'data-starting-style:opacity-0 data-ending-style:opacity-0',
+            )}
           >
             <Dialog.Title className='sr-only'>Buscar posts</Dialog.Title>
-            <div className='bg-card rounded-lg shadow-2xl border border-border overflow-hidden'>
-              {/* Search Input */}
-              <div className='flex items-center gap-3 p-4 border-b border-border'>
-                <SearchIcon className='w-5 h-5 text-muted-foreground' />
+            <div className='overflow-hidden rounded-xl border border-border bg-card shadow-xl'>
+              <div className='flex items-center gap-3 border-b border-border p-3 sm:p-4'>
+                <SearchIcon className='size-5 shrink-0 text-muted-foreground' />
                 <input
                   ref={inputRef}
                   type='text'
@@ -148,67 +170,61 @@ export function SearchButton({ posts }: SearchButtonProps) {
                   value={query}
                   onChange={e => handleSearch(e.target.value)}
                   className={clsx(
-                    'flex-1 bg-transparent outline-none',
+                    'min-w-0 flex-1 bg-transparent outline-none',
                     'text-foreground',
                     'placeholder:text-muted-foreground',
                   )}
                   onKeyDown={handleKeyDown}
                   role='combobox'
+                  aria-label='Buscar posts'
                   aria-autocomplete='list'
                   aria-controls='search-results'
-                  aria-expanded={isOpen}
+                  aria-expanded={results.length > 0}
                   aria-activedescendant={
                     selectedIndex >= 0 ? `result-${selectedIndex}` : undefined
                   }
                 />
 
-                {query && (
-                  <button
-                    type='button'
-                    onClick={() => handleSearch('')}
-                    className='p-1 rounded hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                    aria-label='Limpar busca'
-                  >
-                    <XIcon className='w-5 h-5 text-muted-foreground' />
-                  </button>
-                )}
-
                 <Dialog.Close
                   render={
                     <button
                       type='button'
-                      className='p-1 rounded hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                      className='group flex size-10 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card motion-reduce:transition-none'
                       aria-label='Fechar busca'
                     >
-                      <XIcon className='w-5 h-5 text-muted-foreground hover:text-foreground' />
+                      <XIcon className='size-5 text-muted-foreground transition-colors group-hover:text-foreground motion-reduce:transition-none' />
                     </button>
                   }
                 />
               </div>
 
-              {/* Resultados */}
               <div
                 id='search-results'
-                className='max-h-96 overflow-y-auto'
-                role='listbox'
+                className='max-h-[min(24rem,calc(100dvh-6.5rem))] overflow-y-auto overscroll-contain sm:max-h-[min(24rem,calc(100dvh-10.5rem))]'
               >
-                {/* Sem resultados */}
                 {results.length === 0 && query.trim() && (
-                  <div className='p-8 text-center text-muted-foreground'>
-                    Nenhum post encontrado para {`"${query}"`}
-                  </div>
+                  <p
+                    className='px-6 py-10 text-center text-sm leading-6 text-muted-foreground'
+                    role='status'
+                  >
+                    Nenhum post encontrado para {`"${query.trim()}"`}
+                  </p>
                 )}
 
-                {/* Com resultados */}
                 {results.length > 0 && (
                   <div>
-                    {/* Header dos resultados */}
-                    <div className='px-4 py-2 text-sm font-semibold text-muted-foreground uppercase tracking-wider bg-muted'>
+                    <div
+                      className='border-b border-border px-4 py-2 text-xs font-medium text-muted-foreground'
+                      aria-live='polite'
+                    >
                       {results.length} resultado{results.length > 1 ? 's' : ''}
                     </div>
 
-                    {/* Lista de resultados */}
-                    <div className='divide-y divide-border'>
+                    <div
+                      className='divide-y divide-border'
+                      role='listbox'
+                      aria-label='Resultados da busca'
+                    >
                       {results.map((post, index) => (
                         <Link
                           key={post.slug}
@@ -229,26 +245,28 @@ export function SearchButton({ posts }: SearchButtonProps) {
                           role='option'
                           aria-selected={selectedIndex === index}
                         >
-                          <h3 className='font-semibold text-foreground line-clamp-2'>
+                          <h3 className='line-clamp-2 font-semibold text-foreground'>
                             {post.title}
                           </h3>
-                          <p className='text-muted-foreground mt-1 line-clamp-2'>
+                          <p className='mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground'>
                             {post.excerpt}
                           </p>
-                          <div className='flex items-center justify-between mt-2 text-sm text-muted-foreground'>
+                          <time
+                            dateTime={post.createdAt}
+                            className='mt-2 block text-sm tabular-nums text-muted-foreground'
+                          >
                             {formatShortDate(post.createdAt)}
-                          </div>
+                          </time>
                         </Link>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Estado inicial (sem busca) */}
                 {!query.trim() && (
-                  <div className='p-8 text-center text-muted-foreground'>
-                    <p>Digite para buscar posts por título, resumo ou autor</p>
-                  </div>
+                  <p className='px-6 py-10 text-center text-sm leading-6 text-muted-foreground'>
+                    Digite para buscar posts por título, resumo ou autor
+                  </p>
                 )}
               </div>
             </div>

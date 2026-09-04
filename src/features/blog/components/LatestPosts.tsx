@@ -17,9 +17,9 @@ export function LatestPosts({ latestPosts }: LatestPostsProps) {
             <article>
               <Link
                 href={postLink}
-                className='group -mx-3 flex items-baseline justify-between gap-4 rounded-lg px-3 py-3.5 transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+                className='group -mx-3 flex items-baseline justify-between gap-4 rounded-lg px-3 py-3.5 transition-colors hover:bg-muted/50 active:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
               >
-                <h3 className='min-w-0 text-[15px] font-medium leading-snug text-foreground transition-colors group-hover:text-primary sm:text-base'>
+                <h3 className='min-w-0 text-[15px] font-medium leading-snug text-foreground transition-colors group-hover:text-primary group-focus-visible:text-primary sm:text-base'>
                   {post.title}
                 </h3>
                 <time
