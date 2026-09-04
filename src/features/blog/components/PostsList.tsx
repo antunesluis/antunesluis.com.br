@@ -15,15 +15,15 @@ export async function PostsList({ posts }: PostsListProps) {
     <section className='flex flex-col gap-6'>
       <Heading as='h2'>All Posts</Heading>
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
+      <div className='grid grid-cols-1 gap-8 sm:grid-cols-2'>
         {postsToShow.map(post => {
           const postLink = `/blog/${post.slug}`;
 
           return (
-            <article key={post.slug}>
+            <article key={post.slug} className='flex'>
               <Link
                 href={postLink}
-                className='group -m-3 flex flex-col gap-4 rounded-xl p-3 transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
+                className='group -m-3 flex min-w-0 flex-1 flex-col gap-4 rounded-2xl p-3 transition-colors hover:bg-muted active:bg-muted focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
               >
                 <CoverImage
                   imageProps={{
@@ -33,13 +33,14 @@ export async function PostsList({ posts }: PostsListProps) {
                     alt: '',
                     priority: false,
                   }}
-                  className='aspect-[12/7] h-auto'
+                  className='aspect-[12/7] bg-muted ring-1 ring-border/70'
                 />
                 <PostSummary
                   postHeading='h3'
                   createdAt={post.createdAt}
                   title={post.title}
                   excerpt={post.excerpt}
+                  variant='grid'
                 />
               </Link>
             </article>

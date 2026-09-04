@@ -9,15 +9,15 @@ type CoverImageProps = {
 export function CoverImage({ imageProps, className }: CoverImageProps) {
   return (
     <div
-      className={clsx('w-full h-full overflow-hidden rounded-xl', className)}
+      className={clsx('w-full shrink-0 overflow-hidden rounded-xl', className)}
     >
       <Image
         {...imageProps}
+        alt={imageProps.alt}
         className={clsx(
-          'h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none',
+          'h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.02] motion-reduce:transform-none motion-reduce:transition-none',
           imageProps.className,
         )}
-        alt={imageProps.alt || 'Post cover image'}
       />
     </div>
   );
