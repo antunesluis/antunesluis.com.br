@@ -179,7 +179,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
                   aria-label='Buscar posts'
                   aria-autocomplete='list'
                   aria-controls='search-results'
-                  aria-expanded={results.length > 0}
+                  aria-expanded={isOpen}
                   aria-activedescendant={
                     selectedIndex >= 0 ? `result-${selectedIndex}` : undefined
                   }

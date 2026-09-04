@@ -36,7 +36,7 @@ export function ScrollTopAndComment() {
       ?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
   };
 
-  const scrollAndTopClases = clsx(
+  const scrollAndTopClasses = clsx(
     'inline-flex size-11 items-center justify-center rounded-full bg-muted text-card-foreground transition-colors hover:bg-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none',
   );
 
@@ -49,7 +49,7 @@ export function ScrollTopAndComment() {
       <button
         aria-label='Scroll to comments'
         onClick={handleScrollToComment}
-        className={scrollAndTopClases}
+        className={scrollAndTopClasses}
       >
         <MessageSquareIcon className='h-5 w-5' />
       </button>
@@ -57,7 +57,7 @@ export function ScrollTopAndComment() {
       <button
         aria-label='Scroll to top'
         onClick={handleScrollTop}
-        className={scrollAndTopClases}
+        className={scrollAndTopClasses}
       >
         <ArrowUpIcon className='h-5 w-5' />
       </button>
