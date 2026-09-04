@@ -113,6 +113,9 @@ test('focuses the input and restores focus when Escape closes an empty search', 
   const input = await screen.findByRole('combobox', { name: 'Buscar posts' });
   await waitFor(() => expect(document.activeElement).toBe(input));
   expect(input.getAttribute('aria-expanded')).toBe('true');
+  expect(input.getAttribute('aria-controls')).toBe(
+    screen.getByRole('listbox', { name: 'Resultados da busca' }).id,
+  );
   await user.keyboard('{Escape}');
 
   await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());

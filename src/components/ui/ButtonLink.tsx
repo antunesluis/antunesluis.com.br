@@ -80,13 +80,26 @@ export function ButtonLink({
     className,
   );
 
+  if (download) {
+    return (
+      <a
+        href={href}
+        target={target}
+        rel={target === '_blank' ? rel || 'noopener noreferrer' : rel}
+        download={download}
+        className={linkClasses}
+      >
+        {children}
+      </a>
+    );
+  }
+
   if (target === '_blank') {
     return (
       <Link
         href={href}
         target='_blank'
         rel={rel || 'noopener noreferrer'}
-        download={download}
         className={linkClasses}
       >
         {children}
@@ -95,7 +108,7 @@ export function ButtonLink({
   }
 
   return (
-    <Link href={href} download={download} className={linkClasses}>
+    <Link href={href} className={linkClasses}>
       {children}
     </Link>
   );

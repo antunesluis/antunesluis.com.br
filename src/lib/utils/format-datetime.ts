@@ -15,8 +15,7 @@ export function formatShortDate(rawDate: string): string {
 }
 
 export function formatCompactDate(rawDate: string): string {
-  const date = new Date(rawDate);
-  return format(date, 'dd/MM/yyyy', { locale: ptBR });
+  return formatShortDate(rawDate);
 }
 
 export function formatDistanceToNow(rawDate: string): string {

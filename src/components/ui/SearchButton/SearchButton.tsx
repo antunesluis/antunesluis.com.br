@@ -198,10 +198,7 @@ export function SearchButton({ posts }: SearchButtonProps) {
                 />
               </div>
 
-              <div
-                id='search-results'
-                className='max-h-[min(24rem,calc(100dvh-6.5rem))] overflow-y-auto overscroll-contain sm:max-h-[min(24rem,calc(100dvh-10.5rem))]'
-              >
+              <div className='max-h-[min(24rem,calc(100dvh-6.5rem))] overflow-y-auto overscroll-contain sm:max-h-[min(24rem,calc(100dvh-10.5rem))]'>
                 {results.length === 0 && query.trim() && (
                   <p
                     className='px-6 py-10 text-center text-sm leading-6 text-muted-foreground'
@@ -212,56 +209,55 @@ export function SearchButton({ posts }: SearchButtonProps) {
                 )}
 
                 {results.length > 0 && (
-                  <div>
-                    <div
-                      className='border-b border-border px-4 py-2 text-xs font-medium text-muted-foreground'
-                      aria-live='polite'
-                    >
-                      {results.length} resultado{results.length > 1 ? 's' : ''}
-                    </div>
-
-                    <div
-                      className='divide-y divide-border'
-                      role='listbox'
-                      aria-label='Resultados da busca'
-                    >
-                      {results.map((post, index) => (
-                        <Link
-                          key={post.slug}
-                          id={`result-${index}`}
-                          ref={el => {
-                            resultRefs.current[index] = el;
-                          }}
-                          href={`/blog/${post.slug}`}
-                          onClick={handleClose}
-                          onMouseEnter={() => setSelectedIndex(index)}
-                          className={clsx(
-                            'block p-4 transition-colors',
-                            selectedIndex === index
-                              ? 'bg-primary/10 border-l-2 border-l-primary'
-                              : 'hover:bg-muted',
-                            'focus-visible:outline-none focus-visible:bg-primary/10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring',
-                          )}
-                          role='option'
-                          aria-selected={selectedIndex === index}
-                        >
-                          <h3 className='line-clamp-2 font-semibold text-foreground'>
-                            {post.title}
-                          </h3>
-                          <p className='mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground'>
-                            {post.excerpt}
-                          </p>
-                          <time
-                            dateTime={post.createdAt}
-                            className='mt-2 block text-sm tabular-nums text-muted-foreground'
-                          >
-                            {formatShortDate(post.createdAt)}
-                          </time>
-                        </Link>
-                      ))}
-                    </div>
+                  <div
+                    className='border-b border-border px-4 py-2 text-xs font-medium text-muted-foreground'
+                    aria-live='polite'
+                  >
+                    {results.length} resultado{results.length > 1 ? 's' : ''}
                   </div>
                 )}
+
+                <div
+                  id='search-results'
+                  className='divide-y divide-border'
+                  role='listbox'
+                  aria-label='Resultados da busca'
+                >
+                  {results.map((post, index) => (
+                    <Link
+                      key={post.slug}
+                      id={`result-${index}`}
+                      ref={el => {
+                        resultRefs.current[index] = el;
+                      }}
+                      href={`/blog/${post.slug}`}
+                      onClick={handleClose}
+                      onMouseEnter={() => setSelectedIndex(index)}
+                      className={clsx(
+                        'block p-4 transition-colors',
+                        selectedIndex === index
+                          ? 'bg-primary/10 border-l-2 border-l-primary'
+                          : 'hover:bg-muted',
+                        'focus-visible:outline-none focus-visible:bg-primary/10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring',
+                      )}
+                      role='option'
+                      aria-selected={selectedIndex === index}
+                    >
+                      <h3 className='line-clamp-2 font-semibold text-foreground'>
+                        {post.title}
+                      </h3>
+                      <p className='mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground'>
+                        {post.excerpt}
+                      </p>
+                      <time
+                        dateTime={post.createdAt}
+                        className='mt-2 block text-sm tabular-nums text-muted-foreground'
+                      >
+                        {formatShortDate(post.createdAt)}
+                      </time>
+                    </Link>
+                  ))}
+                </div>
 
                 {!query.trim() && (
                   <p className='px-6 py-10 text-center text-sm leading-6 text-muted-foreground'>
