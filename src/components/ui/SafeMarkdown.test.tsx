@@ -52,3 +52,12 @@ test('loads Markdown images lazily while preserving their accessible text', () =
   expect(image.getAttribute('loading')).toBe('lazy');
   expect(image.getAttribute('src')).toBe('https://example.com/terminal.png');
 });
+
+test('keeps the page title as the only level-one heading', () => {
+  render(<SafeMarkdown markdown='# Article content' />);
+
+  expect(screen.queryByRole('heading', { level: 1 })).toBeNull();
+  expect(
+    screen.getByRole('heading', { level: 2, name: 'Article content' }),
+  ).toBeInstanceOf(HTMLElement);
+});

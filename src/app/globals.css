@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
@@ -43,6 +44,7 @@
 
   --code-background: oklch(0.2 0.02 264);
   --code-foreground: oklch(0.95 0.01 264);
+  --inline-code-foreground: oklch(0.48 0.17 250);
 }
 
 .dark {
@@ -82,6 +84,7 @@
 
   --code-background: oklch(0.18 0.02 297.6);
   --code-foreground: oklch(0.95 0.01 264);
+  --inline-code-foreground: oklch(0.75 0.16 240);
 }
 
 @theme {
@@ -132,7 +135,7 @@
   --tw-prose-quotes: var(--foreground);
   --tw-prose-quote-borders: var(--primary);
   --tw-prose-captions: var(--muted-foreground);
-  --tw-prose-code: var(--accent);
+  --tw-prose-code: var(--inline-code-foreground);
   --tw-prose-pre-code: var(--code-foreground);
   --tw-prose-pre-bg: var(--code-background);
   --tw-prose-th-borders: var(--border);
@@ -149,7 +152,8 @@
 }
 
 .prose a:hover {
-  color: var(--accent);
+  color: var(--primary);
+  text-decoration-thickness: 0.12em;
 }
 
 .prose strong {
@@ -158,7 +162,7 @@
 }
 
 .prose code {
-  color: var(--accent);
+  color: var(--inline-code-foreground);
   background-color: var(--muted);
   padding: 0.2em 0.4em;
   border-radius: 0.25rem;
@@ -273,8 +277,4 @@
 .prose pre,
 .prose code {
   font-family: var(--font-mono);
-}
-
-strong {
-  color: var(--color-foreground);
 }

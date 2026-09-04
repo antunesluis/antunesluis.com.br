@@ -1,6 +1,7 @@
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { type ComponentPropsWithoutRef } from 'react';
+import { type Components } from 'react-markdown';
 
 const syntaxHighlighterStyle = {
   ...oneDark,
@@ -73,7 +74,8 @@ function MarkdownImage({
 }
 
 export const markdownComponents = {
+  h1: 'h2',
   code: CodeBlock,
   table: ResponsiveTable,
   img: MarkdownImage,
-};
+} satisfies Components;

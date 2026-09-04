@@ -9,10 +9,9 @@ type SafeMarkdownProps = {
 };
 
 const containerClasses = clsx(
-  'mb-12',
   'prose dark:prose-invert',
   'prose-slate',
-  'w-full max-w-3xl mx-auto',
+  'w-full mx-auto break-words',
   'prose-a:text-primary prose-a:hover:text-primary',
   'prose-a:transition',
   'prose-img:mx-auto',

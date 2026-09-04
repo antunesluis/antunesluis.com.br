@@ -9,7 +9,7 @@ type CommentsProps = {
 };
 
 export function Comments({ commentsTerm }: CommentsProps) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <Giscus
@@ -23,7 +23,7 @@ export function Comments({ commentsTerm }: CommentsProps) {
       reactionsEnabled='1'
       emitMetadata='0'
       inputPosition='top'
-      theme={theme}
+      theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
       lang='pt'
       loading='lazy'
     />

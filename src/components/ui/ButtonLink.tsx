@@ -12,6 +12,7 @@ type ButtonLinkProps = {
   className?: string;
   target?: '_blank' | '_self';
   rel?: string;
+  download?: string | boolean;
 };
 
 export function ButtonLink({
@@ -22,6 +23,7 @@ export function ButtonLink({
   className,
   target,
   rel,
+  download,
 }: ButtonLinkProps) {
   const buttonVariants: Record<ButtonLinkVariants, string> = {
     default: clsx(
@@ -77,6 +79,20 @@ export function ButtonLink({
     variant !== 'link' && sizeClasses[size],
     className,
   );
+
+  if (download) {
+    return (
+      <a
+        href={href}
+        target={target}
+        rel={target === '_blank' ? rel || 'noopener noreferrer' : rel}
+        download={download}
+        className={linkClasses}
+      >
+        {children}
+      </a>
+    );
+  }
 
   if (target === '_blank') {
     return (

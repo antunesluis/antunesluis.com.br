@@ -8,17 +8,16 @@ import { usePathname } from 'next/navigation';
 export function HeaderNavigation() {
   const pathname = usePathname();
   const navItemClasses = clsx(
-    // Estilos base
-    'relative text-sm text-foreground hover:text-primary font-medium transition-colors duration-200',
-
-    // Pseudo-elemento para o underline animado
-    'before:bg-primary before:absolute before:-bottom-1 before:left-0',
-    'before:block before:h-[2px] before:w-full',
-    'before:origin-bottom-right before:scale-x-0',
-    'before:transition-transform before:duration-300 before:ease-in-out',
-    'hover:before:origin-bottom-left hover:before:scale-x-100',
+    'group inline-flex min-h-11 items-center text-sm font-medium text-foreground transition-colors duration-200 hover:text-primary motion-reduce:transition-none',
     'focus-visible:outline-none focus-visible:text-primary',
-    'focus-visible:before:origin-bottom-left focus-visible:before:scale-x-100',
+  );
+  const navLabelClasses = clsx(
+    'relative',
+    'after:absolute after:-bottom-1 after:left-0 after:block after:h-[2px] after:w-full after:bg-primary',
+    'after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out',
+    'group-hover:after:origin-bottom-left group-hover:after:scale-x-100',
+    'group-focus-visible:after:origin-bottom-left group-focus-visible:after:scale-x-100',
+    'motion-reduce:after:transition-none',
   );
 
   return (
@@ -30,14 +29,17 @@ export function HeaderNavigation() {
           <Link
             key={link.href}
             href={link.href}
-            className={clsx(
-              navItemClasses,
-              isActive &&
-                'text-primary before:origin-bottom-left before:scale-x-100',
-            )}
+            className={clsx(navItemClasses, isActive && 'text-primary')}
             aria-current={isActive ? 'page' : undefined}
           >
-            {link.label}
+            <span
+              className={clsx(
+                navLabelClasses,
+                isActive && 'after:origin-bottom-left after:scale-x-100',
+              )}
+            >
+              {link.label}
+            </span>
           </Link>
         );
       })}

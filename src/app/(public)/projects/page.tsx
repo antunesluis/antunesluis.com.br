@@ -7,13 +7,14 @@ import { findAllPublicProjectCached } from '@/features/projects/lib/queries/publ
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
+import { Heading } from '@/components/ui/Heading';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = createMetadata({
   title: 'Projetos',
   description:
-    'Portfólio de projetos de desenvolvimento web e software. Aplicações construídas com React, Next.js, TypeScript, Go e outras tecnologias modernas.',
+    'Portfólio de projetos de desenvolvimento web e software, com contexto, decisões de implementação e resultados.',
   pathname: '/projects',
 });
 
@@ -41,13 +42,21 @@ export default async function ProjectsPage() {
         ]}
       />
 
-      <section className='mb-24'>
-        <h1 className='sr-only'>Projects</h1>
+      <div className='mb-16 sm:mb-20'>
+        <header className='mb-12 max-w-2xl'>
+          <Heading as='h1'>Projects</Heading>
+          <p className='mt-3 leading-relaxed text-muted-foreground'>
+            Selected software projects, from focused tools to full-stack
+            applications.
+          </p>
+        </header>
 
-        <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
-          <ProjectsList projects={projects} />
-        </Suspense>
-      </section>
+        <section aria-label='Project list'>
+          <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
+            <ProjectsList projects={projects} />
+          </Suspense>
+        </section>
+      </div>
     </>
   );
 }

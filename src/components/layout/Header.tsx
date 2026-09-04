@@ -17,10 +17,10 @@ export function Header() {
       >
         <Link
           href='/'
-          className='flex gap-2 items-center rounded-lg group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+          className='group -ml-2 inline-flex size-11 items-center justify-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
           aria-label='Página inicial'
         >
-          <BirdIcon className='size-6 text-foreground group-hover:text-primary sm:size-7' />
+          <BirdIcon className='size-6 text-foreground transition-colors group-hover:text-primary motion-reduce:transition-none sm:size-7' />
 
           {/* <h1 className='text-2xl font-extrabold tracking-tight text-foreground'> */}
           {/*   antunesluis */}

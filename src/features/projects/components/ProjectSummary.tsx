@@ -1,55 +1,43 @@
 import { Heading } from '@/components/ui/Heading';
 import clsx from 'clsx';
-import { ProjectTechBadges } from './ProjectTechBadges';
 
 type ProjectSummaryProps = {
   name: string;
-  projectYear?: string;
   description: string;
-  techStack: string[];
-  showTechs?: boolean;
+  createdAt: string;
   className?: string;
-  variant?: 'card' | 'default';
 };
 
 export function ProjectSummary({
   name,
-  projectYear,
   description,
-  techStack,
-  showTechs = true,
+  createdAt,
   className = '',
-  variant = 'default',
 }: ProjectSummaryProps) {
-  const summaryVariants = {
-    default: clsx('pt-4 pb-6 md:p-6'),
-    card: clsx('p-0'),
-  };
+  const projectYear = new Date(createdAt).getFullYear();
 
   return (
-    <section
-      className={clsx(
-        'flex flex-col justify-between flex-1',
-        className,
-        summaryVariants[variant],
-      )}
-    >
-      <div className='mb-4'>
-        <div className='flex flex-row justify-between items-start mb-2'>
-          <Heading as='h3'>{name}</Heading>
-          {projectYear && (
-            <span className='text-muted-foreground text-sm font-medium whitespace-nowrap shrink-0'>
-              {projectYear}
-            </span>
-          )}
-        </div>
+    <div className={clsx('min-w-0', className)}>
+      <div className='flex items-baseline justify-between gap-4'>
+        <Heading
+          as='h2'
+          withUnderline={false}
+          className='min-w-0 transition-colors'
+        >
+          {name}
+        </Heading>
 
-        <p className={clsx('leading-relaxed', 'line-clamp-3')}>{description}</p>
+        <time
+          dateTime={createdAt}
+          className='shrink-0 text-sm font-medium tabular-nums text-muted-foreground'
+        >
+          {projectYear}
+        </time>
       </div>
 
-      {techStack && showTechs && techStack.length > 0 && (
-        <ProjectTechBadges isCompact={true} techStack={techStack} />
-      )}
-    </section>
+      <p className='mt-1.5 line-clamp-3 max-w-2xl leading-6 text-muted-foreground'>
+        {description}
+      </p>
+    </div>
   );
 }

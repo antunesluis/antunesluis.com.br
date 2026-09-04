@@ -1,4 +1,4 @@
 // Components
 export * from './components/AboutHeader';
-export * from './components/SocialLinks';
+export * from './components/Experience';
 export * from './components/ResumeSection';

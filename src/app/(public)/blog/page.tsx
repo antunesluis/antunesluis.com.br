@@ -8,6 +8,7 @@ import { findAllPublicPostsCached } from '@/features/blog/lib/queries/public';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { SpinLoader } from '@/components/ui/SpinLoader';
 import { BreadcrumbSchema } from '@/components/seo';
+import { Heading } from '@/components/ui/Heading';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,15 +42,21 @@ export default async function BlogPage() {
       />
       {posts && posts.length > 0 && <BlogSchema posts={posts} />}
 
-      <div>
-        <article className='mb-24'>
-          <h1 className='sr-only'>Blog</h1>
+      <div className='mb-16 sm:mb-20'>
+        <header className='mb-12 max-w-2xl'>
+          <Heading as='h1'>Blog</Heading>
+          <p className='mt-3 leading-relaxed text-muted-foreground'>
+            Technical notes on software development, tools, and the systems I
+            use.
+          </p>
+        </header>
 
+        <div>
           <Suspense fallback={<SpinLoader className='min-h-20 mb-24' />}>
             <PostFeatured post={firstPost} />
             <PostsList posts={posts} />
           </Suspense>
-        </article>
+        </div>
       </div>
     </>
   );

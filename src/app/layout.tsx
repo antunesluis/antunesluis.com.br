@@ -37,7 +37,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       suppressHydrationWarning
     >
       <head>
-        <meta name='theme-color' content='#1e293b' />
+        <meta name='theme-color' content='#08070b' />
         <meta name='apple-mobile-web-app-capable' content='yes' />
         <meta name='apple-mobile-web-app-status-bar-style' content='default' />
         <meta name='apple-mobile-web-app-title' content='Luis Antunes' />

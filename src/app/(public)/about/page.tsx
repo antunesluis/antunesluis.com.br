@@ -1,13 +1,13 @@
 import { BreadcrumbSchema, PersonSchema } from '@/components/seo';
 import { Heading } from '@/components/ui/Heading';
-import { AboutHeader, ResumeSection, SocialLinks } from '@/features/about';
+import { AboutHeader, Experience, ResumeSection } from '@/features/about';
 import { createMetadata } from '@/lib/metadata';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = createMetadata({
-  title: 'Sobre',
+  title: 'About',
   description:
-    'Luis Fernando Antunes - Estudante de Ciência da Computação na UFSM. Desenvolvedor Full Stack especializado em TypeScript, React, Next.js e Go.',
+    'Luis Fernando Antunes is a Computer Science student at UFSM and a full-stack developer working with TypeScript, React, Next.js, and Go.',
   pathname: '/about',
 });
 
@@ -18,27 +18,17 @@ export default function AboutPage() {
       <BreadcrumbSchema
         items={[
           { name: 'Home', url: '/' },
-          { name: 'Sobre', url: '/about' },
+          { name: 'About', url: '/about' },
         ]}
       />
 
       <div>
-        <article className='flex flex-col gap-8 mx-auto mb-24'>
+        <article className='mx-auto mb-16 flex flex-col gap-8 sm:mb-20'>
           <AboutHeader />
 
-          <section className='flex flex-col gap-4'>
-            <Heading as='h2'>Site</Heading>
-            <p>
-              This website was built using several of the tools I enjoy the
-              most, and I plan to keep it constantly updated with my projects
-              and ideas about technology. Feel free to explore the content and
-              get in touch!
-            </p>
-          </section>
-
           <section className='space-y-4'>
-            <Heading as='h2'>Let’s connect!</Heading>
-            <SocialLinks />
+            <Heading as='h2'>Experience</Heading>
+            <Experience />
           </section>
 
           <section className='space-y-4'>

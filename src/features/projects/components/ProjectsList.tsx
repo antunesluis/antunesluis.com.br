@@ -1,8 +1,5 @@
-import clsx from 'clsx';
 import Link from 'next/link';
 import { CoverImage } from '@/components/ui/CoverImage';
-import { Heading } from '@/components/ui/Heading';
-import { getYearFromDate } from '@/lib/utils';
 import { ProjectSummary } from './ProjectSummary';
 import { ProjectModel } from '../models/project-model';
 
@@ -12,53 +9,34 @@ type ProjectsListProps = {
 
 export async function ProjectsList({ projects }: ProjectsListProps) {
   return (
-    <section>
-      <Heading as='h2' className='mb-6'>
-        All Projects
-      </Heading>
+    <div className='flex flex-col gap-12 sm:gap-16'>
+      {projects.map((project, index) => (
+        <article key={project.slug}>
+          <Link
+            href={`/projects/${project.slug}`}
+            className='group -m-3 block rounded-2xl p-3 transition-colors hover:bg-muted active:bg-muted focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none'
+          >
+            <CoverImage
+              imageProps={{
+                width: 1200,
+                height: 700,
+                src: project.coverImageUrl,
+                alt: '',
+                loading: index === 0 ? 'eager' : 'lazy',
+                sizes: '(max-width: 640px) calc(100vw - 3rem), 50rem',
+              }}
+              className='aspect-[2/1] bg-muted ring-1 ring-border/70'
+            />
 
-      <div className='flex flex-col gap-6'>
-        {projects.map(project => {
-          const projectLink = `/projects/${project.slug}`;
-          const projectYear = getYearFromDate(project.createdAt);
-
-          return (
-            <article key={project.slug}>
-              <Link
-                href={projectLink}
-                className={clsx(
-                  'group flex flex-col md:flex-row',
-                  'hover:shadow-lg hover:bg-card/80',
-                  'rounded-xl overflow-hidden',
-                  'transition-all duration-300 ease-in-out',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-                )}
-              >
-                <div className='w-full aspect-[12/7] md:h-auto md:w-64 shrink-0'>
-                  <CoverImage
-                    imageProps={{
-                      width: 1200,
-                      height: 700,
-                      src: project.coverImageUrl,
-                      alt: project.name,
-                      priority: false,
-                    }}
-                    className='h-full md:rounded-l-xl md:rounded-tr-none'
-                  />
-                </div>
-
-                <ProjectSummary
-                  variant='default'
-                  name={project.name}
-                  projectYear={String(projectYear)}
-                  description={project.description}
-                  techStack={project.techStack}
-                />
-              </Link>
-            </article>
-          );
-        })}
-      </div>
-    </section>
+            <ProjectSummary
+              name={project.name}
+              description={project.description}
+              createdAt={project.createdAt}
+              className='mt-4 sm:mt-5'
+            />
+          </Link>
+        </article>
+      ))}
+    </div>
   );
 }
