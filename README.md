@@ -2,126 +2,63 @@
   <a href="https://antunesluis.com.br">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="public/images/home.png">
-      <img alt="antunesluis.com.br personal blog" src="public/images/home.png">
+      <img alt="Página inicial do site antunesluis.com.br" src="public/images/home.png">
     </picture>
   </a>
 
   <h1>antunesluis.com.br</h1>
 
-  <p>Personal blog and portfolio built with Next.js.</p>
+  <p>Meu espaço pessoal para compartilhar projetos, artigos e ideias sobre tecnologia.</p>
 </div>
 
-## Features
+## Sobre
 
-### Public area
+Este repositório reúne o código do meu site pessoal. Ele nasceu como um lugar
+para organizar o que venho aprendendo, apresentar projetos e publicar textos
+sobre desenvolvimento de software.
 
-- Markdown blog posts with syntax highlighting and GitHub Flavored Markdown
-- Project portfolio with descriptions and technology tags
-- About page with resume and social links
-- Responsive light and dark themes
-- Comments powered by Giscus
-- Metadata, JSON-LD, sitemap, and robots.txt
+Além das páginas abertas ao público, o site possui uma área administrativa para
+criar e editar conteúdos de forma simples.
 
-### Administrative area
+## O que você encontra por aqui
 
-- Authentication with bcrypt, JWT, and protected routes
-- Post and project CRUD with draft and published states
-- Markdown editor with preview
-- Cover image upload
+- Artigos escritos em Markdown
+- Projetos com descrições e tecnologias utilizadas
+- Uma página sobre minha trajetória
+- Temas claro e escuro
+- Comentários nos artigos
+- Uma área privada para administrar o conteúdo
 
-## Tech stack
+## Tecnologias
 
-- Next.js 16.3.1 with App Router and Turbopack
-- React 19.2
-- TypeScript 5
-- Tailwind CSS 4
-- Drizzle ORM 0.45.2 with SQLite and better-sqlite3
-- Zod 4, React Markdown, and Giscus
+O projeto é construído com Next.js, React, TypeScript e Tailwind CSS. Os dados
+são armazenados em SQLite e acessados com Drizzle ORM.
 
-## Getting started
+## Rodando localmente
 
-### Requirements
-
-- Node.js 22.13.0 or newer
-- npm
-
-The repository includes an `.nvmrc` pinned to Node.js 24.19.0 LTS. With nvm:
+Com Node.js 22.13 ou mais recente e npm instalados, clone o repositório e rode:
 
 ```bash
-nvm install
-nvm use
-```
-
-### Setup
-
-```bash
-git clone https://github.com/antunesluis/antunesluis.com.br.git
-cd antunesluis.com.br
 npm ci
 cp .env.local-example .env.local
+```
+
+Revise o arquivo `.env.local` e substitua os valores indicados como
+obrigatórios. O próprio arquivo de exemplo explica como preencher cada um. Em
+seguida:
+
+```bash
 npm run migrate
 npm run dev
 ```
 
-The development server runs at <http://localhost:3000>.
+Depois, acesse <http://localhost:3000>.
 
-To create the base64-encoded bcrypt hash used by `LOGIN_PASS`:
+## Comandos úteis
 
-```bash
-node -e "const bcrypt = require('bcryptjs'); const hash = bcrypt.hashSync('your-password', 10); console.log(Buffer.from(hash).toString('base64'));"
-```
-
-Replace every critical authentication placeholder before starting the
-application. `JWT_SECRET_KEY` must contain at least 32 characters, and
-`LOGIN_PASS` must be canonical Base64 for a bcrypt hash. The application exits
-before serving requests when critical configuration is missing or invalid.
-
-## Environment variables
-
-Use `.env.local-example` as the reference and configure these variables in
-`.env.local`:
-
-| Variable                            | Purpose                                      |
-| ----------------------------------- | -------------------------------------------- |
-| `NEXT_PUBLIC_GISCUS_REPO`           | Giscus repository in `owner/repository` form |
-| `NEXT_PUBLIC_GISCUS_REPO_ID`        | Giscus repository ID                         |
-| `NEXT_PUBLIC_GISCUS_CATEGORY`       | Giscus discussion category                   |
-| `NEXT_PUBLIC_GISCUS_CATEGORY_ID`    | Giscus category ID                           |
-| `NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE` | Maximum upload size in bytes, up to 1000000 |
-| `IMAGE_UPLOAD_DIRECTORY`            | Physical upload directory; absolute paths are supported |
-| `IMAGE_SERVER_URL`                  | Public base URL for uploaded images          |
-| `JWT_SECRET_KEY`                    | Secret used to sign login tokens             |
-| `NEXT_PUBLIC_SITE_URL`              | Canonical public URL of the site             |
-| `LOGIN_EXPIRATION_SECONDS`          | Login lifetime in seconds                    |
-| `LOGIN_COOKIE_NAME`                 | Authentication cookie name                   |
-| `LOGIN_USER`                        | Administrative username                      |
-| `LOGIN_PASS`                        | Base64-encoded bcrypt password hash          |
-| `ALLOW_LOGIN`                       | Accepts `0` to block or `1` to allow login   |
-
-`LOGIN_EXPIRATION_SECONDS` is the only session duration setting. Setting
-`ALLOW_LOGIN=0` blocks creation of new sessions, but existing valid sessions
-remain authorized until their configured expiration. `LOGIN_PASS` remains
-required and validated while login is disabled.
-
-For local development, the default `IMAGE_UPLOAD_DIRECTORY=uploads` resolves to
-`public/uploads`, and `IMAGE_SERVER_URL=http://localhost:3000/uploads` is
-served by Next.js. Absolute upload directories are supported for persistent
-storage outside the application release; the production web-server mapping for
-such a directory is intentionally outside this project phase.
-
-New uploads are normalized to WebP with a server-controlled name. Existing
-image files and persisted URLs are preserved. The application does not delete
-uploaded files automatically because an uploaded URL can remain unused or be
-referenced outside the cover-image columns.
-
-## Commands
-
-| Command           | Purpose                        |
-| ----------------- | ------------------------------ |
-| `npm run dev`     | Start the development server   |
-| `npm test`        | Run the automated test suite   |
-| `npm run lint`    | Run ESLint for the repository  |
-| `npm run build`   | Create a production build      |
-| `npm run start`   | Start the production server    |
-| `npm run migrate` | Apply Drizzle migrations       |
-| `npm run seed`    | Seed the local SQLite database |
+- `npm run dev` inicia o ambiente de desenvolvimento
+- `npm test` executa os testes
+- `npm run lint` verifica o código
+- `npm run build` gera a versão de produção
+- `npm run migrate` aplica as migrações do banco de dados
+- `npm run seed` adiciona os dados iniciais
