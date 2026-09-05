@@ -7,11 +7,13 @@ import {
   render,
   screen,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { AsciiBird } from './AsciiBird';
 import {
   ARRIVAL,
   CHOREOGRAPHIES,
+  READY,
   drawPose,
   isAirborne,
 } from './ascii-bird-animation';
@@ -36,11 +38,13 @@ beforeEach(() => {
 
   Object.defineProperty(window, 'matchMedia', {
     configurable: true,
-    value: vi.fn(() => ({
+    value: vi.fn((query: string) => ({
       get matches() {
-        return prefersReducedMotion;
+        return query === '(prefers-reduced-motion: reduce)'
+          ? prefersReducedMotion
+          : true;
       },
-      media: '(prefers-reduced-motion: reduce)',
+      media: query,
       onchange: null,
       addEventListener: vi.fn((event: string, listener: () => void) => {
         if (event === 'change') {
@@ -84,11 +88,18 @@ test('animates only the ASCII art during arrival', () => {
   expect(animate.mock.contexts[0]).toBe(art);
 });
 
-test('keeps dancing and advances through all four choreographies', () => {
+test('waits for activation and advances through all four choreographies', () => {
   render(<AsciiBird />);
-  const button = screen.getByRole('button', { name: /dancing ascii bird/i });
+  const button = screen.getByRole('button', { name: /ascii bird/i });
 
   act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+
+  expect(button.dataset.status).toBe('ready');
+  expect(button.dataset.choreography).toBe('ready');
+  expect((button as HTMLButtonElement).disabled).toBe(false);
+  expect(screen.getByText('click to start dancing')).toBeTruthy();
+
+  fireEvent.click(button);
   expect(button.dataset.status).toBe('dancing');
   expect(button.dataset.choreography).toBe('shuffle');
   expect(screen.getByText('side shuffle - click for next')).toBeTruthy();
@@ -110,6 +121,22 @@ test('keeps dancing and advances through all four choreographies', () => {
   expect(vi.getTimerCount()).toBeGreaterThan(0);
 });
 
+test('starts the first choreography from the keyboard', async () => {
+  render(<AsciiBird />);
+  const button = screen.getByRole('button', { name: /ascii bird/i });
+
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+  vi.useRealTimers();
+  const user = userEvent.setup();
+
+  await user.tab();
+  await user.keyboard('{Enter}');
+
+  expect(button).toBe(document.activeElement);
+  expect(button.dataset.status).toBe('dancing');
+  expect(button.dataset.choreography).toBe('shuffle');
+});
+
 test('restarts the current choreography without an idle gap', () => {
   const { container } = render(<AsciiBird />);
   const art = container.querySelector('pre');
@@ -117,6 +144,7 @@ test('restarts the current choreography without an idle gap', () => {
   const firstPose = shuffle.steps[0].pose;
 
   act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+  fireEvent.click(screen.getByRole('button', { name: /ready to dance/i }));
   expect(art?.textContent).toBe(drawPose(firstPose));
 
   act(() => vi.advanceTimersByTime(sequenceDuration(shuffle.steps)));
@@ -126,9 +154,10 @@ test('restarts the current choreography without an idle gap', () => {
 
 test('lands before switching away from an airborne pose', () => {
   render(<AsciiBird />);
-  const button = screen.getByRole('button', { name: /dancing ascii bird/i });
+  const button = screen.getByRole('button', { name: /ascii bird/i });
 
   act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+  fireEvent.click(button);
   fireEvent.click(button);
 
   const takeoff = CHOREOGRAPHIES[1];
@@ -169,9 +198,10 @@ test('uses a native disabled button when motion is reduced', () => {
 
 test('responds when the motion preference changes', () => {
   render(<AsciiBird />);
-  const button = screen.getByRole('button', { name: /dancing ascii bird/i });
+  const button = screen.getByRole('button', { name: /ascii bird/i });
 
   act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+  fireEvent.click(button);
 
   act(() => {
     prefersReducedMotion = true;
@@ -192,9 +222,10 @@ test('responds when the motion preference changes', () => {
 
 test('pauses when the page is hidden and resumes the current dance', () => {
   render(<AsciiBird />);
-  const button = screen.getByRole('button', { name: /dancing ascii bird/i });
+  const button = screen.getByRole('button', { name: /ascii bird/i });
 
   act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+  fireEvent.click(button);
   fireEvent.click(button);
   fireEvent.click(button);
   expect(button.dataset.choreography).toBe('song');
@@ -220,4 +251,67 @@ test('pauses when the page is hidden and resumes the current dance', () => {
 
   expect(button.dataset.status).toBe('dancing');
   expect(button.dataset.choreography).toBe('song');
+});
+
+test('plays the ready invitation once and settles until activation', () => {
+  const { container } = render(<AsciiBird />);
+  const button = screen.getByRole('button', { name: /ascii bird/i });
+  const art = container.querySelector('pre');
+
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+
+  expect(button.dataset.status).toBe('ready');
+  expect(art?.textContent).toBe(drawPose('idleA'));
+
+  act(() => vi.advanceTimersByTime(sequenceDuration(READY)));
+
+  expect(art?.textContent).toBe(drawPose('idleA'));
+  expect(button.dataset.status).toBe('ready');
+  expect(vi.getTimerCount()).toBe(0);
+});
+
+test('pauses the ready blink on hover and resumes it afterward', () => {
+  const { container } = render(<AsciiBird />);
+  const button = screen.getByRole('button', { name: /ascii bird/i });
+  const art = container.querySelector('pre');
+
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+  expect(art?.textContent).toBe(drawPose('idleA'));
+
+  fireEvent.pointerEnter(button);
+  expect(art?.textContent).toBe(drawPose('idleA'));
+  expect(vi.getTimerCount()).toBe(0);
+
+  fireEvent.pointerLeave(button);
+  act(() => vi.advanceTimersByTime(800));
+
+  expect(art?.textContent).toBe(drawPose('blink'));
+});
+
+test('returns to ready instead of starting a dance after page visibility changes', () => {
+  render(<AsciiBird />);
+  const button = screen.getByRole('button', { name: /ascii bird/i });
+
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+
+  act(() => {
+    Object.defineProperty(document, 'hidden', {
+      configurable: true,
+      value: true,
+    });
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+
+  expect(button.dataset.status).toBe('paused');
+
+  act(() => {
+    Object.defineProperty(document, 'hidden', {
+      configurable: true,
+      value: false,
+    });
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+
+  expect(button.dataset.status).toBe('ready');
+  expect(button.dataset.choreography).toBe('ready');
 });
