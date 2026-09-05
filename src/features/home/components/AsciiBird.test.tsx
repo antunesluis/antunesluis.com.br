@@ -9,7 +9,16 @@ import {
 } from '@testing-library/react';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { AsciiBird } from './AsciiBird';
-import { drawPose } from './ascii-bird-animation';
+import {
+  ARRIVAL,
+  CHOREOGRAPHIES,
+  drawPose,
+  isAirborne,
+} from './ascii-bird-animation';
+
+function sequenceDuration(steps: readonly { ms: number }[]) {
+  return steps.reduce((total, step) => total + step.ms, 0);
+}
 
 let prefersReducedMotion = false;
 let motionPreferenceListener: (() => void) | undefined;
@@ -79,7 +88,7 @@ test('keeps dancing and advances through all four choreographies', () => {
   render(<AsciiBird />);
   const button = screen.getByRole('button', { name: /dancing ascii bird/i });
 
-  act(() => vi.advanceTimersByTime(1690));
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
   expect(button.dataset.status).toBe('dancing');
   expect(button.dataset.choreography).toBe('shuffle');
   expect(screen.getByText('side shuffle - click for next')).toBeTruthy();
@@ -104,12 +113,14 @@ test('keeps dancing and advances through all four choreographies', () => {
 test('restarts the current choreography without an idle gap', () => {
   const { container } = render(<AsciiBird />);
   const art = container.querySelector('pre');
+  const shuffle = CHOREOGRAPHIES[0];
+  const firstPose = shuffle.steps[0].pose;
 
-  act(() => vi.advanceTimersByTime(1690));
-  expect(art?.textContent).toBe(drawPose('idleB'));
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
+  expect(art?.textContent).toBe(drawPose(firstPose));
 
-  act(() => vi.advanceTimersByTime(2080));
-  expect(art?.textContent).toBe(drawPose('idleB'));
+  act(() => vi.advanceTimersByTime(sequenceDuration(shuffle.steps)));
+  expect(art?.textContent).toBe(drawPose(firstPose));
   expect(vi.getTimerCount()).toBeGreaterThan(0);
 });
 
@@ -117,9 +128,18 @@ test('lands before switching away from an airborne pose', () => {
   render(<AsciiBird />);
   const button = screen.getByRole('button', { name: /dancing ascii bird/i });
 
-  act(() => vi.advanceTimersByTime(1690));
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
   fireEvent.click(button);
-  act(() => vi.advanceTimersByTime(420));
+
+  const takeoff = CHOREOGRAPHIES[1];
+  const firstAirborneStep = takeoff.steps.findIndex(step =>
+    isAirborne(step.pose),
+  );
+  const preparationDuration = sequenceDuration(
+    takeoff.steps.slice(0, firstAirborneStep),
+  );
+
+  act(() => vi.advanceTimersByTime(preparationDuration));
 
   expect(button.dataset.choreography).toBe('takeoff');
   expect(button.dataset.airborne).toBe('true');
@@ -151,7 +171,7 @@ test('responds when the motion preference changes', () => {
   render(<AsciiBird />);
   const button = screen.getByRole('button', { name: /dancing ascii bird/i });
 
-  act(() => vi.advanceTimersByTime(1690));
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
 
   act(() => {
     prefersReducedMotion = true;
@@ -174,7 +194,7 @@ test('pauses when the page is hidden and resumes the current dance', () => {
   render(<AsciiBird />);
   const button = screen.getByRole('button', { name: /dancing ascii bird/i });
 
-  act(() => vi.advanceTimersByTime(1690));
+  act(() => vi.advanceTimersByTime(sequenceDuration(ARRIVAL)));
   fireEvent.click(button);
   fireEvent.click(button);
   expect(button.dataset.choreography).toBe('song');

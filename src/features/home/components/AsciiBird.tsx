@@ -265,14 +265,14 @@ export function AsciiBird() {
       >
         <pre
           ref={artRef}
-          className='h-[9.6em] w-[21ch] select-none overflow-hidden whitespace-pre text-[clamp(1.1rem,5.5vw,1.65rem)] leading-[1.2] tracking-[0.02em] sm:text-[1.65rem]'
+          className='h-[8.4em] w-[15ch] select-none overflow-hidden whitespace-pre text-[clamp(1.25rem,6vw,1.9rem)] leading-[1.2] tracking-[0.02em] sm:text-[1.9rem]'
           aria-hidden='true'
         >
           {drawPose(pose)}
         </pre>
 
         <span
-          className='-mt-8 h-1.5 w-20 rounded-[50%] bg-current opacity-10 blur-[3px] transition-[opacity,transform] duration-100 group-data-[airborne=true]:scale-x-75 group-data-[airborne=true]:opacity-5 motion-reduce:transition-none'
+          className='-mt-8 h-1.5 w-16 rounded-[50%] bg-current opacity-10 blur-[3px] transition-[opacity,transform] duration-100 group-data-[airborne=true]:scale-x-75 group-data-[airborne=true]:opacity-5 motion-reduce:transition-none'
           aria-hidden='true'
         />
       </button>
