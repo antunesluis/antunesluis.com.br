@@ -4,9 +4,11 @@ import {
   FRAME_COLUMNS,
   FRAME_ROWS,
   POSES,
+  READY,
   createFrame,
   getNextChoreographyIndex,
   isAirborne,
+  isLowPose,
 } from './ascii-bird-animation';
 
 function visibleLines(pose: keyof typeof POSES) {
@@ -89,6 +91,14 @@ describe('ASCII bird frames', () => {
     expect(airborne).toEqual(['flapUp', 'flapDown', 'hop', 'bounce']);
   });
 
+  test('identifies grounded poses drawn one row lower', () => {
+    const lowPoses = Object.keys(POSES).filter(pose =>
+      isLowPose(pose as keyof typeof POSES),
+    );
+
+    expect(lowPoses).toEqual(['idleB', 'crouch', 'bow']);
+  });
+
   test('rejects artwork that would be clipped', () => {
     expect(() => createFrame(['x'.repeat(FRAME_COLUMNS + 1)])).toThrow(
       /columns/,
@@ -101,6 +111,19 @@ describe('ASCII bird frames', () => {
 });
 
 describe('ASCII bird choreography', () => {
+  test('uses a restrained one-shot invitation before the first dance', () => {
+    const duration = READY.reduce((total, step) => total + step.ms, 0);
+    const poses = READY.map(step => step.pose);
+
+    expect(duration).toBeGreaterThanOrEqual(2800);
+    expect(duration).toBeLessThanOrEqual(3000);
+    expect(poses).toEqual(['idleA', 'blink']);
+    expect(poses.some(isAirborne)).toBe(false);
+    expect(poses).not.toEqual(
+      expect.arrayContaining(['lookL', 'lookR', 'chirp', 'danceL', 'danceR']),
+    );
+  });
+
   test('defines four distinct complete choreographies', () => {
     expect(CHOREOGRAPHIES).toHaveLength(4);
     expect(new Set(CHOREOGRAPHIES.map(({ id }) => id)).size).toBe(4);

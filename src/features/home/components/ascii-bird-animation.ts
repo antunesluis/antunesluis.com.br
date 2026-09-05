@@ -4,6 +4,7 @@ export const FRAME_ROWS = 7;
 type Pose = {
   frame: string;
   airborne: boolean;
+  low: boolean;
 };
 
 type PoseOptions = {
@@ -59,6 +60,7 @@ function createPose(lines: string[], options: PoseOptions = {}): Pose {
   return {
     frame: createFrame(lines, options.verticalOffset, options.horizontalOffset),
     airborne: options.airborne ?? false,
+    low: (options.verticalOffset ?? 0) > 0,
   };
 }
 
@@ -135,6 +137,11 @@ export const ARRIVAL = [
   { pose: 'idleA', ms: 320 },
   { pose: 'blink', ms: 120 },
   { pose: 'idleA', ms: 380 },
+] as const satisfies readonly Step[];
+
+export const READY = [
+  { pose: 'idleA', ms: 2800 },
+  { pose: 'blink', ms: 120 },
 ] as const satisfies readonly Step[];
 
 export const CHOREOGRAPHIES = [
@@ -234,4 +241,8 @@ export function drawPose(name: PoseName) {
 
 export function isAirborne(name: PoseName) {
   return POSES[name].airborne;
+}
+
+export function isLowPose(name: PoseName) {
+  return POSES[name].low;
 }

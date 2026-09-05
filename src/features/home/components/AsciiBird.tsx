@@ -4,14 +4,23 @@ import { useEffect, useRef, useState } from 'react';
 import {
   ARRIVAL,
   CHOREOGRAPHIES,
+  READY,
   drawPose,
   getNextChoreographyIndex,
   isAirborne,
+  isLowPose,
   type PoseName,
 } from './ascii-bird-animation';
 
 type PlaybackStatus =
-  'arriving' | 'dancing' | 'switching' | 'paused' | 'reduced';
+  'arriving' | 'ready' | 'dancing' | 'switching' | 'paused' | 'reduced';
+
+const READY_CAPTION = 'click to start dancing';
+const PRECISE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
+
+function hasPrecisePointer() {
+  return window.matchMedia(PRECISE_POINTER_QUERY).matches;
+}
 
 function choreographyCaption(index: number) {
   return `${CHOREOGRAPHIES[index].label} - click for next`;
@@ -20,12 +29,15 @@ function choreographyCaption(index: number) {
 export function AsciiBird() {
   const [pose, setPose] = useState<PoseName>('idleA');
   const [caption, setCaption] = useState('warming up...');
-  const [activeChoreographyIndex, setActiveChoreographyIndex] = useState(0);
+  const [activeChoreographyIndex, setActiveChoreographyIndex] = useState<
+    number | null
+  >(null);
   const [motionReduced, setMotionReduced] = useState(false);
   const [playbackStatus, setPlaybackStatus] =
     useState<PlaybackStatus>('arriving');
   const artRef = useRef<HTMLPreElement>(null);
   const nextChoreographyRef = useRef<(() => void) | null>(null);
+  const readyAttentionRef = useRef<((engaged: boolean) => void) | null>(null);
 
   useEffect(() => {
     const art = artRef.current;
@@ -34,6 +46,7 @@ export function AsciiBird() {
     let arrivalAnimation: Animation | undefined;
     let status: PlaybackStatus = 'arriving';
     let choreographyIndex = -1;
+    let readyStepIndex = 0;
     let currentPose: PoseName = 'idleA';
     let disposed = false;
 
@@ -100,6 +113,48 @@ export function AsciiBird() {
       }
 
       tick();
+    }
+
+    function tickReady() {
+      clearTimer();
+
+      if (document.hidden || reducedMotion.matches || status !== 'ready') {
+        return;
+      }
+
+      const current = READY[readyStepIndex];
+
+      if (!current) {
+        draw('idleA');
+        return;
+      }
+
+      draw(current.pose);
+      readyStepIndex += 1;
+      timer = setTimeout(tickReady, current.ms);
+    }
+
+    function startReady() {
+      clearTimer();
+      choreographyIndex = -1;
+      readyStepIndex = 0;
+      setActiveChoreographyIndex(null);
+      setCaption(READY_CAPTION);
+
+      if (document.hidden) {
+        updateStatus('paused');
+        draw('idleA');
+        return;
+      }
+
+      if (reducedMotion.matches) {
+        updateStatus('reduced');
+        draw('idleA');
+        return;
+      }
+
+      updateStatus('ready');
+      tickReady();
     }
 
     function switchChoreography(index: number) {
@@ -170,7 +225,7 @@ export function AsciiBird() {
         const current = ARRIVAL[stepIndex];
 
         if (!current) {
-          startChoreography(0);
+          startReady();
           return;
         }
 
@@ -192,7 +247,11 @@ export function AsciiBird() {
         return;
       }
 
-      startChoreography(choreographyIndex < 0 ? 0 : choreographyIndex);
+      if (choreographyIndex < 0) {
+        startReady();
+      } else {
+        startChoreography(choreographyIndex);
+      }
     }
 
     function handleMotionPreference() {
@@ -202,24 +261,44 @@ export function AsciiBird() {
       setCaption(
         reducedMotion.matches
           ? 'motion reduced by system'
-          : choreographyCaption(choreographyIndex < 0 ? 0 : choreographyIndex),
+          : choreographyIndex < 0
+            ? READY_CAPTION
+            : choreographyCaption(choreographyIndex),
       );
       draw('idleA');
 
       if (reducedMotion.matches) {
         updateStatus('reduced');
+      } else if (choreographyIndex < 0) {
+        startReady();
       } else {
-        startChoreography(choreographyIndex < 0 ? 0 : choreographyIndex);
+        startChoreography(choreographyIndex);
       }
     }
 
     nextChoreographyRef.current = () => {
-      if (reducedMotion.matches) {
+      if (
+        reducedMotion.matches ||
+        (status !== 'ready' && status !== 'dancing')
+      ) {
         return;
       }
 
       arrivalAnimation?.cancel();
       switchChoreography(getNextChoreographyIndex(choreographyIndex));
+    };
+
+    readyAttentionRef.current = engaged => {
+      if (status !== 'ready') {
+        return;
+      }
+
+      clearTimer();
+      draw('idleA');
+
+      if (!engaged) {
+        timer = setTimeout(tickReady, 800);
+      }
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -241,6 +320,7 @@ export function AsciiBird() {
       clearTimer();
       arrivalAnimation?.cancel();
       nextChoreographyRef.current = null;
+      readyAttentionRef.current = null;
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       reducedMotion.removeEventListener('change', handleMotionPreference);
     };
@@ -254,31 +334,56 @@ export function AsciiBird() {
         aria-label={
           motionReduced
             ? 'Dancing ASCII bird. Motion is reduced by your system setting.'
-            : `Dancing ASCII bird. Current choreography: ${CHOREOGRAPHIES[activeChoreographyIndex].label}. Click for the next choreography.`
+            : activeChoreographyIndex === null
+              ? playbackStatus === 'arriving'
+                ? 'ASCII bird is arriving.'
+                : 'ASCII bird ready to dance. Activate to start the first choreography.'
+              : `Dancing ASCII bird. Current choreography: ${CHOREOGRAPHIES[activeChoreographyIndex].label}. Click for the next choreography.`
         }
         aria-busy={playbackStatus === 'arriving'}
         data-airborne={isAirborne(pose)}
-        data-choreography={CHOREOGRAPHIES[activeChoreographyIndex].id}
+        data-low={isLowPose(pose)}
+        data-choreography={
+          playbackStatus === 'arriving'
+            ? 'arrival'
+            : activeChoreographyIndex === null
+              ? 'ready'
+              : CHOREOGRAPHIES[activeChoreographyIndex].id
+        }
         data-status={playbackStatus}
-        disabled={motionReduced}
+        disabled={motionReduced || playbackStatus === 'arriving'}
         onClick={() => nextChoreographyRef.current?.()}
+        onFocus={() => readyAttentionRef.current?.(true)}
+        onBlur={() => readyAttentionRef.current?.(false)}
+        onPointerEnter={() => {
+          if (hasPrecisePointer()) {
+            readyAttentionRef.current?.(true);
+          }
+        }}
+        onPointerLeave={() => {
+          if (hasPrecisePointer()) {
+            readyAttentionRef.current?.(false);
+          }
+        }}
       >
-        <pre
-          ref={artRef}
-          className='h-[8.4em] w-[15ch] select-none overflow-hidden whitespace-pre text-[clamp(1.25rem,6vw,1.9rem)] leading-[1.2] tracking-[0.02em] sm:text-[1.9rem]'
-          aria-hidden='true'
-        >
-          {drawPose(pose)}
-        </pre>
+        <span className='relative block text-[clamp(1.25rem,6vw,1.9rem)] leading-[1.2] sm:text-[1.9rem]'>
+          <pre
+            ref={artRef}
+            className='h-[8.4em] w-[15ch] select-none overflow-hidden whitespace-pre tracking-[0.02em]'
+            aria-hidden='true'
+          >
+            {drawPose(pose)}
+          </pre>
 
-        <span
-          className='-mt-8 h-1.5 w-16 rounded-[50%] bg-current opacity-10 blur-[3px] transition-[opacity,transform] duration-100 group-data-[airborne=true]:scale-x-75 group-data-[airborne=true]:opacity-5 motion-reduce:transition-none'
-          aria-hidden='true'
-        />
+          <span
+            className='absolute top-[6.45em] left-1/2 h-1.5 w-16 -translate-x-1/2 rounded-[50%] bg-current opacity-10 blur-[3px] transition-[opacity,transform] duration-100 group-data-[airborne=true]:scale-x-75 group-data-[airborne=true]:opacity-5 group-data-[low=true]:top-[7.65em] motion-reduce:transition-none'
+            aria-hidden='true'
+          />
+        </span>
       </button>
 
       <p
-        className='pointer-events-none absolute bottom-5 m-0 font-mono text-[11px] tracking-[0.04em] text-muted-foreground opacity-0 transition-opacity duration-200 peer-hover:opacity-100 peer-focus:opacity-100 motion-reduce:transition-none'
+        className='pointer-events-none absolute bottom-5 m-0 font-mono text-[11px] tracking-[0.04em] text-muted-foreground opacity-0 transition-opacity duration-200 peer-data-[status=ready]:opacity-100 peer-hover:opacity-100 peer-focus:opacity-100 motion-reduce:transition-none'
         aria-live='polite'
       >
         {caption}

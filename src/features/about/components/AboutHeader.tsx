@@ -3,7 +3,7 @@ import { Heading } from '@/components/ui/Heading';
 export function AboutHeader() {
   return (
     <header className='space-y-6'>
-      <Heading as='h1'>Hey, I&apos;m Luis! 👋</Heading>
+      <Heading as='h1'>Hey, I&apos;m Luis!</Heading>
 
       <div className='max-w-3xl space-y-4 leading-relaxed'>
         <p>
